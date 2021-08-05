@@ -1,0 +1,21 @@
+<h3>Bill of Material</h3>
+<table class="table">
+  <thead>
+   <tr>
+    <th>Item</th>
+    <th>Availability</th>
+    <th>Unit</th>
+    <th>Qty</th>
+   </tr>
+  </thead>
+  <tbody>
+    <% @accpac_icitem.icbomd.each do |bom| %>
+      <tr>
+        <td><%= link_to bom.COMPONENT, accpac_icitem_path(:id => bom.COMPONENT) %></td>
+        <td align="right"><%= bom_available(bom) %></td>
+        <td><%= bom.UNIT %></td>
+        <td align="right"><%= bom.QTY %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

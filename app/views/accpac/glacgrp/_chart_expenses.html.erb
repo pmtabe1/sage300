@@ -1,0 +1,20 @@
+<%= render 'spiner' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Revenues vs Expenses</h2>
+    <div class="m-t-sm">
+      <%= line_chart charts_finance_income_vs_expenses_path, height: "450px", thousands: ",", curve: false, prefix: "$", adapter: "highcharts", legend: "right" %>
+    </div>
+
+    <h2>Net Income</h2>
+    <div class="m-t-sm">
+      <%= column_chart charts_finance_net_income_path, height: "450px", thousands: ",", curve: false, prefix: "$", adapter: "highcharts" %>
+    </div>
+
+    <h2>Expenses by Groups</h2>
+    <div class="m-t-sm">
+      <%= line_chart charts_finance_expenses_by_groups_path, height: "450px", thousands: ",", curve: false, prefix: "$", adapter: "highcharts", legend: "right" %>
+    </div>
+  </div>
+</div>

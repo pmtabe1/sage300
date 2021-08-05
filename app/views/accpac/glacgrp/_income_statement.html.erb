@@ -1,0 +1,81 @@
+<%= render 'spiner' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Income Statement</h2>
+      </div>
+      <div class="col-md-8">
+        <%= form_tag income_statement_accpac_glacgrp_index_path(format: :js), method: :get, remote: true, class: "form-inline pull-right" do %>
+          <div class="form-group">
+            <%= select_tag 'year', options_for_select(Accpac::Glacgrp::YEARS, selected: current_year), {class: "form-control input-sm"} %>
+          </div>
+          <div class="form-group">
+            <%= select_tag 'period', options_for_select(Accpac::Glacgrp::PERIODS, selected: current_period), {class: "form-control input-sm"} %>
+          </div>
+          <%= button_tag "Update", class: "btn btn-sm btn-primary", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Loading..." } %>
+        <% end %>
+      </div>
+    </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="text-right">Amount</th>
+        </tr>
+      </thead>
+      <tbody id="as_of">
+        <!-- Revenue -->
+        <% revenue=0 %>
+        <% @revenue.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year)*-1, precision: 2) %></td>
+          </tr>
+          <% revenue = revenue+(fiscal_set(r, current_period, current_year)*-1) %>
+        <% end %>
+
+        <!-- Cost of Sales -->
+        <% cost_of_sales=0 %>
+        <% @cost_of_sales.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year), precision: 2) %></td>
+          </tr>
+          <% cost_of_sales = cost_of_sales+fiscal_set(r, current_period, current_year) %>
+        <% end %>
+        <tr>
+          <td><b>Gross Profit</b></td>
+          <td align="right"><b><%= number_to_currency(revenue-cost_of_sales, precision: 2) %></b></td>
+        </tr>
+
+        <!-- Expenses -->
+        <% expenses=0 %>
+        <% @expenses.each do |r| %>
+          <tr>
+            <td><%= r.ACCTGRPDES %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year), precision: 2) %></td>
+          </tr>
+          <% expenses = expenses+fiscal_set(r, current_period, current_year) %>
+        <% end %>
+
+        <!-- Income Taxes -->
+        <% income_taxes=0 %>
+        <% @income_taxes.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year)*-1, precision: 2) %></td>
+          </tr>
+          <% income_taxes = income_taxes+(fiscal_set(r, current_period, current_year)) %>
+        <% end %>
+
+        <tr class="info">
+          <td><b>Net Income (Loss)</b></td>
+          <td align="right"><b><%= number_to_currency(revenue-cost_of_sales-expenses-income_taxes, precision: 2) %></b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Purchase Orders</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Purchase Orders
+      </li>
+      <li class="active">
+        <strong><%= @accpac_poporh1.PONUMBER %></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-4">
+    <div class="title-action">
+      <%= link_to '<i class="fa fa-download"></i> Download'.html_safe, { action: "show", id: @accpac_poporh1.PORHSEQ.to_i, format: "xls" }, { class: "btn btn-primary" } %>
+      <!-- TEMPORARY DISABLE PRINT
+      link_to "<i class='fa fa-print fa-lg'></i> Print".html_safe, accpac_purchase_order_print_path, target: "_blank", class: "btn btn-primary"
+      -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal5">
+				<i class="fa fa-search"></i>&nbsp;Search</button>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="ibox-content p-xl">
+        <div class="row">
+          <!-- Purchase Order Header -->
+          <div class="col-sm-6">
+            <% if can? :read, Accpac::Apven %>
+              <h5>From:</h5>
+              <address>
+                <strong><%= @accpac_poporh1.VDNAME %></strong><br>
+                <%= link_to @accpac_poporh1.VDCODE.gsub(/\s+/, ''), accpac_apven_path(id: @accpac_poporh1.VDCODE) %><br>
+                <%= @accpac_poporh1.VDADDRESS1 %> <%= @accpac_poporh1.VDADDRESS2 %><br>
+                <%= @accpac_poporh1.VDCITY %>, <%= @accpac_poporh1.VDSTATE %> <%= @accpac_poporh1.VDZIP %><br>
+                <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_poporh1.VDPHONE) %>
+              </address>
+            <% end %>
+						<a class="right-sidebar-toggle">
+							<i class="fa fa-clock-o"></i> Time Line
+						</a>
+          </div>
+
+          <div class="col-sm-6 text-right">
+            <h4>Purchase Order No.</h4>
+            <h4 class="text-navy"><%= @accpac_poporh1.PONUMBER %></h4>
+            <span>To:</span>
+            <address>
+              <strong><%= @accpac_poporh1.po_ship_to_loc %></strong><br>
+              <%= @accpac_poporh1.po_ship_to_addr %><br>
+              <%= @accpac_poporh1.po_ship_to_city %>
+            </address>
+            <p>
+              <span><strong>PO Date:</strong> <%= to_date_helper(@accpac_poporh1.DATE) %></span><br />
+            </p>
+          </div>
+        </div>
+        <!--/ End Purchase Order Header -->
+
+        <div class="table-responsive m-t">
+          <%= render_async details_accpac_poporh1_index_path(id: params[:id]) do %>
+            <h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading details...</h4>
+          <% end %>
+        </div>
+
+        <% if can? :read, Accpac::Apven %>
+          <table class="table invoice-total">
+            <tbody>
+              <tr>
+                <td><strong>TOTAL :</strong></td>
+                <td><%= number_to_currency(@accpac_poporh1.EXTENDED, precision: 2, delimiter: ",") %></td>
+              </tr>
+            </tbody>
+          </table>
+        <% end %>
+
+        <div class="well m-t">
+          <strong>Description:</strong> <%= @accpac_poporh1.DESCRIPTIO %><br>
+          <strong>Comments:</strong> <%= @accpac_poporh1.COMMENT %><br>
+          <strong>Reference:</strong> <%= @accpac_poporh1.REFERENCE %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="right-sidebar">
+  <div class="sidebar-container">
+		<div class="tab-content">
+			<div id="tab-2" class="tab-pane active">
+				<div class="sidebar-title">
+					<h3> <i class="fa fa-clock-o"></i> Time Line</h3>
+				</div>
+				<%= render_async time_line_accpac_poporh1_index_path(id: params[:id]) do %>
+					<h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading time line...</h4>
+				<% end %>
+			</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<%= render 'modal' %>

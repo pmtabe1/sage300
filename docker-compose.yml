@@ -1,0 +1,26 @@
+version: '3'
+services:
+  # Redis server for Sidekiq
+  redis:
+    image: redis:latest
+  # Sidekiq
+  worker:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/sage300
+    depends_on:
+      - redis
+    links:
+      - redis
+    env_file:
+      - variables.env
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/sage300
+    ports:
+      - "3000:3000"
+    env_file:
+      - variables.env

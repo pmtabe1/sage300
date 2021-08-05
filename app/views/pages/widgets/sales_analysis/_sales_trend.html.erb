@@ -1,0 +1,18 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div>
+      <h3 class="font-bold no-margins">
+        Sales Trend
+      </h3>
+    </div>
+    <div class="m-t-sm">
+      <div class="row">
+        <div class="col-md-12">
+          <div>
+            <%= line_chart charts_sales_analysis_sales_trend_path, height: "350px", prefix: "$", thousands: ",", curve: false, legend: "right", adapter: "highcharts" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

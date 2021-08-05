@@ -1,0 +1,13 @@
+<%= link_to follow_up_documents_path(vendor: current_user.vendor_id.squish) do %>
+  <div class="widget style1 blue-bg">
+    <div class="row">
+      <div class="col-xs-4">
+        <i class="fa fa-tasks fa-5x"></i>
+      </div>
+      <div class="col-xs-8 text-right">
+        <span> PO Opened </span>
+        <h2 class="font-bold"><%= purchase_orders_opened_counter %></h2>
+      </div>
+    </div>
+  </div>
+<% end %>

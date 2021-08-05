@@ -1,0 +1,20 @@
+<table class="table table-hover">
+   <thead>
+     <tr>
+       <th>RMA No.</th>
+       <th>Customer Name</th>
+       <th>RMA Date</th>
+       <th>Description</th>
+      </tr>
+   </thead>
+   <tbody>
+     <% @accpac_arcus.rahead.each do |rma| %>
+      <tr class="gradeX">
+        <td><%= link_to rma.RMANUMBER, rma %></td>
+        <td><%= rma.SHIPNAME %></td>
+        <td><%= rma.RMADATE.to_s.to_date %></td>
+        <td><%= rma.DESC %></td>
+      </tr>
+     <% end %>
+   </tbody>
+</table>

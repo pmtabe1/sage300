@@ -1,0 +1,21 @@
+<% debit = 0 %>
+<% credit = 0 %>
+<% Accpac::Glamf.all.each do |a| %>
+  <tr>
+    <td><%= a.ACCTDESC %></td>
+    <% if a.ACCTBAL == '1' %>
+      <td align="right"><%= number_to_currency(fiscal_set(a, params[:period], params[:year]), precision: 2) %></td>
+      <td></td>
+      <% debit = debit+fiscal_set(a, params[:period], params[:year]) %>
+    <% elsif a.ACCTBAL == '2' %>
+      <td></td>
+      <td align="right"><%= number_to_currency(fiscal_set(a, params[:period], params[:year]), precision: 2) %></td>
+      <% credit = credit+fiscal_set(a, params[:period], params[:year]) %>
+    <% end %>
+  </tr>
+<% end %>
+<tr>
+  <td><b>Total</b></td>
+  <td align="right"><b><%= number_to_currency(debit, precision: 2) %></b></td>
+  <td align="right"><b><%= number_to_currency(credit, precision: 2) %></b></td>
+</tr>

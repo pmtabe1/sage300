@@ -1,0 +1,52 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-6">
+    <h2>Customer Inquiry</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li class="active">
+        <strong>Customer Inquiry</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <div class="col-lg-3">
+      <!-- Customer list -->
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Customer</h5>
+        </div>
+        <div class="ibox-content">
+          <div class="scroll_customers">
+            <div class="feed-activity-list">
+              <% @customers.each do |customer| %>
+                <div class="feed-element">
+                  <div>
+                    <strong><%= customer.uniq %></strong>
+                    <div><%= customer.name %></div>
+                    <small class="text-muted">YTD Netsales: <%= number_to_currency(customer.current_year_netsales, precison: 2) %></small>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9">
+      <%= tag.div nil, id: 'map', class: 'google-map', data: { customers: @customers.to_json(methods: [:address]) } %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('.scroll_customers').slimscroll({
+      height: '70vh'
+    })
+  });
+</script>

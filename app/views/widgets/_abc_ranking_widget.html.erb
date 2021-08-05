@@ -1,0 +1,45 @@
+<div class="ibox">
+  <div class="ibox-content">
+    <div class="row">
+      <div class="col-lg-4">
+        <h5>ABC Rank <%= company_currency %> (%)</h5>
+        <div class="text-center">
+          <div id="sparkline-ranking"></canvas></div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <h5>ABC Rank QTY (%)</h5>
+        <div class="text-center">
+          <div id="sparkline-ranking-qty"></canvas></div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <h5>ABC Rank INV (%)</h5>
+        <div class="text-center">
+          <div id="sparkline-ranking-inv"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sparkline -->
+<script type="text/javascript">
+  $(function() {
+    $("#sparkline-ranking").sparkline(<%= items_ranking_sparkline %>, {
+      type: 'pie',
+      height: '80',
+      sliceColors: ['#C98910', '#A8A8A8', '#965A38']
+    });
+    $("#sparkline-ranking-qty").sparkline(<%= items_ranking_qty_sparkline %>, {
+      type: 'pie',
+      height: '80',
+      sliceColors: ['#C98910', '#A8A8A8', '#965A38']
+    });
+    $("#sparkline-ranking-inv").sparkline(<%= items_ranking_inv_sparkline %>, {
+      type: 'pie',
+      height: '80',
+      sliceColors: ['#CC1C8C', '#C98910', '#A8A8A8', '#965A38']
+    });
+  });
+</script>

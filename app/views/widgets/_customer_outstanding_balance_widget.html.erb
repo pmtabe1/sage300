@@ -1,0 +1,10 @@
+<div class="ibox">
+  <div class="ibox-content">
+    <h5><%= t('widgets.customers.balance') %></h5>
+    <h1 class="no-margins"><%= number_to_currency(Accpac::Arcus.find(current_user.customer_id).AMTBALDUET, precision: 2) %></h1>
+    <div class='stat-percent font-bold'>
+      <small><%= customers_ytd_payments(Accpac::Arcus.find(current_user.customer_id)) %></small>
+    </div>
+    <small>YTD Payments</small>
+  </div>
+</div>

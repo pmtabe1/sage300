@@ -1,0 +1,66 @@
+<%= form_for @query, html: { id: "query-form" } do |f| %>
+  <% if @query.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@query.errors.count, "error") %> prohibited this query from being saved:</h2>
+
+      <ul>
+      <% @query.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="form-group">
+        <%= f.label :statement %><br>
+        <%= f.text_area :statement %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :description %>
+        <%= f.text_area :description, style: "height: 100px;", class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :module %>
+        <%= f.select(:module, Query::MODULE, {:include_blank => true}, { class: 'form-control' }) %>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="text-left">
+        <%= link_to "Schema", schema_queries_path %>
+      </div>
+      <div class="text-right">
+        <%= f.submit "Run", class: "btn btn-info", id: "remote-button" %>
+        <%= f.submit class: "btn btn-primary" , id: "local-button" %>
+      </div>
+    </div>
+  <div>
+<% end %>
+
+<script type="text/javascript">
+  $(function() {
+    var editor_one = CodeMirror.fromTextArea(document.getElementById("query_statement"), {
+      lineNumbers: true,
+      matchBrackets: true,
+      styleActiveLine: true,
+      theme: "dracula"
+    });
+  });
+
+  $("#remote-button").click(function() {
+    return $("#query-form").attr("data-remote", true);
+  });
+
+  $("#local-button").click(function() {
+    $("#query-form").removeAttr("data-remote");
+    return $("#query-form").removeData("remote");
+  });
+</script>

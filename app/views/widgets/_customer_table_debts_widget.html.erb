@@ -1,0 +1,20 @@
+<table class="table table-hover margin bottom">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Name</th>
+        <th class="text-right">Amount Due</th>
+        <th class="text-right">Overdue</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% customers_debts_list.each do |customer| %>
+        <tr>
+        <td><%= link_to customer.IDCUST, customer, target: "_blank" %></td>
+        <td><%= truncate(strip_tags(customer.NAMECUST), length: 25, separator: ' ', escape: false) %></td>
+        <td class="text-right"><%= number_to_currency(customer.AMTBALDUET, precision: 2) %></td>
+        <td class="text-right"><%= number_to_currency(customer.INAMTOVER, precision: 2) %></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>

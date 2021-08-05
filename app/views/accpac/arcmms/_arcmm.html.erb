@@ -1,0 +1,17 @@
+<div id="comment_line_<%= arcmm.comp_id %>">
+  <div class="feed-element">
+    <a href="#" class="pull-left">
+      <%= image_tag "https://s3.amazonaws.com/vertilux-website/public/avatar.png", class: "img-circle", alt: "User Avatar", width: "38px" %>
+    </a>
+    <div class="media-body ">
+      <small class="pull-right"><%= distance_of_time_in_words(Time.now - arcmm.DATEENTR.to_i.to_s.to_datetime) %> ago</small>
+      <strong><%= arcmm.USERID %></strong><br>
+      <small class="text-muted"><b>Date Entered:</b> <%= to_date_helper(arcmm.DATEENTR) unless arcmm.DATEENTR.nil? %></small>
+      <small class="text-muted"><b>Expiration Date:</b> <%= to_date_helper(arcmm.DATEEXPR) unless arcmm.DATEEXPR.nil? %></small>
+      <small class="text-muted"><b>Follow Up:</b> <%= to_date_helper(arcmm.DATEFLUP) %></small>
+      <div class="well">
+        <%= raw(arcmm.all_comments) %>
+      </div>
+    </div>
+  </div>
+</div>

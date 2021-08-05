@@ -1,0 +1,40 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div>
+      <span class="pull-right text-right">
+        <small>Daily transfer analysis: <strong>All Locations</strong></small>
+      </span>
+      <h3 class="font-bold no-margins">
+        Open Purchase Orders
+      </h3>
+      <small>List of open Purchaser Orders by vendors.</small>
+    </div>
+
+    <div class="m-t-sm">
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-hover no-margins">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Items</th>
+                <th>POs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @document_partials.each do |line| %>
+                <tr>
+                  <td><small><%= link_to line.VENDORID, follow_up_documents_path(vendor: line.VENDORID.squish!) %></small></td>
+                  <td><%= line.VENDNAME %></td>
+                  <td><%= line.ITEMS %></td>
+                  <td class="text-navy"><%= line.PORDERS %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

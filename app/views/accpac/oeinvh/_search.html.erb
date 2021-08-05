@@ -1,0 +1,32 @@
+<%= form_tag(results_accpac_oeinvh_index_path, method: :get, class: 'form-horizontal m-t-md') do %>
+  <div class="form-group">
+    <label class="col-sm-3 control-label">From Date</label>
+    <div class="col-sm-9">
+      <%= text_field_tag :start_date, "", class: "datepicker form-control input-sm", placeholder: "From Date" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label">To Date</label>
+    <div class="col-sm-9">
+      <%= text_field_tag :end_date, "", class: "datepicker form-control input-sm", placeholder: "To Date" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label">Location</label>
+    <div class="col-sm-9">
+      <% if current_user.location.present? %>
+        <%= select_tag :loc, options_from_collection_for_select(Accpac::Icloc.where(LOCATION: current_user.location).order(LOCATION: :asc), :LOCATION, :LOCATION), prompt: "Select Location(s)", class: "select-vendor", multiple: false %>
+      <% else %>
+        <%= select_tag :loc, options_from_collection_for_select(Accpac::Icloc.all.order(LOCATION: :asc), :LOCATION, :LOCATION), prompt: "Select Location(s)", class: "select-vendor", multiple: false %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="hr-line-dashed"></div>
+
+  <div class="form-group">
+    <div class="col-sm-4 col-sm-offset-2">
+      <%= submit_tag "Submit", class: "btn btn-primary", name: nil %>
+    </div>
+  </div>
+<% end %>

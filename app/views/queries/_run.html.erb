@@ -1,0 +1,29 @@
+<p class="text-muted"><%= @rows.count %> rows</p>
+
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <% @columns.each_with_index do |key, i| %>
+        <th><%= key %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rows.each do |row| %>
+      <tr>
+        <% row.each_with_index do |v, i| %>
+          <% k = @columns[i] %>
+          <td>
+            <% unless v.nil? %>
+              <% if v.is_a?(String) && v == "" %>
+                <div class="text-muted">empty string</div>
+              <% else %>
+                <%= query_format_value(k, v) %>
+              <% end %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

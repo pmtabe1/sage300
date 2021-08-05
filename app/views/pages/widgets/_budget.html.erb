@@ -1,0 +1,42 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div>
+      <span class="pull-right text-right">
+        <small>Total Debts: <strong><%= number_to_currency(total_customers_dues) %></strong></small><br>
+        <small>Total Debts Overdues: <strong><%= number_to_currency(total_customers_overdues) %></strong></small>
+      </span>
+      <h3 class="font-bold no-margins">
+        Budget by Customers
+      </h3>
+      <small>List of current and overdues debts amounts by customers.</small>
+    </div>
+
+    <div class="m-t-sm">
+      <div class="row">
+        <div class="col-md-6">
+          <%= geo_chart charts_customers_dues_geochart_path, height: "300px", label: "USD" %>
+        </div>
+        <div class="col-md-6">
+          <div class="scroll_credit_table" style="height: 300px;">
+            <%= Accpac::View::BudgetAnalysis.where(salesperson: current_user.arsap).to_json %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="m-t-md">
+      <small class="pull-right">
+        <i class="fa fa-link"> </i>
+        Click <%= link_to "here", debts_accpac_arcus_url %> for more details.
+      </small>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    // Add slimscroll to element
+    $('.scroll_credit_table').slimscroll({
+        height: '300px'
+    })
+  });
+</script>

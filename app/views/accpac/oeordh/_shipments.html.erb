@@ -1,0 +1,6 @@
+<h5>Shipment(s):</h5>
+<ul class="list-inline">
+  <% Accpac::Oeshih.where(ORDNUMBER: params[:order_number]).each do |shipment| %>
+    <li><%= shipment.SHINUMBER %></li>
+  <% end %>
+</ul>

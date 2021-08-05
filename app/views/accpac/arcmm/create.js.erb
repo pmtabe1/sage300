@@ -1,0 +1,4 @@
+var new_comment = $("<%= escape_javascript(render(partial: @accpac_arcmm))%>").hide();
+$('#arcmm').prepend(new_comment);
+$('#comment_line_<%= @accpac_arcmm.comp_id %>').fadeIn('slow');
+$('#new_comment')[0].reset();

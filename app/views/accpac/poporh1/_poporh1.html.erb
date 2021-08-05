@@ -1,0 +1,38 @@
+<h4>PO Date: <%= Accpac::Poporh1.find(params[:purchase_order]).POSTDATE.to_s.to_date %></h4>
+<h4>FOB: <%= Accpac::Poporh1.find(params[:purchase_order]).FOBPOINT %></h4>
+<h4>Location: <%= Accpac::Poporh2.find(params[:purchase_order]).STCODE %></h4>
+
+<table class="table table-bordered">
+   <thead>
+      <tr>
+         <th>Item</th>
+         <th>Vendor Item</th>
+         <th>Description</th>
+         <th>Unit</th>
+         <th>Qty</th>
+         <th>Cost</th>
+         <th>Ext Cost</th>
+      </tr>
+   </thead>
+   <tbody>
+      <% Accpac::Poporl.where(PORHSEQ: accpac_poporh1).each do |item| %>
+        <tr>
+         <td><%= item.ITEMNO %></td>
+         <td><%= item.VENDITEMNO %></td>
+         <td><%= item.ITEMDESC %></td>
+         <td><%= item.ORDERUNIT %></td>
+         <td align="right"><%= item.OQORDERED %></td>
+         <td align="right"><%= number_to_currency(item.UNITCOST, precision: 6) %></td>
+         <td align="right"><%= number_to_currency(item.EXTENDED, presicion: 4) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td colspan="6"><strong>Total</strong></td>
+        <td align="right">
+          <strong>
+            <%= number_to_currency(Accpac::Poporh1.find(params[:purchase_order]).EXTENDED, presicion: 2) %>
+          </strong>
+        </td>
+      </tr>
+   </tbody>
+</table>

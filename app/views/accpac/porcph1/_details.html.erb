@@ -1,0 +1,34 @@
+<table class="table invoice-table">
+  <thead>
+    <tr>
+      <th>PO No.</th>
+      <th>Item List</th>
+      <th>Loc</th>
+      <th>UOM</th>
+      <th>Qty Ordered</th>
+      <th>Qty Received</th>
+      <th>Unit Cost</th>
+      <th>Ext Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accpac_porcph1.porcpl.each do |item| %>
+      <tr class="gradeX">
+        <td><%= item.poporh1.PONUMBER %></td>
+        <td>
+          <div>
+            <strong><%= link_to item.ITEMNO.gsub(/\s+/, ''), accpac_icitem_path(id: item.ITEMNO.gsub('-', '')) %></strong>
+            <%= item.VENDITEMNO %>
+          </div>
+          <small><%= item.ITEMDESC %></small>
+        </td>
+        <td><%= item.LOCATION %></td>
+        <td><%= item.ORDERUNIT %></td>
+        <td><%= number_with_precision(item.OQORDERED, precision: 2, delimiter: ",") %></td>
+        <td><%= number_with_precision(item.OQRECEIVED, precision: 2, delimiter: ",") %></td>
+        <td><%= number_to_currency(item.UNITCOST, presicion: 2, delimiter: ",") %></td>
+        <td><%= number_to_currency(item.EXTENDED, precision: 2, delimiter: ",") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

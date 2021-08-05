@@ -1,0 +1,191 @@
+<%= render 'spiner' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Leverage Financial Ratios</h2>
+    <p>This ratios are used to evaluate a company’s debt levels.</p>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Debt Ratio</h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Total Liabilities
+                  </td>
+                  <td align="right" class="no-borders">
+                    <!-- Current Liabilities -->
+                    <% total_current_liabilities=0 %>
+                    <% @current_liabilities.each do |r| %>
+                      <% total_current_liabilities = total_current_liabilities+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <!-- Other Liabilities -->
+                    <% long_term_liabilities=0 %>
+                    <% @long_term_liabilities.each do |r| %>
+                      <% long_term_liabilities = long_term_liabilities+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <%= number_to_human((total_current_liabilities+long_term_liabilities), format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Total Assets
+                  </td>
+                  <td align="right">
+                    <!-- Current Assets -->
+                    <% total_current_assets=0 %>
+                    <% @current_assets.each do |r| %>
+                      <% total_current_assets = total_current_assets+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <!-- Fixed Assets -->
+                    <% total_fixed_assets=0 %>
+                    <% @fixed_assets.each do |r| %>
+                      <% total_fixed_assets = total_fixed_assets+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <!-- Other Assets -->
+                    <% other_assets=0 %>
+                    <% @other_assets.each do |r| %>
+                      <% other_assets = other_assets+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <!-- Depreciation -->
+                    <% depreciation=0 %>
+                    <% @depreciation.each do |r| %>
+                      <% depreciation = depreciation+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <%= number_to_human((total_current_assets+total_fixed_assets+other_assets-depreciation), format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle text-navy"></i>
+                  </td>
+                  <td align="right">
+                    <%= number_to_percentage((total_current_liabilities+long_term_liabilities)/(total_current_assets+total_fixed_assets+other_assets-depreciation)*100, precision: 2) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>This ratio indicates the percentage of assets that are being financed with debt.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Debt to Equity Ratio</h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Total Liabilities
+                  </td>
+                  <td align="right" class="no-borders">
+                    <%= number_to_human((total_current_liabilities+long_term_liabilities), format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Shareholders Equity
+                  </td>
+                  <td align="right">
+                    <!-- Equity -->
+                    <% equity=0 %>
+                    <% @equity.each do |r| %>
+                      <% equity = equity+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <%= number_to_human(equity, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle text-navy"></i>
+                  </td>
+                  <td align="right">
+                    <%= number_with_precision((total_current_liabilities+long_term_liabilities)/(equity), precision: 2) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>Calculates the weight of total debt and financial liabilities against total shareholders’ equity. This ratio highlights how capital structure is tilted either toward debt or equity financing.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Interest Coverage Ratio</h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Operating income
+                  </td>
+                  <td align="right" class="no-borders">
+                    <!-- Revenue -->
+                    <% revenue=0 %>
+                    <% @revenue.each do |r| %>
+                      <% revenue = revenue+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <!-- Cost of Sales -->
+                    <% cost_of_sales=0 %>
+                    <% @cost_of_sales.each do |r| %>
+                      <% cost_of_sales = cost_of_sales+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <!-- Expenses -->
+                    <% expenses=0 %>
+                    <% @expenses.each do |r| %>
+                      <% expenses = expenses+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <%= number_to_human(revenue-cost_of_sales-expenses, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Interest Expenses
+                  </td>
+                  <td align="right">
+                    <!-- Equity -->
+                    <% interest=0 %>
+                    <% @interest.each do |r| %>
+                      <% interest = interest+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <%= number_to_human(interest, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle text-navy"></i>
+                  </td>
+                  <td align="right">
+                    <%= number_with_precision((revenue-cost_of_sales-expenses)/(interest), precision: 2) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>Determine how well can we pay the interest on outstanding debts. We can pay our interest payments <span class="text-navy"><%= number_with_precision((revenue-cost_of_sales-expenses)/(interest), precision: 2) %></span> times with our operating profit.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

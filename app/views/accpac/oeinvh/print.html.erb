@@ -1,0 +1,129 @@
+<div class="wrapper wrapper-content p-xl">
+  <div class="ibox-content p-xl">
+    <div class="row">
+      <div class="col-sm-6">
+        <h5>From:</h5>
+        <address>
+          <strong>Vertilux Ltd.</strong><br>
+          Location: <%= @accpac_oeinvh.LOCATION %><br>
+          <%= @accpac_oeinvh.icloc.ADDRESS1 %> <%= @accpac_oeinvh.icloc.ADDRESS2 %><br>
+          <%= @accpac_oeinvh.icloc.CITY %>, <%= @accpac_oeinvh.icloc.STATE %> <%= @accpac_oeinvh.icloc.ZIP %><br>
+          <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_oeinvh.icloc.PHONE) %>
+        </address>
+      </div>
+
+      <div class="col-sm-6 text-right">
+        <h4>Invoice No.</h4>
+        <h4 class="text-navy"><%= @accpac_oeinvh.INVNUMBER %></h4>
+        <span>To:</span>
+        <address>
+          <strong><%= @accpac_oeinvh.BILNAME.humanize.titleize %></strong><br>
+          <%= @accpac_oeinvh.BILADDR1 %> <%= @accpac_oeinvh.BILADDR2 %><br>
+          <%= @accpac_oeinvh.BILCITY%>, <%= @accpac_oeinvh.BILSTATE %> <%= @accpac_oeinvh.BILZIP %><br>
+          <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_oeinvh.BILPHONE) %>
+        </address>
+        <p>
+          <span><strong>Invoice Date:</strong> <%= to_date_helper(@accpac_oeinvh.INVDATE) %></span><br />
+          <span><strong>Due Date:</strong> </span><br />
+          <span><strong>Order No:</strong> <%= @accpac_oeinvh.ORDNUMBER %></span><br />
+          <span><strong>PO No:</strong> <%= @accpac_oeinvh.PONUMBER %></span><br />
+        </p>
+      </div>
+    </div>
+
+    <div class="table-responsive m-t">
+      <table class="table invoice-table">
+        <thead>
+          <tr>
+            <th>Item List</th>
+            <th>UOM</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% invoice_location_detail.each do |invoice| %>
+            <tr>
+              <% if Accpac::Icitmc.where(ITEMNO: invoice.ITEM.gsub("-", "")).first.try(:CITEMNO).present? %>
+                <td>
+                  <div><strong><%= invoice.ITEM %></strong> | <small><%= Accpac::Icitmc.where(ITEMNO: invoice.ITEM.gsub("-", "")).first.try(:CITEMNO) %></small></div>
+                  <small><%= invoice.DESC %></small>
+                </td>
+                <td>
+                  <div><%= invoice.INVUNIT %></div>
+                  <small>YD</small>
+                </td>
+                <td>
+                  <div><%= number_with_precision(invoice.QTYORDERED, precision: 2, delimiter: ",") %></div>
+                  <% Accpac::Icitemo.where(ITEMNO: invoice.ITEM.gsub("-", ""), OPTFIELD: "WIDTH").each do |optfield| %>
+                    <small><%= number_with_precision(invoice.QTYORDERED/(optfield.VALUE.to_f/0.9144), precision: 2) %></small>
+                  <% end %>
+                </td>
+                <td>
+                  <div><%= number_with_precision(invoice.QTYSHIPPED, precision: 2, delimiter: ",") %></div>
+                  <% Accpac::Icitemo.where(ITEMNO: invoice.ITEM.gsub("-", ""), OPTFIELD: "WIDTH").each do |optfield| %>
+                    <small><%= number_with_precision(invoice.QTYSHIPPED/(optfield.VALUE.to_f/0.9144), precision: 2) %></small>
+                  <% end %>
+                </td>
+                <td>
+                  <div><%= number_to_currency(invoice.UNITPRICE, precision: 2, delimiter: ",") %></div>
+                  <% Accpac::Icitemo.where(ITEMNO: invoice.ITEM.gsub("-", ""), OPTFIELD: "WIDTH").each do |optfield| %>
+                    <small><%= number_to_currency(invoice.EXTINVMISC/(invoice.QTYSHIPPED/(optfield.VALUE.to_f/0.9144)), precision: 2, delimiter: ",") %></small>
+                  <% end %>
+                </td>
+                <td><%= number_to_currency(invoice.EXTINVMISC, precision: 2, delimiter: ",") %></td>
+              <% else %>
+                <td>
+                  <div><strong><%= invoice.ITEM %></strong></div>
+                  <small><%= invoice.DESC %></small>
+                </td>
+                <td><%= invoice.INVUNIT %></td>
+                <td><%= number_with_precision(invoice.QTYORDERED, precision: 4, delimiter: ",") %></td>
+                <td><%= number_with_precision(invoice.QTYSHIPPED, precision: 4, delimiter: ",") %></td>
+                <td><%= number_to_currency(invoice.UNITPRICE, presicion: 2, delimiter: ",") %></td>
+                <td><%= number_to_currency(invoice.EXTINVMISC, precision: 2, delimiter: ",") %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <table class="table invoice-total">
+      <tbody>
+        <% if current_user.location.present? %>
+          <tr>
+            <td><strong>TOTAL :</strong></td>
+            <td><%= number_to_currency(invoice_location_total, precision: 2, delimiter: ",") %></td>
+          </tr>
+        <% else %>
+          <tr>
+            <td><strong>Sub Total :</strong></td>
+              <td><%= number_to_currency(@accpac_oeinvh.INVNETNOTX, presicion: 2, delimiter: ",") %></td>
+          </tr>
+          <tr>
+            <td><strong>TAX :</strong></td>
+            <td><%= number_to_currency(@accpac_oeinvh.INVITAXTOT, precision: 2, delimiter: ",") %></td>
+          </tr>
+          <tr>
+            <td><strong>DICOUNT :</strong></td>
+            <td><%= number_to_currency(@accpac_oeinvh.INVDISCAMT, precision: 2, delimiter: ",") %></td>
+          </tr>
+          <tr>
+            <td><strong>TOTAL :</strong></td>
+            <td><%= number_to_currency(@accpac_oeinvh.INVNETWTX, precision: 2, delimiter: ",") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="well m-t">
+      <strong>Comments</strong> <%= @accpac_oeinvh.COMMENT %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  window.print();
+</script>

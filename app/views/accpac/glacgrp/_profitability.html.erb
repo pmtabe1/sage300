@@ -1,0 +1,172 @@
+<%= render 'spiner' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Profitability Ratios</h2>
+    <p>This ratios measure a company’s ability to generate income relative to revenue, assets, operating costs, and equity.</p>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Gross Margin Ratio</h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Gross Profit
+                  </td>
+                  <td align="right" class="no-borders">
+                    <!-- Revenue -->
+                    <% revenue=0 %>
+                    <% @revenue.each do |r| %>
+                      <% revenue = revenue+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <!-- Cost of Sales -->
+                    <% cost_of_sales=0 %>
+                    <% @cost_of_sales.each do |r| %>
+                      <% cost_of_sales = cost_of_sales+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <!-- Expenses -->
+                    <% expenses=0 %>
+                    <% @expenses.each do |r| %>
+                      <% expenses = expenses+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <%= number_to_human(revenue-cost_of_sales, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Net Sales
+                  </td>
+                  <td align="right">
+                    <%= number_to_human(revenue, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    GMR
+                  </td>
+                  <td align="right">
+                    <%= number_to_percentage((revenue-cost_of_sales)/(revenue)*100, precision: 2) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>The ratio measures how profitably a company can sell its inventory. A higher ratio is more favorable.<br>For every dollar of revenue generated, <span class="text-navy"><%= number_to_currency((revenue-cost_of_sales)/(revenue), precision: 2) %></span> is retained while <span class="text-navy"><%= number_to_currency(1-((revenue-cost_of_sales)/(revenue)), precision: 2) %></span> is attributed to the cost of goods sold.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Operating Margin Ratio</h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Operating Income
+                  </td>
+                  <td align="right" class="no-borders">
+                    <%= number_to_human(revenue-cost_of_sales-expenses, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Net Sales
+                  </td>
+                  <td align="right">
+                    <%= number_to_human(revenue, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    OMR
+                  </td>
+                  <td align="right">
+                    <%= number_to_percentage((revenue-cost_of_sales-expenses)/(revenue)*100, precision: 2) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>The operating profit margin calculation is the percentage of operating profit derived from total revenue. Operating profit margin is equal to <span class="text-navy"><%= number_to_currency((revenue-cost_of_sales-expenses)/(revenue), precision: 2) %></span> operating profit for every $1 of revenue.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Return on Assets Ratio</h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Net Income
+                  </td>
+                  <td align="right" class="no-borders">
+                    <%= number_to_human(revenue-cost_of_sales-expenses, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Total Assets
+                  </td>
+                  <td align="right">
+                    <!-- Current Assets -->
+                    <% total_current_assets=0 %>
+                    <% @current_assets.each do |r| %>
+                      <% total_current_assets = total_current_assets+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <!-- Fixed Assets -->
+                    <% total_fixed_assets=0 %>
+                    <% @fixed_assets.each do |r| %>
+                      <% total_fixed_assets = total_fixed_assets+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <!-- Other Assets -->
+                    <% other_assets=0 %>
+                    <% @other_assets.each do |r| %>
+                      <% other_assets = other_assets+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <!-- Depreciation -->
+                    <% depreciation=0 %>
+                    <% @depreciation.each do |r| %>
+                      <% depreciation = depreciation+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <%= number_to_human((total_current_assets+total_fixed_assets+other_assets-depreciation), format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    RAR
+                  </td>
+                  <td align="right">
+                    <%= number_to_percentage((revenue-cost_of_sales-expenses)/(total_current_assets+total_fixed_assets+other_assets-depreciation)*100, precision: 2) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>This ratio measures the profitability of a business in relation to its total assets. For every dollar of assets the company invests in, it returns <span class="text-navy"><%= number_to_currency((revenue-cost_of_sales-expenses)/(total_current_assets+total_fixed_assets+other_assets-depreciation), precision: 2) %></span> cents in net profit.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<% if @inventory.instance_of? String %>
+  <div class="alert alert-danger">
+    <i class="fa fa-exclamation-triangle"></i> <%= @inventory %>
+  </div>
+<% else %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th class="text-right">Available</th>
+        <th class="text-right">Avg Sales (in M)</th>
+        <th class="text-right">Coverage (in M)</th>
+        <th class="text-right">Qty SO</th>
+        <th class="text-right">Qty PO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @inventory.each do |i| %>
+        <tr>
+          <td><%= i['Company'] %></td>
+          <td align="right"><%= number_with_precision(i['QtyAV'], precision: 2, delimiter: ',') %></td>
+          <td align="right"><%= number_with_precision(i['QtyAve'], precision: 2, delimiter: ',') %></td>
+          <td align="right"><%= number_with_precision(i['Coverage'], precision: 2, delimiter: ',') %></td>
+          <td align="right"><%= number_with_precision(i['QtySO'], precision: 2, delimiter: ',') %></td>
+          <td align="right"><%= number_with_precision(i['QtyPO'], precision: 2, delimiter: ',') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

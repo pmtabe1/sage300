@@ -1,0 +1,82 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Vendor Inquiry</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Vendor Inquiry
+      </li>
+      <li class="active">
+        <strong><%= @accpac_apven.VENDORID %> - <%= @accpac_apven.VENDNAME %></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-4">
+      <div class="title-action">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal5">
+          <i class="fa fa-search"></i>&nbsp;Search</button>
+        </button>
+      </div>
+	</div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+
+		<div class="wrapper wrapper-content animated fadeIn">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="tabs-container">
+							<ul class="nav nav-tabs">
+								<li class="active">
+									<a href="#profile" data-toggle="tab" aria-expanded="true">Profile</a>
+								</li>
+								<li class="">
+									<a href="#payables" data-toggle="tab" aria-expanded="true">Payables</a>
+								</li>
+								<li class="">
+									<a href="#opened_purchases" data-toggle="tab" aria-expanded="true">Open Purchases</a>
+								</li>
+								<li class="">
+									<a href="#purchase_orders_history" data-toggle="tab" aria-expanded="true">Purchases History</a>
+								</li>
+								<li class="">
+									<a href="#vendor_items" data-toggle="tab" aria-expanded="true">Items</a>
+								</li>
+								<li class="">
+									<a href="#documents" data-toggle="tab" aria-expanded="true">Documents</a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div id="profile" class="tab-pane active">
+									<%= render 'pro_profile' %>
+								</div>
+								<div id="payables" class="tab-pane">
+									<%= render 'payables' %>
+								</div>
+								<div id="opened_purchases" class="tab-pane">
+									<%= render 'opened_purchases' %>
+								</div>
+								<div id="purchase_orders_history" class="tab-pane">
+									<%= render 'purchase_orders_history' %>
+								</div>
+								<div id="vendor_items" class="tab-pane">
+									<%= render 'vendor_items' %>
+								</div>
+								<div id="documents" class="tab-pane">
+									<%= render 'documents' %>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- Modal -->
+<%= render 'modal' %>

@@ -1,0 +1,62 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-9">
+    <h2>Search Page</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Search
+      </li>
+      <li class="active">
+        <strong>Search Result</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="horizontal-scroll">
+    <div class="row">
+
+      <% if can? :read, ShippingReference %>
+        <div class="col-lg-3">
+          <%= render 'shipping_references' %>
+        </div>
+      <% end %>
+
+      <% if can? :read, Document %>
+        <div class="col-lg-3">
+          <%= render 'documents' %>
+        </div>
+      <% end %>
+
+      <% if can? :read, Accpac::Icitem %>
+        <div class="col-lg-3">
+          <%= render 'items' %>
+        </div>
+      <% end %>
+
+      <% if can? :read, Accpac::Arcus %>
+        <div class="col-lg-3">
+          <%= render 'customers' %>
+        </div>
+      <% end %>
+
+      <% if can? :read, Accpac::Apven %>
+        <div class="col-lg-3">
+          <%= render 'vendors' %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('.scroll_content').slimscroll({
+      height: '75vh'
+    })
+  });
+</script>

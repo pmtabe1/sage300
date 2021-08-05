@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Item Code</Data></Cell>
+        <Cell><Data ss:Type="String">Description</Data></Cell>
+        <Cell><Data ss:Type="String">Location</Data></Cell>
+        <Cell><Data ss:Type="String">Unit</Data></Cell>
+        <Cell><Data ss:Type="String">Qty Shipped</Data></Cell>
+        <Cell><Data ss:Type="String">Price</Data></Cell>
+        <Cell><Data ss:Type="String">Ext. Price</Data></Cell>
+      </Row>
+    <% @accpac_oeinvh.oeinvd.each do |invoice| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= invoice.ITEM %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invoice.DESC %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invoice.LOCATION %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invoice.ORDUNIT %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= invoice.QTYSHIPPED %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= sprintf('%2f',(invoice.UNITPRICE)) %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= sprintf('%2f',(invoice.UNITPRICE)*(invoice.QTYSHIPPED)) %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

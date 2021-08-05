@@ -1,0 +1,66 @@
+<%= render 'spiner' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Cost Centers Expenses</h2>
+      </div>
+      <div class="col-md-8">
+        <%= form_tag expenses_accpac_glacgrp_index_path(format: :js), method: :get, remote: true, class: "form-inline pull-right" do %>
+          <div class="form-group">
+            <%= select_tag 'year', options_for_select(Accpac::Glacgrp::YEARS, selected: current_year), {class: "form-control input-sm"} %>
+          </div>
+          <div class="form-group">
+            <%= select_tag 'period', options_for_select(Accpac::Glacgrp::PERIODS, selected: current_period), {class: "form-control input-sm"} %>
+          </div>
+          <%= button_tag "Update", class: "btn btn-sm btn-primary", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Loading..." } %>
+        <% end %>
+      </div>
+    </div>
+
+    <table class="table table-hover" id="as_of">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="text-right"><%= last_year %></th>
+          <th class="text-right"><%= current_year %></th>
+          <th class="text-right">Variance</th>
+          <th class="text-right">Variance %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% last=0 %>
+        <% current=0 %>
+        <% @expenses.each do |r| %>
+          <tr>
+            <td><%= link_to r.ACCTGRPDES, accpac_glamf_url(id: r.ACCTGRPCOD.squish, period: current_period), remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Loading..."} %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, last_year), precision: 2) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year), precision: 2) %></td>
+            <td align="right"><%= number_to_currency(fical_set_variance(r, current_period, current_year), precision: 2) %></td>
+            <td align="right"><%= fical_set_var_percentage(r, current_period, current_year) %></td>
+          </tr>
+          <% last = last+fiscal_set(r, current_period, last_year) %>
+          <% current = current+fiscal_set(r, current_period, current_year) %>
+        <% end %>
+        <tr>
+          <td><b>Total</b></td>
+          <td align="right"><b><%= number_to_currency(last, precision: 2) %></b></td>
+          <td align="right"><b><%= number_to_currency(current, precision: 2) %></b></td>
+          <td align="right"><b><%= number_to_currency(current-last, precision: 2) %></b></td>
+          <td align="right"><%= total_fical_set_percentage(last, current) %></td>
+        <tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Cost Centers Expenses by Years</h2>
+    <small>This chart shows total expenses by groups by years, current period.</small>
+    <div class="m-t-sm">
+      <%= column_chart charts_finance_expenses_groups_by_years_path, height: "450px", thousands: ",", curve: false, prefix: "$", adapter: "highcharts", legend: "right" %>
+    </div>
+  </div>
+</div>

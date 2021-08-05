@@ -1,0 +1,77 @@
+<div class="panel panel-yellow">
+  <div class="panel-heading">
+    In-Transit
+  </div>
+  <div class="panel-body panel-supply-chain">
+    <% if @in_transit.blank? %>
+      No Purchase Orders on Transit
+    <% else %>
+      <% @in_transit.each do |doc| %>
+        <!-- Cache -->
+        <% cache doc do %>
+          <div class="well well-sm">
+            <% doc.properties.each do |name, value| %>
+
+              <!-- Bill of Lading Info -->
+              <% if name.include?("B/L") %>
+                <h6>
+                  <%= name %>: <%= link_to value, doc %>
+                </h6>
+              <% end %>
+
+              <!-- Container Info -->
+              <% if name.include?("Container") %>
+                <h6>
+                  <%= name %>: <%= value %>
+                </h6>
+              <% end %>
+
+              <!-- Loading & destination location -->
+              <% if name.include?("Loading") %>
+                <span class="label label-default"><i class="fa fa-upload"></i> <%= value %></span>
+              <% end %>
+              <% if name.include?("Destination") %>
+                <span class="label label-info"><i class="fa fa-download"></i> <%= value %></span>
+              <% end %>
+
+              <!-- Tracking Container -->
+              <% if name == "Container Number" %>
+                <i class="fa fa-street-view"></i>
+                <%= link_to "Tracking Container", "##{value}", "data-toggle": "modal" %>
+                <!-- Tracking Modal -->
+                <div class="modal fade" id="<%= value %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Tracking Container</h4>
+                      </div>
+
+                      <div class="modal-body">
+                        <iframe src="https://sirius.searates.com/tracking?container=<%= value %>&sealine=" width="100%" height="650px;"
+                          scrolling="No" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"> </iframe>
+                      </div>
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+
+            <div class="card_badges">
+              <span type="button" class="label label-primary span-popover" data-container="body"
+                  data-toggle="popover" data-placement="right" data-trigger="hover click"
+                  data-content='<%= purchase_ordes(doc) %>' data-original-title="" title="Purchase Orders">
+                  Purchase Orders
+              </span>
+            </div>
+          </div>
+        <% end %>
+        <!-- End Cache -->
+      <% end %>
+    <% end %>
+  </div>
+</div>

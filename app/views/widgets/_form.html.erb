@@ -1,0 +1,56 @@
+<%= form_for @widget do |f| %>
+  <% if @widget.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@widget.errors.count, "error") %> prohibited this widget from being saved:</h2>
+
+      <ul>
+      <% @widget.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="form-group">
+        <%= f.label :template %><br>
+        <%= f.text_area :template %>
+        <span class="form-text m-b-none">
+          To add edit and delete options to the widget add the following block within the template (liquid) field:<br>
+          <%= render 'help' %>
+        </span>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :description %>
+        <%= f.text_area :description, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :queries %>
+        <%= f.select(:query_ids, Query.all.collect {|q| [q.name, q.id]}, {:prompt => "Select query!"}, {multiple: true, class: "select-po", required: true}) %>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="text-center">
+        <%= f.submit class: "btn btn-primary" %>
+      </div>
+    </div>
+  <div>
+<% end %>
+
+<script type="text/javascript">
+  $(function() {
+    var editor_one = CodeMirror.fromTextArea(document.getElementById("widget_template"), {
+      lineNumbers: true,
+      matchBrackets: true,
+      styleActiveLine: true,
+      theme: "dracula"
+    });
+  });
+</script>

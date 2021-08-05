@@ -1,0 +1,13 @@
+<%= link_to accpac_oeinvh_index_path(pending: true) do %>
+  <div class="widget style1 red-bg">
+    <div class="row">
+      <div class="col-xs-4">
+        <i class="fa fa-usd fa-5x"></i>
+      </div>
+      <div class="col-xs-8 text-right">
+        <span> <%= t('widgets.customers.invoices_pending') %> </span>
+        <h2 class="font-bold"><%= customer_invoice_pending_counter %></h2>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,28 @@
+/* ag-Grid Custom Style */
+
+.ag-grid-table {
+    height: 100vh;
+}
+
+.ag-theme-material .ag-icon-checkbox-checked:empty {
+  background-image: url(data:image/svg+xml,%3Csvg%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M16%200H2a2%202%200%200%200-2%202v14a2%202%200%200%200%202%202h14a2%202%200%200%200%202-2V2a2%202%200%200%200-2-2zM7%2014L2%209l1.41-1.41L7%2011.17l7.59-7.59L16%205l-9%209z%22%20fill%3D%22%232D3B45%22/%3E%3C/svg%3E);
+}
+
+.ag-theme-material .ag-tab-header .ag-tab.ag-tab-selected {
+    border-bottom: 2px solid #CC3333;
+}
+
+.ag-theme-material .ag-tab-header .ag-tab.ag-tab-selected .ag-icon-menu {
+    background-image: url(data:image/svg+xml,%3Csvg%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22%23CC3333%22%20fill-rule%3D%22evenodd%22%3E%3Cpath%20fill-rule%3D%22nonzero%22%20d%3D%22M2%2014h14v-2H2z%22/%3E%3Cpath%20d%3D%22M2%2010h14V8H2zm0-6v2h14V4z%22/%3E%3C/g%3E%3C/svg%3E);
+    display: inline-block;
+}
+
+.ag-theme-material .ag-tab-header .ag-tab.ag-tab-selected .ag-icon-filter {
+    background-image: url(data:image/svg+xml,%3Csvg%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22%23CC3333%22%20fill-rule%3D%22evenodd%22%3E%3Cpath%20d%3D%22M4%2010h10V8H4zM2%204v2h14V4z%22/%3E%3Cpath%20fill-rule%3D%22nonzero%22%20d%3D%22M7%2014h4v-2H7z%22/%3E%3C/g%3E%3C/svg%3E);
+    display: inline-block;
+}
+
+.ag-theme-material .ag-tab-header .ag-tab.ag-tab-selected .ag-icon-columns {
+    background-image: url(data:image/svg+xml,%3Csvg%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M3%204h3v2H3zm5%200h3v2H8zm5%200h3v2h-3zM3%208h3v2H3zm5%200h3v2H8zm5%200h3v2h-3zM3%2012h3v2H3zm5%200h3v2H8zm5%200h3v2h-3z%22%20fill%3D%22%23CC3333%22%20fill-rule%3D%22evenodd%22/%3E%3C/svg%3E);
+    display: inline-block;
+}

@@ -1,0 +1,108 @@
+<div class="panel-body">
+  <div class="ibox float-e-margins">
+    <div class="ibox-content">
+
+      <div class="row">
+        <div class="col-lg-9">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th></th>
+                <th>0-30</th>
+                <th>31-60</th>
+                <th>61-90</th>
+                <th>90+</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Invocie Amount</td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.u30.sum(:AMTINVCHC), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.u60.sum(:AMTINVCHC), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.u90.sum(:AMTINVCHC), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.m90.sum(:AMTINVCHC), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.sum(:AMTINVCHC), precision: 2) %></td>
+              </tr>
+              <tr>
+                <td>Invoice Amount Due</td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.u30.sum(:AMTDUEHC), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.u60.sum(:AMTDUEHC), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.u90.sum(:AMTDUEHC), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.m90.sum(:AMTDUEHC), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.sum(:AMTDUEHC), precision: 2) %></td>
+              </tr>
+              <tr>
+                <td>Invocie Amount Overdue</td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.u30.sum(:INAMTOVER), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.u60.sum(:INAMTOVER), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.u90.sum(:INAMTOVER), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.m90.sum(:INAMTOVER), precision: 2) %></td>
+                <td><%= number_to_currency(@accpac_arcus.unpaid_receivable.sum(:INAMTOVER), precision: 2) %></td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <small>Aged amount dues are based on Documents date that are already due.</small>
+          </p>
+
+          <!-- Statistics -->
+          <h3 style="margin-top: 30px;">Statistics</h3>
+
+          <%= form_tag statistics_accpac_arcu_path(:format => :js), remote: true, class: "form-inline" do %>
+            <div class="form-group">
+              <label for="exampleInputEmail2" class="sr-only">Email address</label>
+              <%= text_field_tag 'year', "#{current_year}", class: "form-control input-sm" %>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword2" class="sr-only">Password</label>
+              <%= text_field_tag 'period', "#{current_period}", class: "form-control input-sm" %>
+            </div>
+            <%= button_tag "Update", class: "btn btn-sm btn-primary", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Updating statistics, please wait..." } %>
+          <% end %>
+
+          <div id="statistics_update">
+            <%= render partial: 'statistics' %>
+          </div>
+
+          <!-- Average days to pay graph -->
+          <div class="row" style="margin-top: 35px;">
+            <div class="col-md-12">
+              <span class="pull-right text-right">
+                It takes the total number of days to pay all invoices in the system and divides by the total number of invoices.
+              </span>
+              <h3 class="font-bold no-margins">
+                Average Days to Pay
+              </h3>
+              <small>Last 24 months.</small>
+              <div style="margin-top: 20px;">
+                <%= line_chart charts_customers_average_days_to_pay_path(id: @accpac_arcus.IDCUST), thousands: ",", curve: false %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3">
+          <ul class="stat-list m-t-lg">
+            <li>
+              <h2 class="no-margins"><%= number_to_currency(@accpac_arcus.AMTCRLIMT, precision: 2) %></h2>
+              <small>Credit Limit</small>
+              <div class="progress progress-mini">
+                <%= credit_limit_progress_bar(@accpac_arcus) %>
+              </div>
+            </li>
+            <li>
+              <h2 class="no-margins "><%= number_to_currency(@accpac_arcus.AMTBALDUET, precision: 2) %></h2>
+              <small>Outstanding A/R Balance </small>
+            </li>
+            <li>
+              <h2 class="no-margins "><%= @accpac_arcus.CODETERM %></h2>
+              <small>Terms </small>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

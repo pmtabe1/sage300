@@ -1,0 +1,54 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div>
+      <span class="pull-right text-right">
+        <small>Monthly Cash Flow: <strong>Direct Method</strong></small>
+      </span>
+      <h3 class="font-bold no-margins">
+        Monthly Cash Flow Chart
+      </h3>
+      <small>Direct Method: <%= link_to "View Detailed Statement", accpac_glacgrp_index_path %></small>
+    </div>
+
+    <div class="m-t-sm">
+      <div class="row">
+        <div class="col-md-9">
+          <%= column_chart charts_finance_cash_flow_detail_path, height: "350px", prefix: "$", thousands: ",", colors: ["#008EFA", "#06E397", "#FEB019"] %>
+        </div>
+        <div class="col-md-3">
+          <ul class="stat-list">
+            <!-- Receipts -->
+            <li>
+              <h2 class="no-margins"><%= number_to_currency(cash_received_from_customers, precision: 0) %></h2>
+              <small>Cash Received from Customers</small>
+            </li>
+            <!-- Payments -->
+            <li>
+              <h2 class="no-margins"><%= number_to_currency(paid_to_vendors, precision: 0) %></h2>
+              <small>Payments</small>
+            </li>
+            <!-- Salaries -->
+            <% salaries=0 %>
+            <% @salaries.each do |r| %>
+              <h2 class="no-margin"><%= number_to_currency(fiscal_set(r, current_period, current_year), precision: 0) %></h2>
+              <small>Wages/Salaries</small>
+              <% salaries = salaries+fiscal_set(r, current_period, current_year) %>
+            <% end %>
+            <!-- Interest Expenses -->
+            <% interest=0 %>
+            <% @interest.each do |r| %>
+              <h2 class="no-margin"><%= number_to_currency(fiscal_set(r, current_period, current_year), precision: 0) %></h2>
+              <small>Interst Expenses</small>
+              <% interest = interest+fiscal_set(r, current_period, current_year) %>
+            <% end %>
+            <!-- Cash Available -->
+            <li>
+              <h2 class="no-margins"><%= number_to_currency(cash_received_from_customers-paid_to_vendors-salaries-interest, precision: 0) %></h2>
+              <small>Free Cash Flow</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

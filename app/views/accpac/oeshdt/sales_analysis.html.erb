@@ -1,0 +1,82 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-6">
+    <h2>Sales Analysis</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+			</li>
+			<li>
+				vAnalytics
+			</li>
+      <li class="active">
+        <b>Sales Analysis</b>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Sales Analysis</h5>
+          <div class="ibox-tools">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-wrench"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+              <li><a onclick="saveSalesAnalysisState()">Save State</a></li>
+              <li><a onclick="resetSalesAnalysisState()">Reset State</a></li>
+            </ul>
+            <a class="fullscreen-link">
+              <i class="fa fa-expand"></i>
+            </a>
+          </div>
+        </div>
+	      <div class="ibox-content" style="height: 75vh;">
+          <div id="sales_analysis_grid" class="ag-theme-balham" data-sales_rep_file="<%= sales_rep_file %>" style="height: 100%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function (global) {
+
+      if(typeof (global) === "undefined") {
+          throw new Error("window is undefined");
+      }
+
+      var _hash = "!";
+      var noBackPlease = function () {
+          global.location.href += "#";
+
+          // Making sure we have the fruit available for juice (^__^)
+          global.setTimeout(function () {
+              global.location.href += "!";
+          }, 50);
+      };
+
+      global.onhashchange = function () {
+          if (global.location.hash !== _hash) {
+              global.location.hash = _hash;
+          }
+      };
+
+      global.onload = function () {
+          noBackPlease();
+
+          // Disables backspace on page except on input fields and textarea..
+          document.body.onkeydown = function (e) {
+              var elm = e.target.nodeName.toLowerCase();
+              if (e.which === 8 && (elm !== 'input' && elm  !== 'textarea')) {
+                  e.preventDefault();
+              }
+              // Stopping the event bubbling up the DOM tree...
+              e.stopPropagation();
+          };
+      }
+  })(window);
+</script>

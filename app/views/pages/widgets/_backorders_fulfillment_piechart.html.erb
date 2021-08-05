@@ -1,0 +1,11 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div>
+      <h3 class="font-bold no-margins">
+        Customer Group Backorders
+      </h3>
+      <small>This chart automatically refresh every minute.</small>
+    </div>
+    <%= pie_chart charts_backorders_territory_path, prefix: "$", thousands: ",", legend: "right" %>
+  </div>
+</div>

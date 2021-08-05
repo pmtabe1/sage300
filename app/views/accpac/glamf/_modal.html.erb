@@ -1,0 +1,53 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h4 class="modal-title"><%= Accpac::Glacgrp.find(params[:id]).ACCTGRPDES %></h4>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <div class="scroll_account_table" style="height: 300px;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Account Description</th>
+            <th class="text-right"><%= last_year.to_i-2 %></th>
+            <th class="text-right"><%= last_year.to_i-1 %></th>
+            <th class="text-right"><%= last_year %></th>
+            <th class="text-right"><%= current_year %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @accpac_glamf.each do |a| %>
+            <tr>
+              <td><%= "#{a.ACCTID} - #{a.ACCTDESC}" %></td>
+              <td align="right"><%= number_to_currency(fiscal_set(a, params[:period], last_year.to_i-2), precision: 2) %></td>
+              <td align="right"><%= number_to_currency(fiscal_set(a, params[:period], last_year.to_i-1), precision: 2) %></td>
+              <td align="right"><%= number_to_currency(fiscal_set(a, params[:period], last_year), precision: 2) %></td>
+              <td align="right"><%= number_to_currency(fiscal_set(a, params[:period], current_year), precision: 2) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ibox-content p-xl">
+      <h2 class="text-center">Timeline chart</h2>
+      <div class="m-t-sm">
+        <%= line_chart charts_finance_expenses_by_account_groups_path(id: params[:id]), id: "group_account_charts", height: "300px", thousands: ",", curve: false, prefix: "$", adapter: "highcharts", xtitle: "Time", ytitle: "Amount" %>
+      </div>
+    </div>
+
+	</div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('.scroll_account_table').slimscroll({
+        height: '300px'
+    })
+  });
+</script>

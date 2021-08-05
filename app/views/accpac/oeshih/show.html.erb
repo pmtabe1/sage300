@@ -1,0 +1,93 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Order Entry</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Shipments
+      </li>
+      <li class="active">
+        <strong><%= @accpac_oeshih.SHINUMBER %></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-4">
+		<div class="title-action">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal5">
+				<i class="fa fa-search"></i>&nbsp;Search</button>
+      </button>
+		</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="ibox-content p-xl">
+        <div class="row">
+          <div class="col-sm-6">
+            <h5>From:</h5>
+            <address>
+              <strong>Vertilux Ltd.</strong><br>
+              Location: <%= @accpac_oeshih.LOCATION %><br>
+              <%= @accpac_oeshih.icloc.ADDRESS1 %> <%= @accpac_oeshih.icloc.ADDRESS2 %><br>
+              <%= @accpac_oeshih.icloc.CITY %>, <%= @accpac_oeshih.icloc.STATE %> <%= @accpac_oeshih.icloc.ZIP %><br>
+              <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_oeshih.icloc.PHONE) %>
+            </address>
+          </div>
+
+          <div class="col-sm-6 text-right">
+            <h4>Shipment No.</h4>
+            <h4 class="text-navy"><%= @accpac_oeshih.SHINUMBER %></h4>
+            <span>To:</span>
+            <address>
+              <strong><%= @accpac_oeshih.BILNAME.humanize.titleize %></strong><br>
+              <%= @accpac_oeshih.BILADDR1 %> <%= @accpac_oeshih.BILADDR2 %><br>
+              <%= @accpac_oeshih.BILCITY%>, <%= @accpac_oeshih.BILSTATE %> <%= @accpac_oeshih.BILZIP %><br>
+              <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_oeshih.BILPHONE) %>
+            </address>
+            <p>
+              <span><strong>Shipment Date:</strong> <%= to_date_helper(@accpac_oeshih.SHIDATE) %></spna><br />
+            </p>
+          </div>
+        </div>
+
+        <div class="table-responsive m-t">
+          <%= render_async details_accpac_oeshih_index_path(id: params[:id]) do %>
+            <h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading details...</h4>
+          <% end %>
+        </div>
+
+        <table class="table invoice-total">
+          <tbody>
+            <tr>
+              <td><strong>Sub Total :</strong></td>
+                <td><%= number_to_currency(@accpac_oeshih.SHIETAXTOT, presicion: 2, delimiter: ",") %></td>
+            </tr>
+            <tr>
+              <td><strong>TAX :</strong></td>
+              <td><%= number_to_currency(@accpac_oeshih.SHIITAXTOT, precision: 2, delimiter: ",") %></td>
+            </tr>
+            <tr>
+              <td><strong>DISCOUNT :</strong></td>
+              <td><%= number_to_currency(@accpac_oeshih.SHIDISCAMT, precision: 2, delimiter: ",") %></td>
+            </tr>
+            <tr>
+              <td><strong>TOTAL :</strong></td>
+              <td><%= number_to_currency(@accpac_oeshih.SHINETWTX, precision: 2, delimiter: ",") %></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="well m-t">
+          <strong>Comments</strong> <%= @accpac_oeshih.COMMENT %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<%= render 'modal' %>

@@ -1,0 +1,33 @@
+<table class="table table-hover" id="as_of">
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th class="text-right"><%= params[:year].to_i-1 %></th>
+      <th class="text-right"><%= params[:year] %></th>
+      <th class="text-right">Variance</th>
+      <th class="text-right">Variance %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% last=0 %>
+    <% current=0 %>
+    <% @expenses.each do |r| %>
+      <tr>
+        <td><%= link_to r.ACCTGRPDES, accpac_glamf_url(id: r.ACCTGRPCOD.squish, period: params[:period]), remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Loading..."} %></td>
+        <td align="right"><%= number_to_currency(fiscal_set(r, params[:period], params[:year].to_i-1), precision: 2) %></td>
+        <td align="right"><%= number_to_currency(fiscal_set(r, params[:period], params[:year]), precision: 2) %></td>
+        <td align="right"><%= number_to_currency(fical_set_variance(r, params[:period], params[:year]), precision: 2) %></td>
+        <td align="right"><%= fical_set_var_percentage(r, params[:period], params[:year]) %></td>
+      </tr>
+      <% last = last+fiscal_set(r, params[:period], params[:year].to_i-1) %>
+      <% current = current+fiscal_set(r, params[:period], params[:year]) %>
+    <% end %>
+    <tr>
+      <td><b>Total</b></td>
+      <td align="right"><b><%= number_to_currency(last, precision: 2) %></b></td>
+      <td align="right"><b><%= number_to_currency(current, precision: 2) %></b></td>
+      <td align="right"><b><%= number_to_currency(current-last, precision: 2) %></b></td>
+      <td align="right"><%= total_fical_set_percentage(last, current) %></td>
+    <tr>
+  </tbody>
+</table>

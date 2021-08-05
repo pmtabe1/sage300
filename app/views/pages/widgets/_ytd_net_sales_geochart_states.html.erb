@@ -1,0 +1,25 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div>
+      <h3 class="font-bold no-margins">
+        Sales by States
+      </h3>
+      <small>YTD Net Sales by States</small>
+    </div>
+
+    <div class="m-t-sm">
+      <div class="row">
+        <div class="col-md-12">
+          <%= geo_chart charts_sales_orders_ytd_net_sales_geochart_states_path, library: {region: "#{company_country_code.squish}", resolution: 'provinces'}, label: company_currency %>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-t-md">
+      <small class="pull-right">
+        <i class="fa fa-clock-o"> </i>
+        Update every 60 seconds.
+      </small>
+    </div>
+  </div>
+</div>

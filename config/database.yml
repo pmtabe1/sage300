@@ -1,0 +1,7 @@
+development:
+  adapter: sqlserver
+  host: <%= ENV["ACCPAC_DB_HOST"] %>
+  database: ACCLTD
+  username: <%= ENV["ACCPAC_DB_USERNAME"] %>
+  password: <%= ENV["ACCPAC_PASSWD"] %>
+  timeout: 100000

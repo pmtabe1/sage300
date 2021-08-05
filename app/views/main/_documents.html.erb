@@ -1,0 +1,23 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div class="scroll_content">
+      <h2>Documents</h2>
+      <div class="hr-line-dashed"></div>
+      <% if @documents.present? %>
+        <% @documents.each do |document| %>
+          <div class="search-result">
+            <h3><%= link_to document.id, document %></h3>
+            <i class="fa fa-clock-o"></i> <%= submitted_at(document) %><br>
+            <i class="fa fa-user" style="margin-top: 10px;"></i> <%= submitted_by(document) %>
+            <div class="pull-right">
+              <%= DocumentType.find(document.document_type_id).name %>
+            </div>
+          </div>
+          <div class="hr-line-dashed"></div>
+        <% end %>
+      <% else %>
+        No matches found!
+      <% end %>
+    </div>
+  </div>
+</div>

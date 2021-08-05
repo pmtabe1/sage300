@@ -1,0 +1,65 @@
+<script>
+  window.onload = function() {
+    window.print();
+  }
+</script>
+
+<table class="table table-bordered">
+  <thead>
+   <tr>
+    <!-- Page Header -->
+    <th colspan="7">
+      <img src="https://s3.amazonaws.com/vertilux-website/public/vertilux-logo.png" width="215">
+      <h2 class="page-header">Purchase Order</h2>
+      <div class="col-sm-3">
+        <h5>PO No: <%= @accpac_poporh1.PONUMBER %></h5>
+        <h5>Created By: <%= @accpac_poporh1.AUDTUSER %></h5>
+        <h5>Date: <%= glob_date_time(@accpac_poporh1).strftime("%Y-%m-%d") %></h5>
+        <h5>Location: <%= @accpac_poporh1.poporh2.STCODE %></h5>
+      </div>
+      <div class="col-sm-5">
+        <h5>Descriptions:</h5>
+        <p>
+          Description: <%= @accpac_poporh1.DESCRIPTIO %><br>
+          Comments: <%= @accpac_poporh1.COMMENT %>
+        </p>
+      </div>
+      <div class="col-sm-4">
+        <%= image_tag generate_barcode(@accpac_poporh1.PORHSEQ), class: "img-responsive" %>
+      </div>
+    </th>
+   </tr>
+   <tr>
+     <!-- Table Header -->
+     <th>Item</th>
+     <th>Description</th>
+     <th>Unit</th>
+     <th>ETA</th>
+     <th>Qty Ordered</th>
+     <th>Unit Cost</th>
+     <th>Ext Cost</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @accpac_poporh1.poporl.each do |item| %>
+      <tr>
+       <td><%= item.ITEMNO.gsub(/\s+/, '') %></td>
+       <td><%= item.ITEMDESC %></td>
+       <td><%= item.ORDERUNIT %></td>
+       <td>
+         <% if item.EXPARRIVAL > 0 %>
+          <%= item.EXPARRIVAL.to_s.to_date %>
+         <% end %>
+       </td>
+       <td align="right"><%= number_with_delimiter(item.OQORDERED) %></td>
+       <td align="right"><%= number_to_currency(item.UNITCOST, precision: 3) %></td>
+       <td align="right"><%= number_to_currency(item.EXTENDED, precision: 4) %></td>
+      </tr>
+    <% end %>
+      <tr>
+        <td colspan="6"><strong>Total</strong></td>
+        <td align="right"><strong><%= number_to_currency(@accpac_poporh1.EXTENDED, presicion: 2) %></strong></td>
+      </tr>
+  </tbody>
+</table>

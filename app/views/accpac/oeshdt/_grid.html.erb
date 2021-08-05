@@ -1,0 +1,403 @@
+<script>
+  var columnDefs = [
+    {
+      headerName: 'Customer No.',
+      field: 'f33',
+      enableRowGroup: true,
+      width: 150,
+      hide: true
+    },
+    {
+      headerName: 'Customer Name',
+      field: 'f1',
+      enableRowGroup: true,
+      width: 250,
+      hide: true
+    },
+    {
+      headerName: 'Customer Number Name',
+      field: 'f34',
+      enableRowGroup: true,
+      width: 280,
+      hide: true
+    },
+    {
+      headerName: 'Cust Grp',
+      field: 'f2',
+      headerTooltip: 'Customer Group',
+      enableRowGroup: true,
+      width: 100,
+      hide: true
+    },
+    {
+      headerName: 'Territory',
+      field: 'f3',
+      enableRowGroup: true,
+      width: 100,
+      hide: true
+    },
+    {
+      headerName: 'Country',
+      field: 'f4',
+      enableRowGroup: true,
+      width: 120,
+      hide: true
+    },
+    {
+      headerName: 'State',
+      field: 'f30',
+      enableRowGroup: true,
+      width: 120,
+      hide: true
+    },
+    {
+      headerName: 'Year',
+      field: 'f5',
+      enableRowGroup: true,
+      width: 100,
+      hide: true,
+      rowGroup: true
+    },
+    {
+      headerName: 'Period',
+      field: 'f6',
+      enableRowGroup: true,
+      width: 100,
+      hide: true
+    },
+    {
+      headerName: 'Item Number',
+      field: 'f7',
+      enableRowGroup: true,
+      filter: 'agTextColumnFilter',
+      width: 150,
+      hide: true
+    },
+    {
+      headerName: 'Item Description',
+      field: 'f8',
+      enableRowGroup: true,
+      filter: 'agTextColumnFilter',
+      width: 300,
+      hide: true
+    },
+    {
+      headerName: 'Item Number Description',
+      field: 'f9',
+      enableRowGroup: true,
+      filter: 'agTextColumnFilter',
+      width: 300,
+      hide: true
+    },
+    {
+      headerName: 'Ranking',
+      field: 'f32',
+      enableRowGroup: true,
+      width: 100,
+      hide: true
+    },
+    {
+      headerName: 'Commodity No.',
+      field: 'f15',
+      enableRowGroup: true,
+      filter: 'agTextColumnFilter',
+      width: 200,
+      hide: true
+    },
+    {
+      headerName: 'Item Category',
+      field: 'f10',
+      enableRowGroup: true,
+      width: 300,
+      hide: true
+    },
+    {
+      headerName: 'Opt Fld Cat',
+      field: 'f11',
+      headerTooltip: 'Optional Field Category',
+      enableRowGroup: true,
+      width: 120,
+      hide: true
+    },
+    {
+      headerName: 'Opt Fld Prod',
+      field: 'f12',
+      headerTooltip: 'Optional Field Product',
+      enableRowGroup: true,
+      width: 120,
+      hide: true
+    },
+    {
+      headerName: 'Opt Fld Type',
+      field: 'f13',
+      headerTooltip: 'Optional Field Type',
+      enableRowGroup: true,
+      width: 120,
+      hide: true
+    },
+    {
+      headerName: 'Opt Fld Subfamily',
+      field: 'f14',
+      headerTooltip: 'Optional Field Subfamily',
+      enableRowGroup: true,
+      width: 120,
+      hide: true
+    },
+    {
+      headerName: 'Loc',
+      field: 'f16',
+      enableRowGroup: true,
+      width: 90,
+      hide: true
+    },
+    {
+      headerName: 'Sales Person',
+      field: 'f17',
+      enableRowGroup: true,
+      width: 90,
+      hide: true
+    },
+    {
+      headerName: 'Qty Sold',
+      field: 'f18',
+      aggFunc: 'sum',
+      headerTooltip: 'Quantity Sold',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: quantityFormatter,
+      width: 150,
+      hide: true,
+      enableValue: true
+    },
+    {
+      headerName: 'Sales Amount',
+      field: 'f19',
+      aggFunc: 'sum',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currencyFormatter,
+      width: 150,
+      hide: true,
+      enableValue: true
+    },
+    {
+      headerName: 'Cost of Sales',
+      field: 'f20',
+      aggFunc: 'sum',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currencyFormatter,
+      width: 150,
+      hide: true,
+      enableValue: true
+    },
+    {
+      headerName: 'Return Amount',
+      field: 'f21',
+      aggFunc: 'sum',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currencyFormatter,
+      width: 150,
+      hide: true,
+      enableValue: true
+    },
+    {
+      headerName: 'Net Sales',
+      field: 'f22',
+      aggFunc: 'sum',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currencyFormatter,
+      width: 150,
+      enableValue: true
+    },
+    {
+      headerName: 'Gross Margin',
+      field: 'f23',
+      aggFunc: 'sum',
+      headerTooltip: 'Gross Margin Amount',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currencyFormatter,
+      width: 150,
+      enableValue: true
+    },
+    {
+      headerName: 'YTD Qty Sold',
+      field: 'f24',
+      aggFunc: 'sum',
+      headerTooltip: 'Year to Date Quantity Sold',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: quantityFormatter,
+      width: 150,
+      hide: true,
+      enableValue: true
+    },
+    {
+      headerName: 'YTD Sales',
+      field: 'f25',
+      aggFunc: 'sum',
+      headerTooltip: 'Year to Date Sales Amount',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currencyFormatter,
+      width: 150,
+      hide: true,
+      enableValue: true
+    },
+    {
+      headerName: 'YTD Cost Sales',
+      field: 'f26',
+      aggFunc: 'sum',
+      headerTooltip: 'Year to Date Cost of Sales',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currencyFormatter,
+      width: 150,
+      hide: true,
+      enableValue: true
+    },
+    {
+      headerName: 'YTD Ret Amount',
+      field: 'f27',
+      aggFunc: 'sum',
+      headerTooltip: 'Year to Date Return Amount',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currencyFormatter,
+      width: 150,
+      hide: true,
+      enableValue: true
+    },
+    {
+      headerName: 'YTD Net Sales',
+      field: 'f28',
+      aggFunc: 'sum',
+      headerTooltip: 'Year to Date Return Amount',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currencyFormatter,
+      width: 150,
+      hide: true,
+      enableValue: true
+    },
+    {
+      headerName: 'YTD GM Amount',
+      field: 'f29',
+      aggFunc: 'sum',
+      headerTooltip: 'Year to Date Gross Margin Amount',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currencyFormatter,
+      width: 150,
+      hide: true,
+      enableValue: true
+    },
+    {
+      headerName: 'Gross Margin %',
+      field: 'gmp',
+      valueGetter: 'data.f23 / data.f22',
+      headerTooltip: 'Gross Margin Percentage',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: quantity4Formatter,
+      width: 150,
+      enableValue: true
+    },
+    {
+      headerName: 'Avg Selling Price',
+      field: 'avg_price',
+      valueGetter: 'data.f22 / data.f18',
+      headerTooltip: 'Average Selling Price',
+      filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: currency4Formatter,
+      width: 150,
+      enableValue: true
+    }
+  ];
+
+  var gridOptions = {
+      columnDefs: columnDefs,
+      suppressRowClickSelection: true,
+      suppressAggFuncInHeader: true,
+      enableColResize: true,
+      enableStatusBar: true,
+      enableRangeSelection: true,
+      enableColResize: true,
+      floatingFilter: true,
+      enableSorting: true,
+      enableFilter: true,
+      pagination: true,
+      rowGroupPanelShow: 'always',
+      sideBar: true,
+      statusBar: {
+        statusPanels: [
+          {statusPanel: 'agTotalAndFilteredRowCountComponent'}, 
+          {statusPanel: 'agTotalRowCountComponent'}, 
+          {statusPanel: 'agFilteredRowCountComponent'}, 
+          {statusPanel: 'agSelectedRowCountComponent'}, 
+          {statusPanel: 'agAggregationComponent'}
+        ]
+      },
+      groupRowAggNodes: groupRowAggNodes,
+      autoGroupColumnDef: {
+        headerName: 'Group',
+        cellRendererParams: {
+          suppressCount: true
+        }
+      }
+  };
+
+  function groupRowAggNodes(nodes) {
+      var result = {
+          f18: 0,
+          f19: 0,
+          f20: 0,
+          f21: 0,
+          f22: 0,
+          f23: 0,
+          f24: 0,
+          f25: 0,
+          f26: 0,
+          f27: 0,
+          f28: 0,
+          f29: 0,
+          gmp: 0,
+      };
+      nodes.forEach(function(node) {
+          var data = node.group ? node.aggData : node.data;
+          if (typeof data.f22 === 'number') {
+              result.f18 += data.f18;
+              result.f19 += data.f19;
+              result.f20 += data.f20;
+              result.f21 += data.f21;
+              result.f22 += data.f22;
+              result.f23 += data.f23;
+              result.f24 += data.f24;
+              result.f25 += data.f25;
+              result.f26 += data.f26;
+              result.f27 += data.f27;
+              result.f28 += data.f28;
+              result.f29 += data.f29;
+              result.gmp = result.f23 / result.f22;
+              result.avg_price = result.f22 / result.f18;
+          }
+      });
+      return result;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var eGridDiv;
+    eGridDiv = void 0;
+    eGridDiv = document.querySelector('#sales_analysis_nopivot');
+    new agGrid.Grid(eGridDiv, gridOptions);
+    agGrid.simpleHttpRequest({
+      url: $('#sales_analysis_nopivot').data('sales_rep_file')
+    }).then(function(data) {
+      gridOptions.api.setRowData(data);
+    });
+  });
+</script>

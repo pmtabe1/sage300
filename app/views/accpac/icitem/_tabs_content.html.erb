@@ -1,0 +1,183 @@
+<!-- Item Details -->
+<div id="profile" class="tab-pane active">
+  <div class="panel-body">
+    <%= render 'profile' %>
+  </div>
+</div>
+
+<!-- Locations -->
+<div id="locations" class="tab-pane">
+  <div class="panel-body">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Inventory by Locations</h5>
+        <div class="ibox-tools">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a onclick="saveItemInquiryLocationState()">Save State</a></li>
+            <li><a onclick="resetItemInquiryLocationState()">Reset State</a></li>
+          </ul>
+          <a class="fullscreen-link">
+            <i class="fa fa-expand"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content" style="height: 70vh;">
+        <%= render 'locations' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Locations -->
+<div id="inventory" class="tab-pane">
+  <div class="panel-body">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Inventory by Distribution Centers</h5>
+      </div>
+      <div class="ibox-content">
+        <%= render_async all_companies_stock_accpac_icitem_path do %>
+          <h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Getting Inventory...</h4>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sales Orders -->
+<div id="sales_orders" class="tab-pane">
+  <div class="panel-body">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Open Sales Orders</h5>
+        <div class="ibox-tools">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a onclick="saveItemInquirySalesOrdersState()">Save State</a></li>
+            <li><a onclick="resetItemInquirySalesOrdersState()">Reset State</a></li>
+          </ul>
+          <a class="fullscreen-link">
+            <i class="fa fa-expand"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content" style="height: 70vh;">
+        <%= render 'sales_orders' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Purchase Orders -->
+<div id="purchase_orders" class="tab-pane">
+  <%= render 'purchase_orders' %>
+</div>
+
+<!-- Transfers -->
+<div id="transfers" class="tab-pane">
+  <div class="panel-body">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Open Transfers</h5>
+        <div class="ibox-tools">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a onclick="saveItemInquiryTransfersState()">Save State</a></li>
+            <li><a onclick="resetItemInquiryTransfersState()">Reset State</a></li>
+          </ul>
+          <a class="fullscreen-link">
+            <i class="fa fa-expand"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content" style="height: 70vh;">
+        <%= render 'transfers' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Transactions -->
+<div id="transactions" class="tab-pane">
+  <div class="panel-body">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Transactions History</h5>
+        <div class="ibox-tools">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a onclick="saveItemInquiryTransactionState()">Save State</a></li>
+            <li><a onclick="resetItemInquiryTransactionState()">Reset State</a></li>
+          </ul>
+          <a class="fullscreen-link">
+            <i class="fa fa-expand"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content" style="height: 70vh;">
+        <%= render 'transactions' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Customer History Details -->
+<div id="customer_history_details" class="tab-pane">
+  <div class="panel-body">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Sales Orders Hisotry</h5>
+        <div class="ibox-tools">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a onclick="saveItemInquirySalesHistoryState()">Save State</a></li>
+            <li><a onclick="resetItemInquirySalesHistoryState()">Reset State</a></li>
+          </ul>
+          <a class="fullscreen-link">
+            <i class="fa fa-expand"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content" style="height: 70vh;">
+        <%= render 'sales_history' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Vendor History Details -->
+<div id="vendor_history_details" class="tab-pane">
+  <div class="panel-body">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Purchase Orders History</h5>
+        <div class="ibox-tools">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a onclick="saveItemInquiryPurchaseHistoryState()">Save State</a></li>
+            <li><a onclick="resetItemInquiryPurchaseHistoryState()">Reset State</a></li>
+          </ul>
+          <a class="fullscreen-link">
+            <i class="fa fa-expand"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content" style="height: 70vh;">
+        <%= render 'purchase_orders_history' %>
+      </div>
+    </div>
+  </div>
+</div>

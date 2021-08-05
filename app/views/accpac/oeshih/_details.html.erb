@@ -1,0 +1,27 @@
+<table class="table invoice-table">
+  <thead>
+    <tr>
+      <th>Item List</th>
+      <th>UOM</th>
+      <th>Qty Ordered</th>
+      <th>Qty Shipped</th>
+      <th>Unit Price</th>
+      <th>Ext Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accpac_oeshih.oeshid.each do |shipment| %>
+      <tr class="gradeX">
+        <td>
+          <div><strong><%= shipment.ITEM %></strong></div>
+          <small><%= shipment.DESC %></small>
+        </td>
+        <td><%= shipment.SHIUNIT %></td>
+        <td><%= number_with_precision(shipment.QTYORDERED, precision: 4, delimiter: ",") %></td>
+        <td><%= number_with_precision(shipment.QTYSHIPPED, precision: 4, delimiter: ",") %></td>
+        <td><%= number_to_currency(shipment.UNITPRICE, presicion: 2, delimiter: ",") %></td>
+        <td><%= number_to_currency(shipment.EXTSHIMISC, precision: 2, delimiter: ",") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

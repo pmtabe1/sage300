@@ -1,0 +1,187 @@
+<div class="row">
+  <div class="col-lg-4">
+    <%= @company_coverage %>
+    <div class="ibox float-e-margins">
+      <h2 class="font-bold m-b-xs">
+        <%= @accpac_icitem.FMTITEMNO %>
+      </h2>
+      <small><%= @accpac_icitem.DESC %></small>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <!-- Item Ranking -->
+    <% if @accpac_icitem.item_rank.present? %>
+      <div class="text-right">
+        <button class="btn-<%= item_sales_rank_color(@accpac_icitem) %> btn-sm">
+            <i class="fa fa-line-chart"></i> Sales Rank &nbsp;
+            <%= @accpac_icitem.item_rank.abc_sales_rank %> -
+            <%= @accpac_icitem.item_rank.dense_sales_rank %>
+        </button>
+        <button class="btn-<%= item_margin_rank_color(@accpac_icitem) %> btn-sm">
+            <i class="fa fa-bar-chart"></i> Margin Rank &nbsp;
+            <%= @accpac_icitem.item_rank.abc_margin_rank %> -
+            <%= @accpac_icitem.item_rank.dense_margin_rank %>
+        </button>
+        <button class="btn-<%= item_cost_rank_color(@accpac_icitem) %> btn-sm">
+              <i class="fa fa-usd"></i> Cost Rank &nbsp;
+              <%= @accpac_icitem.item_rank.abc_cost_rank %> -
+              <%= @accpac_icitem.item_rank.dense_cost_rank %>
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="ibox-content">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="ibox float-e-margins">
+        <!-- Product image -->
+        <%= img_url %>
+
+        <ul class="stat-list m-t-lg">
+          <li>
+            <strong>Category:</strong><br>
+            <%= @accpac_icitem.CATEGORY %> - <%= Accpac::Iccatg.find(@accpac_icitem.CATEGORY).DESC %>
+          </li>
+          <li>
+            <strong>Net Weight:</strong> <%= @accpac_icitem.UNITWGT %> <%= @accpac_icitem.WEIGHTUNIT %>
+          </li>
+          <li>
+            <strong><i class="fa fa-ticket"></i> HTS:</strong> <%= @accpac_icitem.COMMODIM %>
+          </li>
+          <li>
+            <strong><i class="fa fa-globe"></i> Allow to Web:</strong> <%= allow_to_web(@accpac_icitem.ALLOWONWEB) %>
+          </li>
+          <li>
+            <strong><i class="fa fa-cubes"></i> Packing:</strong> <%= @accpac_icitem.COMMENT1[0,300] %> | <%= @accpac_icitem.COMMENT2[0,300] %>
+          </li>
+          <li>
+            <strong><i class="fa fa-calendar"></i> Last Maintained:</strong> <%= to_date_helper(@accpac_icitem.DATELASTMN) %>
+          </li>
+        </ul>
+
+        <div class="hr-line-dashed"></div>
+        
+        <h4>Optional Fields</h4>
+        <%= render_async optional_fields_accpac_icitem_index_path(id: @accpac_icitem) do %>
+          <h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading Optional Fields...</h4>
+        <% end %>
+
+        <div class="hr-line-dashed"></div>
+
+        <div class="panel-group" id="accordion">
+          <!-- Vendors -->
+          <div class="panel panel-default">
+            <div class="panel-heading"> <h5 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#vendors" aria-expanded="true" class="">Vendors</a>
+              </h5>
+            </div>
+            <div id="vendors" class="panel-collapse collapse" aria-expanded="true" style="">
+              <div class="panel-body">
+                <%= render_async vendors_accpac_icitem_index_path(id: @accpac_icitem) do %>
+                  <h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading vendors...</h4>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <!-- Alternate Items -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#alternateItems" class="collapsed" aria-expanded="false">Alternate Items</a>
+              </h4>
+            </div>
+            <div id="alternateItems" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+              <div class="panel-body">
+                <%= render_async  alternate_items_accpac_icitem_index_path(id: @accpac_icitem) do %>
+                  <h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading alternate items...</h4>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-9">
+      <!-- Sales Orders Trend -->
+      <div>
+        <h3 class="font-bold no-margins">
+          Sales Trend
+        </h3>
+        <small>36 months.</small>
+      </div>
+      <div class="m-t-sm">
+        <div class="row">
+          <div class="col-md-12">
+            <div>
+              <%= line_chart charts_items_sales_trend_path(id: @accpac_icitem.ITEMNO), thousands: ",", prefix: "$", curve: false %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sales nad Purchase Trend Comparison -->
+      <div style="margin-top: 25px;">
+        <h3 class="font-bold no-margins">
+          Sales and Purchases Trend
+        </h3>
+        <small>36 months.</small>
+      </div>
+      <div class="m-t-sm">
+        <div class="row">
+          <div class="col-md-12">
+            <div>
+              <%= line_chart charts_items_sales_and_purchases_trend_path(id: @accpac_icitem.ITEMNO), thousands: ",", curve: false %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class=col-lg-6>
+          <!-- Sales by Years -->
+          <div style="margin-top: 25px;">
+            <span class="pull-right text-right">
+              YTD Net Sales: 
+            </span>
+            <h3 class="font-bold no-margins">
+              Sales by Years
+            </h3>
+            <small>Net sales last 5 years.</small>
+          </div>
+          <div class="m-t-sm">
+            <div class="row">
+              <div class="col-md-12">
+                <%= column_chart charts_items_sales_chart_path(id: @accpac_icitem.ITEMNO), thousands: ",", prefix: "$" %>
+              </div>
+            </div>
+          </div>
+          <div class="m-t-md">
+            <small class="pull-right">
+              <i class="fa fa-clock-o"> </i> Update every 60 seconds.
+            </small>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div style="margin-top: 25px;">
+            <h3 class="font-bold no-margins">
+              Sales Trend by Countries
+            </h3>
+            <small>36 months.</small>
+          </div>
+          <div class="m-t-sm">
+            <div class="row">
+              <div class="col-md-12">
+                <%= geo_chart charts_items_sales_trend_geochart_path(id: @accpac_icitem.ITEMNO), label: "USD" %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

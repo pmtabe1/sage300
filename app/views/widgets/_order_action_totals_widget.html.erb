@@ -1,0 +1,42 @@
+<ul class="stat-list">
+  <!-- Total open orders amount -->
+  <li>
+    <h2 class="no-margins"><%= number_to_currency(order_action_open_orders, precision: 0) %> (<%= open_orders_summary.total_orders %>)</h2>
+    <small>Total open orders amount</small>
+    <table class="table small m-t-sm">
+      <tbody>
+        <% open_orders_summary_by_years.each do |r| %>
+          <tr>
+            <td><%= r.year %></td>
+            <td align="right"><%= number_to_currency(r.total_amount, precision: 0, delimier: ",") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </li>
+  <!-- Total fulfillable -->
+  <li>
+    <h2 class="no-margins"><%= number_to_currency(order_action_fulfillable, precision: 0) %></h2>
+    <small>
+    Total fulfillable amount
+    <%= link_to fulfillable_accpac_oeordh_index_path do %>
+      <i class="fa fa-link"></i> View
+    <% end %>
+    </small>
+  </li>
+  <!-- Total WIP -->
+  <li>
+    <h2 class="no-margins"><%= number_to_currency(order_action_work_in_process, precision: 0) %></h2>
+    <small>Total work in process amount</small>
+  </li>
+  <!-- Total backorders -->
+  <li>
+    <!-- number_to_currency(order_action_backorder, precision: 0) -->
+    <h2 class="no-margins">Coming soon</h2>
+    <small>Total backorder amount
+    <%= link_to backorders_accpac_oeordh_index_path do %>
+      <i class="fa fa-link"></i> View
+    <% end %>
+    </small>
+  </li>
+</ul>

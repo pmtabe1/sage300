@@ -1,0 +1,14 @@
+<div class="panel-body">
+  <div class="ibox float-e-margins">
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-lg-8">
+          <%= render_async documents_accpac_icitem_index_path(id: @accpac_icitem) do %>
+            <h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading shipping documents...</h4>
+          <% end %>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

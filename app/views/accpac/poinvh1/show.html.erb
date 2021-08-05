@@ -1,0 +1,87 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Invoices</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Purchase Orders
+      </li>
+      <li>
+        Invoices
+      </li>
+      <li class="active">
+        <strong><%= @accpac_poinvh1.INVNUMBER %></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-4">
+    <div class="title-action">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal5">
+				<i class="fa fa-search"></i>&nbsp;Search</button>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="ibox-content p-xl">
+        <div class="row">
+          <!-- Invoice Header -->
+          <div class="col-sm-6">
+            <h5>From:</h5>
+            <address>
+              <strong><%= @accpac_poinvh1.VDNAME %></strong><br>
+              <%= link_to @accpac_poinvh1.VDCODE.gsub(/\s+/, ''), accpac_apven_path(id: @accpac_poinvh1.VDCODE) %><br>
+              <%= @accpac_poinvh1.VDADDRESS1 %> <%= @accpac_poinvh1.VDADDRESS2 %><br>
+              <%= @accpac_poinvh1.VDCITY %>, <%= @accpac_poinvh1.VDSTATE %> <%= @accpac_poinvh1.VDZIP %><br>
+              <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_poinvh1.VDPHONE) %>
+            </address>
+          </div>
+
+          <div class="col-sm-6 text-right">
+            <h4>Invoice No.</h4>
+            <h4 class="text-navy"><%= @accpac_poinvh1.INVNUMBER %></h4>
+            <span>To:</span>
+            <address>
+              <strong>Vertilux Ltd.</strong><br>
+            </address>
+            <p>
+              <span><strong>Date:</strong> <%= to_date_helper(@accpac_poinvh1.AUDTDATE) %></span><br />
+            </p>
+          </div>
+        </div>
+        <!--/ End Invoice Header -->
+
+        <div class="table-responsive m-t">
+          <%= render_async details_accpac_poinvh1_path do %>
+            <h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading details...</h4>
+          <% end %>
+        </div>
+
+        <% if can? :read, Accpac::Apven %>
+          <table class="table invoice-total">
+            <tbody>
+              <tr>
+                <td><strong>TOTAL :</strong></td>
+                <td><%= number_to_currency(@accpac_poinvh1.EXTENDED, precision: 2, delimiter: ",") %></td>
+              </tr>
+            </tbody>
+          </table>
+        <% end %>
+
+        <div class="well m-t">
+          <strong>Description:</strong> <%= @accpac_poinvh1.DESCRIPTIO %><br>
+          <strong>Comments:</strong> <%= @accpac_poinvh1.COMMENT %><br>
+          <strong>Reference:</strong> <%= @accpac_poinvh1.REFERENCE %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<%= render 'modal' %>

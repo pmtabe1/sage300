@@ -1,0 +1,34 @@
+<div class="col-md-3">
+  <h4><i class="fa fa-archive"></i> <%= @accpac_iciceh.DOCNUM %></h4>
+  <h4><i class="fa fa-user"></i> <%= @accpac_iciceh.ENTEREDBY %></h4>
+  <h4><i class="fa fa-calendar-o"></i>
+    <%= @accpac_iciceh.AUDTDATE.to_s.to_date %>
+  </h4>
+  <h4>
+    <i class="fa fa-tags"></i>
+    Status: <%= iciceh_status(@accpac_iciceh) %>
+  </h4>
+</div>
+
+<div class="col-md-5">
+  <h4>Descriptions:</h4>
+  <blockquote>
+    <p><%= @accpac_iciceh.HDRDESC %></p>
+    <p>Reference: <%= @accpac_iciceh.REFERENCE %></p>
+    <p>Employee: <%= @accpac_iciceh.EMPLOYEENO %></p>
+  </blockquote>
+</div>
+
+<div class="col-md-4">
+  <h4><i class="fa fa-truck"></i> Ship Via:
+    <% @accpac_iciceh.iciceho.where(OPTFIELD: "SHIPVIA").each do |via| %>
+      <%= via.VALUE %>
+    <% end %>
+  </h4>
+  <h4><i class="fa fa-map-signs"></i> Reference:
+    <% @accpac_iciceh.iciceho.where(OPTFIELD: "REFERENCE").each do |via| %>
+      <%= via.VALUE %>
+    <% end %>
+  </h4>
+  <%= image_tag generate_barcode(@accpac_iciceh.DOCNUM), class: "img-responsive" %>
+</div>

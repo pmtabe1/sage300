@@ -1,0 +1,10 @@
+<div class="col-lg-6">
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h5><i class="fa fa-bar-chart"></i> Sales by Years</h5>
+    </div>
+    <div class="ibox-content">
+      <%= column_chart charts_sales_reps_years_sales_chart_path(id: @accpac_arsap.CODESLSP), refresh: 60, thousands: "," %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+exclude_paths:
+- config/
+- db/
+- test/
+- db_sqlserver/
+- vendor/
+- app/assets/javascripts/gmaps.js

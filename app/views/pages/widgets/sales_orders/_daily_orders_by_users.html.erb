@@ -1,0 +1,18 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div>
+      <h3 class="font-bold no-margins">
+        Sales Order Entered by Users | Daily
+      </h3>
+    </div>
+    <div class="m-t-sm">
+      <div class="row">
+        <div class="col-md-12">
+          <div>
+            <%= line_chart charts_sales_orders_daily_orders_by_users_path, height: "450px", thousands: ",", curve: false, legend: "right", adapter: "highcharts" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<% if params[:year].present? %>
+  $("#as_of").html("<%= escape_javascript(render partial: 'trial_balance_as_of') %>");
+  $("#download").html("<%= escape_javascript(render partial: 'download') %>");
+  $("#filters").hide();
+<% else %>
+  $("#balances").html("<%= escape_javascript(render partial: 'trial_balance') %>");
+  $("#filters").hide();
+<% end %>

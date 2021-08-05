@@ -1,0 +1,115 @@
+<div class="panel-body">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <ul class="stat-list m-t-lg">
+            <li>
+              <address>
+                <strong>Address</strong><br>
+                <%= @accpac_apven.TEXTSTRE1 %> <%= @accpac_apven.TEXTSTRE2 %> <%= @accpac_apven.TEXTSTRE3 %> <%= @accpac_apven.TEXTSTRE4 %><br>
+                <%= @accpac_apven.NAMECITY %>, <%= @accpac_apven.CODESTTE %> <%= @accpac_apven.CODEPSTL %><br>
+                <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_apven.TEXTPHON1) %>
+              </address>
+            </li>
+            <li>
+              <strong>Group</strong><br>
+              <%= @accpac_apven.IDGRP %>
+            </li>
+            <li>
+              <strong>Contact(s)</strong><br>
+              <%= @accpac_apven.NAMECTAC %>
+            </li>
+
+            <div class="hr-line-dashed"></div>
+
+            <li>
+              <strong>Number of Open Documents</strong><br>
+              <%= @accpac_apven.CNTOPENINV %>
+            </li>
+            <li>
+              <strong>Number of Paid Invoices</strong><br>
+              <%= @accpac_apven.CNTINVPAID %>
+            </li>
+            <li>
+              <strong>Vendor Since:</strong><br>
+              <% if @accpac_apven.DATESTART > 0 %>
+                <%= to_date_helper(@accpac_apven.DATESTART) %>
+              <% else %>
+                -
+              <% end %>
+            </li>
+            <li>
+              <strong>Day of Last Activity</strong><br>
+              <% if @accpac_apven.DATELASTAC > 0 %>
+                <%= to_date_helper(@accpac_apven.DATELASTAC) %>
+              <% else %>
+                -
+              <% end %>
+            </li>
+            <li>
+              <strong>Date of Last Invoice</strong><br>
+              <% if @accpac_apven.DATELASTIV > 0 %>
+                <%= to_date_helper(@accpac_apven.DATELASTIV) %>
+              <% else %>
+                -
+              <% end %>
+            </li>
+            <li>
+              <strong>Date of Last Receipt</strong><br>
+              <% if @accpac_apven.DATELASTPA > 0 %>
+                <%= to_date_helper(@accpac_apven.DATELASTPA) %>
+              <% else %>
+                -
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-9">
+      <!-- Purchase Orders Trend -->
+      <div>
+        <h3 class="font-bold no-margins">
+          Invoices Trend
+        </h3>
+        <small>36 months.</small>
+      </div>
+      <div class="m-t-sm">
+        <div class="row">
+          <div class="col-md-12">
+            <div>
+              <%= line_chart charts_vendors_invoices_trend_path(id: @accpac_apven.VENDORID), thousands: ",", prefix: "$", curve: false %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Net purchases last 5 years -->
+      <div style="margin-top: 25px;">
+        <span class="pull-right text-right">
+          YTD Net Payments: <%= number_to_currency(ytd_payments(@accpac_apven.VENDORID)) %>
+        </span>
+        <h3 class="font-bold no-margins">
+          Payments by Years
+        </h3>
+        <small>Net purchases last 5 years.</small>
+      </div>
+      <div class="m-t-sm">
+        <div class="row">
+          <div class="col-md-12">
+            <div>
+              <%= column_chart charts_vendors_payments_chart_path(id: @accpac_apven.VENDORID), thousands: ",", prefix: "$" %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="m-t-md">
+        <small class="pull-right">
+          <i class="fa fa-clock-o"> </i> Update every 60 seconds.
+        </small>
+      </div>
+    </div>
+  </div>
+</div>

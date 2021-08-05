@@ -1,0 +1,43 @@
+<% upcomming_documents(@accpac_icitem.FMTITEMNO).each do |row| %>
+  <p class="m-b-xs"><strong>Quantity: <%= number_with_precision(row.quantity, precision: 2, delimiter: ',') %></strong></p>
+  <p>Container Number: <%= container(row.invoice) %></p>
+  <p>To Location: <%= container_to_location(row.invoice.parameterize) %></p>
+
+  <% results = vizion_client.reference_updates(row.uuid) %>
+  <% @reference = results %>
+
+  <% if row.uuid.present? %>
+    <% @reference[0]['payload']['milestones'].select{|a| a['location'].present?}.group_by{|h| [h['location']['city']]}.each do |location, event| %>
+      <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+        <div class="vertical-timeline-block">
+          <div class="vertical-timeline-icon navy-bg">
+            <i class="fa fa-ship"></i>
+          </div>
+          <div class="vertical-timeline-content">
+            <h3><%= location.join('') %></h3>
+            <% event.each do |e|  %>
+              <p><span class="vertical-date"><small><%= e['timestamp'].to_date %></small></span> - <%= e['description'] %></p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <% @reference[0]['payload']['milestones'].select{|d| d['raw_description'] == 'ETA'}.each do |eta| %>
+      <div id="" class="vertical-container light-timeline no-margins">
+        <div class="vertical-timeline-block">
+          <div class="vertical-timeline-icon navy-bg">
+            <i class="fa fa-map-marker"></i>
+          </div>
+          <div class="vertical-timeline-content">
+            <h3>ETA</h3>
+            <p><span class="vertical-date"><small><%= eta['timestamp'].to_date %></small></span> - <%= eta['description'] %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="alert alert-warning">
+      <i class="fa fa-exclamation-triangle"></i> <%= @reference %>
+    </div>
+  <% end %>
+<% end %>

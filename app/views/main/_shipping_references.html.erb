@@ -1,0 +1,24 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div class="scroll_content">
+      <h2>Shipping References</h2>
+      <div class="hr-line-dashed"></div>
+      <% if @shipping_references.present? %>
+        <% @shipping_references.each do |reference| %>
+          <div class="search-result">
+            <h3><%= link_to reference.number, reference %></h3>
+            <a href="#" class="search-link"><%= reference_customer(reference) %></a>
+            <i class="fa fa-clock-o"></i> <%= reference.created_at.strftime("%Y-%m-%d") %><br>
+            <i class="fa fa-user" style="margin-top: 10px;"></i> <%= User.find(reference.user.id).full_name %>
+            <div class="pull-right">
+              <%= shipping_status(reference) %>
+            </div>
+          </div>
+          <div class="hr-line-dashed"></div>
+        <% end %>
+      <% else %>
+        No matches found!
+      <% end %>
+    </div>
+  </div>
+</div>

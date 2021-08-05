@@ -1,0 +1,170 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-6">
+    <h2>Finance</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Finance
+      </li>
+      <li class="active">
+        <b>Statements</b>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-3">
+      <%= render 'menu' %>
+    </div>
+
+    <div class="col-lg-9 animated fadeInRight">
+      <div id="project">
+        <div class="mail-box-header">
+          <h2><%= company_name %></h2>
+        </div>
+      </div>
+
+      <div class="mail-box" id="ibox1">
+        <div class="ibox-content" id="balances">
+          <%= render 'spiner' %>
+          <div class="row">
+            <div class=" col-lg-3">
+              <h5>Revenue <span class="pull-right"><%= revenue_variance %></span></h5>
+              <div id="revenue-spark"></div>
+            </div>
+            <div class=" col-lg-3">
+              <h5>Cost of Goods Sold <span class="pull-right"><%= cost_of_sales_variance %></span></h5>
+              <div id="cost-of-sales-spark"></div>
+            </div>
+            <div class=" col-lg-3">
+              <h5>Expenses <span class="pull-right"><%= expenses_variance %></span></h5>
+              <div id="expenses-spark"></div>
+            </div>
+            <div class=" col-lg-3">
+              <h5>Net Income <span class="pull-right"><%= net_income_variance %></span></h5>
+              <div id="income-spark"></div>
+            </div>
+
+            <div class="col-lg-12" style="margin-top:50px;">
+              <div class="ibox float-e-margins">
+                <div>
+                  <span class="pull-right text-right">
+                    <small>
+                      AP and AR Balance analysis: <strong>All customer and vendors.</strong><br>
+                      These charts refresh every 1 min.
+                    </small>
+                  </span>
+                  <h3 class="font-bold no-margins">
+                    AP and AR Balance
+                  </h3>
+                </div>
+                <div class="m-t-sm">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <%= column_chart charts_finance_aged_receivables_path, height: "350px", prefix: "$", thousands: ",", refresh: 60, xtitle: "Aged Receivables: #{number_to_currency(total_customers_dues)}" %>
+                    </div>
+                    <div class="col-md-6">
+                      <%= column_chart charts_finance_aged_payables_path, height: "350px", prefix: "$", thousands: ",", refresh: 60, xtitle: "Aged Payables: #{number_to_currency(total_vendors_dues)}" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+	</div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal inmodal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    </div>
+  </div>
+</div>
+
+<script>
+  $('.modal-dialog').draggable({
+    handle: ".modal-header"
+  });
+
+  $(function() {
+    $('#toggleTrialBalance').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+    $('#toggleBalanceSheet').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+    $('#toggleIncomeStatement').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+    $('#toggleCashFlow').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+    $('#toggleLiquidity').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+    $('#toggleLeverage').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+    $('#toggleEfficiency').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+    $('#toggleProfitability').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+    $('#toggleReceivable').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+    $('#toggleChartExpenses').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+    $('#toggleExpenses').on('click', function(){
+      $('#ibox1').children('.ibox-content').toggleClass('sk-loading');
+    })
+  });
+</script>
+
+<script type="text/javascript">
+  $(function() {
+    $("#revenue-spark").sparkline(<%= sparkline_revenue %>, {
+      type: 'line',
+      width: '100%',
+      height: '50',
+      lineColor: '#1ab394',
+      fillColor: "transparent"
+    });
+
+    $("#income-spark").sparkline(<%= sparkline_net_income %>, {
+      type: 'line',
+      width: '100%',
+      height: '50',
+      lineColor: '#1ab394',
+      fillColor: "transparent"
+    });
+
+    $("#cost-of-sales-spark").sparkline(<%= sparkline_cost_of_sales %>, {
+      type: 'line',
+      width: '100%',
+      height: '50',
+      lineColor: '#1ab394',
+      fillColor: "transparent"
+    });
+
+    $("#expenses-spark").sparkline(<%= sparkline_expenses %>, {
+      type: 'line',
+      width: '100%',
+      height: '50',
+      lineColor: '#1ab394',
+      fillColor: "transparent"
+    });
+  });
+</script>
+

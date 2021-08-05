@@ -1,0 +1,105 @@
+<%= render 'spiner' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Accouts Receivable Analysis</h2>
+    <p>This ratios are used to measure how well a company is utilizing its assets and resources.</p>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Accounts Receivable Turnover</h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Net Sales
+                  </td>
+                  <td align="right" class="no-borders">
+                    <!-- Revenue -->
+                    <% revenue=0 %>
+                    <% @revenue.each do |r| %>
+                      <% revenue = revenue+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <%= number_to_human(revenue, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Average Accounts Receivable
+                  </td>
+                  <td align="right">
+                    <% accounts_receivable=0 %>
+                    <% @accounts_receivable.each do |r| %>
+                      <% accounts_receivable = (accounts_receivable+fiscal_set(r, current_period, current_year)) %>
+                      <% accounts_receivable = (accounts_receivable+fiscal_set(r, 'ob', current_year))/2 %>
+                    <% end %>
+                    <%= number_to_human(accounts_receivable, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle text-navy"></i>
+                  </td>
+                  <td align="right">
+                    <%= number_with_precision(revenue/accounts_receivable, precision: 2) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>We collected average accounts receivable approximately <span class="text-navy"><%= number_with_precision(revenue/accounts_receivable, precision: 2) %></span> times over the fiscal period ended <%= "#{current_year}/#{current_period}" %>.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Number of Days' Sales in Receivable </h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Average Accounts Receivable
+                  </td>
+                  <td align="right" class="no-borders">
+                    <%= number_to_human(accounts_receivable, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Average Daily Sales
+                  </td>
+                  <td align="right">
+                    <%= number_to_human(ave_daily_sales_current_year, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle text-navy"></i>
+                  </td>
+                  <td align="right">
+                    <%= number_with_precision(accounts_receivable/ave_daily_sales_current_year, precision: 1) %> days
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>The number of days' sales in receivable is an estimate of the time (in days) that the accounts receivable have been outstanding.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

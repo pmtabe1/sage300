@@ -1,0 +1,17 @@
+<div class="btn-group">
+  <ul class="nav navbar-right">
+    <li class="dropdown">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Request Documents <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <% DocumentType.select("id, name, JSON_VALUE(preferences,'$.multiple_po') AS multiple_po").order("JSON_VALUE(preferences,'$.position') ASC").each do |document_type| %>
+          <li>
+            <%= link_to "Request #{document_type.name}", document_request_document_type_path(id: document_type.id, name: document_type.name),
+              remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Loading..."} %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,8 @@
+<div class="ibox">
+  <div class="ibox-content">
+    <h5><%= t('widgets.last_year_net_sales') %></h5>
+    <h1 class="no-margins"><%= number_to_currency(net_sales_last_year, precision: 0) %></h1>
+    <%= net_sales_percentage %>
+    <small>Diff Net Sales</small>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div class="scroll_content">
+      <h2>Vendors</h2>
+      <div class="hr-line-dashed"></div>
+      <% if @vendors.present? %>
+        <% @vendors.each do |vendor| %>
+          <div class="search-result">
+            <h3><%= link_to vendor.VENDORID, vendor %></h3>
+              <a href="#" class="search-link"><%= vendor.CODECTRY %></a>
+              <p><%= vendor.VENDNAME %></p>
+          </div>
+          <div class="hr-line-dashed"></div>
+        <% end %>
+      <% else %>
+        No matches found!
+      <% end %>
+    </div>
+  </div>
+</div>

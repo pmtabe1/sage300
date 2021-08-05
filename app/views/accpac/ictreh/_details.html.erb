@@ -1,0 +1,27 @@
+<table class="table invoice-table">
+  <thead>
+    <tr>
+      <th>Item No.</th>
+      <th>From/To Loc</th>
+      <th>Unit</th>
+      <th>Quantity</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accpac_ictreh.ictred.each do |detail| %>
+      <tr class="gradeX">
+        <td>
+          <div>
+            <strong><%= detail.ITEMNO %></strong>
+          </div>
+          <small><%= detail.ITEMDESC %></small>
+        </td>
+        <td><%= detail.FROMLOC %> / <%= detail.TOLOC %></td>
+        <td><%= detail.UNIT %></td>
+        <td><%= number_with_precision(detail.QUANTITY, precision: 2) %></td>
+        <td><%= number_to_currency(detail.EXTCOST, precision: 2) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

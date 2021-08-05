@@ -1,0 +1,140 @@
+<%= render 'spiner' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Balance Sheet</h2>
+      </div>
+      <div class="col-md-8">
+        <%= form_tag balance_sheet_accpac_glacgrp_index_path(format: :js), method: :get, remote: true, class: "form-inline pull-right" do %>
+          <div class="form-group">
+            <%= select_tag 'year', options_for_select(Accpac::Glacgrp::YEARS, selected: current_year), {class: "form-control input-sm"} %>
+          </div>
+          <div class="form-group">
+            <%= select_tag 'period', options_for_select(Accpac::Glacgrp::PERIODS, selected: current_period), {class: "form-control input-sm"} %>
+          </div>
+          <%= button_tag "Update", class: "btn btn-sm btn-primary", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Loading..." } %>
+        <% end %>
+      </div>
+    </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="text-right">Amount</th>
+        </tr>
+      </thead>
+      <tbody id="as_of">
+        <!-- Current Assets -->
+        <% total_current_assets=0 %>
+        <% @current_assets.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year), precision: 2) %></td>
+          </tr>
+          <% total_current_assets = total_current_assets+fiscal_set(r, current_period, current_year) %>
+        <% end %>
+        <tr>
+          <td><b>Current Assets</b></td>
+          <td align="right"><b><%= number_to_currency(total_current_assets, precision: 2) %></b></td>
+        </tr>
+
+        <!-- Fixed Assets -->
+        <% total_fixed_assets=0 %>
+        <% @fixed_assets.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year), precision: 2) %></td>
+          </tr>
+          <% total_fixed_assets = total_fixed_assets+fiscal_set(r, current_period, current_year) %>
+        <% end %>
+
+        <!-- Other Assets -->
+        <% other_assets=0 %>
+        <% @other_assets.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year), precision: 2) %></td>
+          </tr>
+          <% other_assets = other_assets+fiscal_set(r, current_period, current_year) %>
+        <% end %>
+
+        <!-- Depreciation -->
+        <% depreciation=0 %>
+        <% @depreciation.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year)*-1, precision: 2) %></td>
+          </tr>
+          <% depreciation = depreciation+(fiscal_set(r, current_period, current_year)*-1) %>
+        <% end %>
+        <tr class="info">
+          <td><b>Total Assets</b></td>
+          <td align="right"><b><%= number_to_currency((total_current_assets+total_fixed_assets+other_assets-depreciation), precision: 2) %></b></td>
+        </tr>
+
+
+        <!-- Current Liabilities -->
+        <% total_current_liabilities=0 %>
+        <% @current_liabilities.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year)*-1, precision: 2) %></td>
+          </tr>
+          <% total_current_liabilities = total_current_liabilities+(fiscal_set(r, current_period, current_year)*-1) %>
+        <% end %>
+
+        <!-- Other Liabilities -->
+        <% other_liabilities=0 %>
+        <% @other_liabilities.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year)*-1, precision: 2) %></td>
+          </tr>
+          <% other_liabilities = other_liabilities+(fiscal_set(r, current_period, current_year)*-1) %>
+        <% end %>
+
+        <!-- Long Term Liabilities -->
+        <% long_term_liabilities=0 %>
+        <% @long_term_liabilities.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year)*-1, precision: 2) %></td>
+          </tr>
+          <% long_term_liabilities = long_term_liabilities+(fiscal_set(r, current_period, current_year)*-1) %>
+        <% end %>
+        <tr>
+          <td><b>Total Liabilities</b></td>
+          <td align="right"><b><%= number_to_currency(total_current_liabilities+other_liabilities+long_term_liabilities, precision: 2) %></b></td>
+        </tr>
+
+        <!-- Equity -->
+        <% equity=0 %>
+        <% @equity.each do |r| %>
+          <tr>
+            <td><%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year)*-1, precision: 2) %></td>
+          </tr>
+          <% equity = equity+(fiscal_set(r, current_period, current_year)*-1) %>
+        <% end %>
+
+        <!-- Profit (Loss) -->
+        <% profit_loss=0 %>
+        <% @profit_loss.each do |r| %>
+          <% profit_loss = profit_loss+(fiscal_set(r, current_period, current_year)*-1) %>
+        <% end %>
+        <tr>
+          <td>Profit (Loss)</td>
+          <td align="right"><%= number_to_currency(profit_loss, precision: 2) %></td>
+        </tr>
+
+        <tr class="info">
+          <td><b>Total Liabilities + Equity</b></td>
+          <td align="right"><b><%= number_to_currency((total_current_liabilities+other_liabilities+long_term_liabilities+equity+profit_loss), precision: 2) %></b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

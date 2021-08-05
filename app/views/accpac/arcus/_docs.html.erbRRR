@@ -1,0 +1,22 @@
+<!-- header -->
+<div class="row">
+  <div class="col-md-12">
+    <h3><i class="fa fa-book"></i> Documents:</h3>
+  </div>
+</div>
+
+<!-- content -->
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#rma" aria-expanded="true" aria-controls="collapseOne">RMA</a>
+        </h4>
+      </div>
+      <div id="rma" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+          <%= render 'rma' %>
+        </div>
+      </div>
+    </div>
+</div>

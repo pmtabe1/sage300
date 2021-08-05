@@ -1,0 +1,27 @@
+<table class="table invoice-table">
+  <thead>
+    <tr>
+      <th>Item No.</th>
+      <th>Type</th>
+      <th>Unit</th>
+      <th>Quantity</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accpac_icasen.icassmd.each do |detail| %>
+      <tr class="gradeX">
+        <td>
+          <div>
+            <strong><%= detail.FMTITEMNO %></strong>
+          </div>
+          <small><%= detail.ITEMDESC %></small>
+        </td>
+        <td><%=  assembly_tran_type(detail.TRANSTYPE) %></td>
+        <td><%= detail.BUILDUNIT %></td>
+        <td><%= number_with_precision(detail.BUILDQTY, precision: 2) %></td>
+        <td><%= number_to_currency(detail.BUILDCOST, precision: 2) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

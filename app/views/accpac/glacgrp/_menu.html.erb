@@ -1,0 +1,33 @@
+<div class="ibox float-e-margins">
+  <div class="mailbox-content">
+    <div class="file-manager">
+      <div class="space-25"></div>
+      <h5>Statements</h5>
+      <ul class="folder-list m-b-md" style="padding: 0">
+        <li><%= link_to "Trial Balance", trial_balance_accpac_glacgrp_index_path, remote: true, id: "toggleTrialBalance" %></li>
+        <li><%= link_to "Balance Sheet", balance_sheet_accpac_glacgrp_index_path, remote: true, id: "toggleBalanceSheet" %></li>
+        <li><%= link_to "Income Statement", income_statement_accpac_glacgrp_index_path, remote: true, id: "toggleIncomeStatement" %></li>
+        <li><%= link_to "Cash Flow Statement", cash_flow_statement_accpac_glacgrp_index_path, remote: true, id: "toggleCashFlow" %></li>
+      </ul>
+      <h5>Ratios</h5>
+      <ul class="folder-list m-b-md" style="padding: 0">
+        <li><%= link_to "Liquidity", liquidity_accpac_glacgrp_index_path, remote: true, id: "toggleLiquidity" %></li>
+        <li><%= link_to "Leverage", leverage_accpac_glacgrp_index_path, remote: true, id: "toggleLeverage" %></li>
+        <li><%= link_to "Efficiency", efficiency_accpac_glacgrp_index_path, remote: true, id: "toggleEfficiency" %></li>
+        <li><%= link_to "Profitability", profitability_accpac_glacgrp_index_path, remote: true, id: "toggleProfitability" %></li>
+        <li><%= link_to "Account Receivables", receivable_accpac_glacgrp_index_path, remote: true, id: "toggleReceivable" %></li>
+      </ul>
+      <h5>Analysis</h5>
+      <ul class="folder-list m-b-md" style="padding: 0">
+        <li><%= link_to "Cost Centers", expenses_accpac_glacgrp_index_path, remote: true, id: "toggleExpenses" %></li>
+        <li><%= link_to "Accounts Analysis", fiscal_sets_accpac_glacgrp_index_path, id: "toggleFiscalSets" %></li>
+      </ul>
+      <h5>Charts</h5>
+      <ul class="folder-list m-b-md" style="padding: 0">
+        <li><%= link_to "Expenses", chart_expenses_accpac_glacgrp_index_path, remote: true, id: "toggleChartExpenses" %></li>
+      </ul>
+      <div id=filters></div>
+    </div>
+  </div>
+</div>
+

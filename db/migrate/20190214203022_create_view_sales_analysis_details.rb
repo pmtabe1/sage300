@@ -1,0 +1,123 @@
+class CreateViewSalesAnalysisDetails < ActiveRecord::Migration[5.1]
+  def change
+    execute <<-SQL
+      drop view if exists SalesAnalysisDetails
+    SQL
+
+    execute <<-SQL
+      CREATE VIEW SalesAnalysisDetails AS
+      SELECT
+        LTRIM(RTRIM(cus.IDCUST)) AS IDCUST, LTRIM(RTRIM(cus.NAMECUST)) AS NAMECUST,  LTRIM(RTRIM(cus.CODESLSP1)) AS CODESLSP1,
+        LTRIM(RTRIM(cus.CODESLSP2)) AS CODESLSP2, LTRIM(RTRIM(cus.CODESLSP3)) AS CODESLSP3, LTRIM(RTRIM(cus.IDGRP)) AS IDGRP,
+        LTRIM(RTRIM(cus.IDNATACCT)) AS IDNATACCT, LTRIM(RTRIM(cus.CODETERR)) AS CODETERR, LTRIM(RTRIM(cus.NAMECITY)) AS NAMECITY,
+        LTRIM(RTRIM(cus.CODESTTE)) AS CODESTTE, LTRIM(RTRIM(cus.CODECTRY)) AS CODECTRY, LTRIM(RTRIM(i.ITEMNO)) AS ITEMNO, 
+        LTRIM(RTRIM(i.FMTITEMNO)) AS FMTITEMNO, LTRIM(RTRIM(i.[DESC])) AS [DESC],
+        (
+            SELECT LTRIM(RTRIM(VALUE))
+            FROM dbo.ICITEMO AS o
+            WHERE (i.ITEMNO = ITEMNO) AND (OPTFIELD = 'CATEGORY')
+        ) AS OPTFCAT,
+        (
+            SELECT LTRIM(RTRIM(VALUE))
+            FROM dbo.ICITEMO AS o
+            WHERE (i.ITEMNO = ITEMNO) AND (OPTFIELD = 'DEPT')
+        ) AS OPTFDEP,
+        (
+            SELECT LTRIM(RTRIM(VALUE))
+            FROM dbo.ICITEMO AS o
+            WHERE (i.ITEMNO = ITEMNO) AND (OPTFIELD = 'PRODUCT')
+        ) AS OPTFPROD,
+        (
+            SELECT LTRIM(RTRIM(VALUE))
+            FROM dbo.ICITEMO AS o
+            WHERE (i.ITEMNO = ITEMNO) AND (OPTFIELD = 'TYPE')
+        ) AS OPTFTYPE,
+        (
+            SELECT LTRIM(RTRIM(VALUE))
+            FROM dbo.ICITEMO AS o
+            WHERE (i.ITEMNO = ITEMNO) AND (OPTFIELD = 'COLOR')
+        ) AS OPTFCOL,
+        (
+            SELECT LTRIM(RTRIM(VALUE))
+            FROM dbo.ICITEMO AS o
+            WHERE (i.ITEMNO = ITEMNO) AND (OPTFIELD = 'SUBFAMILY')
+        ) AS SUBFAMILY,
+        LTRIM(RTRIM(i.CATEGORY)) AS CATEGORY, LTRIM(RTRIM(c.[DESC])) AS CATDESC,  LTRIM(RTRIM(sb.SALESPER)) AS SALESPER,
+        LTRIM(RTRIM(sb.TERRITORY)) AS TERRITORY, LTRIM(RTRIM(sb.LOCATION)) AS LOCATION, LTRIM(RTRIM(i.COMMODIM)) AS COMMODIM,
+        sb.YR, sb.PERIOD, sb.TRANDATE, sb.QTYSOLD, sb.FAMTSALES, sb.FCSTSALES, sb.FRETSALES, (sb.FAMTSALES - sb.FRETSALES) AS NETSALES,
+        (sb.FAMTSALES - sb.FRETSALES - sb.FCSTSALES) AS MARAMOUNT,
+        ISNULL((sb.FAMTSALES - sb.FRETSALES) - sb.FCSTSALES / NULLIF (sb.FAMTSALES - sb.FRETSALES, 0), 0) AS MARPERCENT,
+
+        CASE
+          WHEN DATEPART(dy, CONVERT(DATE, NULLIF (CONVERT(VARCHAR(10), CONVERT(INT, TRANDATE)), 0))) <= DATEPART(dy, GETDATE())
+          THEN QTYSOLD
+          ELSE 0
+        END AS YTDQTYSOLD,
+
+        CASE
+          WHEN DATEPART(dy, CONVERT(DATE, NULLIF (CONVERT(VARCHAR(10), CONVERT(INT, [TRANDATE])), 0))) <= DATEPART(dy, GETDATE())
+          THEN FAMTSALES
+          ELSE 0
+        END AS YTDFAMTSALES, 
+                        
+        CASE
+          WHEN DATEPART(dy, CONVERT(DATE, NULLIF (CONVERT(VARCHAR(10), CONVERT(INT, [TRANDATE])), 0))) <= DATEPART(dy, GETDATE()) 
+          THEN FCSTSALES
+          ELSE 0
+        END AS YTDFCSTSALES,
+
+        CASE
+          WHEN DATEPART(dy, CONVERT(DATE, NULLIF (CONVERT(VARCHAR(10), CONVERT(INT, [TRANDATE])), 0))) <= DATEPART(dy, GETDATE())
+          THEN FRETSALES
+          ELSE 0
+        END AS YTDFRETSALES,
+
+        CASE WHEN DATEPART(dy, CONVERT(DATE, NULLIF (CONVERT(VARCHAR(10), CONVERT(INT, [TRANDATE])), 0))) <= DATEPART(dy, GETDATE())
+          THEN (FAMTSALES - FRETSALES)
+          ELSE 0
+        END AS YTDNETSALES,
+
+        CASE WHEN DATEPART(dy, CONVERT(DATE, NULLIF (CONVERT(VARCHAR(10), CONVERT(INT, [TRANDATE])), 0))) <= DATEPART(dy, GETDATE())
+          THEN (FAMTSALES - FRETSALES - FCSTSALES) 
+          ELSE 0
+        END AS YTDGROSMARGIN
+
+          -- Vendors
+          ,ISNULL((
+                  SELECT LTRIM(RTRIM(VENDNUM)) + ' - ' + LTRIM(RTRIM(VENDNAME))
+                  FROM ICITMV iv
+                  WHERE i.ITEMNO = iv.ITEMNO AND VENDTYPE = 1
+          ), NULL) AS VENDOR1
+          ,ISNULL((
+                  SELECT LTRIM(RTRIM(VENDNUM)) + ' - ' + LTRIM(RTRIM(VENDNAME))
+                  FROM ICITMV iv
+                  WHERE i.ITEMNO = iv.ITEMNO AND VENDTYPE = 2
+          ), NULL) AS VENDOR2
+          ,ISNULL((
+                  SELECT LTRIM(RTRIM(VENDNUM)) + ' - ' + LTRIM(RTRIM(VENDNAME))
+                  FROM ICITMV iv
+                  WHERE i.ITEMNO = iv.ITEMNO AND VENDTYPE = 3
+          ), NULL) AS VENDOR3
+          ,ISNULL((
+                  SELECT LTRIM(RTRIM(VENDNUM)) + ' - ' + LTRIM(RTRIM(VENDNAME))
+                  FROM ICITMV iv
+                  WHERE i.ITEMNO = iv.ITEMNO AND VENDTYPE = 4
+          ),NULL) AS VENDOR4
+          ,ISNULL((
+                  SELECT LTRIM(RTRIM(VENDNUM)) + ' - ' + LTRIM(RTRIM(VENDNAME))
+                  FROM ICITMV iv
+                  WHERE i.ITEMNO = iv.ITEMNO AND VENDTYPE = 5
+          ), NULL) AS VENDOR5
+          ,ISNULL((
+                  SELECT LTRIM(RTRIM(VENDNUM)) + ' - ' + LTRIM(RTRIM(VENDNAME))
+                  FROM ICITMV iv
+                  WHERE i.ITEMNO = iv.ITEMNO AND VENDTYPE = 6
+          ), NULL) AS VENDOR6
+
+        FROM dbo.OESHDT AS sb 
+        LEFT OUTER JOIN dbo.ICITEM AS i ON i.ITEMNO = sb.ITEM
+        LEFT OUTER JOIN dbo.ICCATG AS c ON i.AUDTORG = c.AUDTORG AND i.CATEGORY = c.CATEGORY
+        LEFT OUTER JOIN dbo.ARCUS AS cus ON cus.IDCUST = sb.CUSTOMER
+    SQL
+  end
+end

@@ -1,0 +1,30 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <h2>Widgets</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Widgets
+      </li>
+      <li class="active">
+        <b><%= @widget.name %></b>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated fadeInUp">
+      <div class="ibox">
+        <div class="ibox-content">
+          <div class="row">
+            <%= liquidize @widget.template, 'widget' => @widget %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

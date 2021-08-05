@@ -1,0 +1,10 @@
+<% headers = ['itemcode', 'description', 'location'] %>
+<%= CSV.generate_line headers %>
+<% @accpac_oeordh.accpac_oeordd.each do |order| %>
+	<%= CSV.generate_line([
+			order.ITEM,
+			raw(order.DESC),
+			raw(order.LOCATION)
+		])
+	%>
+<% end %>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= company_name %> | Sage300 Web Application</title>
+    <!-- charts -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <meta name="turbolinks-visit-control" content="reload">
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body class="mini-navbar">
+    <!-- Browser -->
+    <%= current_browser %>
+
+    <!-- flash messages -->
+    <% flash.each do |name, msg| %>
+      <% if msg.is_a?(String) %>
+        <div id="alerts">
+          <div class="alert alert-<%= name.to_s == 'notice' ? 'success' : 'danger' %> text-center" style="margin-bottom: 0px">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <%= content_tag :div do %>
+              <%= msg %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <div id="wrapper" class="<%= params[:controller] %>.<%= params[:action] %>">
+      <%= render 'layouts/navigation' %>
+
+      <div id="page-wrapper" class="gray-bg">
+        <!-- Navigation bar -->
+        <%= render 'layouts/topnavbar' %>
+
+        <!-- Render Async -->
+        <%= content_for :render_async %>
+
+        <%= yield %>
+        <!-- Footer -->
+        <%= render 'layouts/footer' %>
+      </div>
+    </div>
+  </body>
+</html>

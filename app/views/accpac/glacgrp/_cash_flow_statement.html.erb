@@ -1,0 +1,74 @@
+<%= render 'spiner' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Cash Flow Statement <small>(Direct Method)</small></h2>
+      </div>
+      <div class="col-md-4">
+        <span class="pull-right">
+          <%= "As of: #{current_year}/#{current_period}" %>
+        </span>
+      </div>
+    </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="text-right">Amount (YTD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan=2><h4>Cash Flow from Operating Activities</h4></td>
+        </tr>
+        <tr>
+          <td>Cash Received from Customers</td>
+          <td align="right"><%= number_to_currency(cash_received_from_customers, precision: 2) %></td>
+        </tr>
+
+        <!-- Cash Paid to Vendors -->
+        <% paid_to_vendors=0 %>
+        <% cash_paid_to_vendors.each do |r| %>
+          <tr>
+            <td>(-) <%= r.DESCRIPTN.humanize.titleize %></td>
+            <td align="right"><%= number_to_currency(r.AMTINVPDHC, precision: 2) %></td>
+          </tr>
+          <% paid_to_vendors = paid_to_vendors + r.AMTINVPDHC %>
+        <% end %>
+
+        <!-- Salaries -->
+        <% salaries=0 %>
+        <% @salaries.each do |r| %>
+          <tr>
+            <td>(-) <%= r.ACCTGRPDES %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year), precision: 2) %></td>
+          </tr>
+          <% salaries = salaries+fiscal_set(r, current_period, current_year) %>
+        <% end %>
+
+        <!-- Interest Expenses -->
+        <% interest=0 %>
+        <% @interest.each do |r| %>
+          <tr>
+            <td>(-) <%= account_groups_description(r.GRPCOD) %></td>
+            <td align="right"><%= number_to_currency(fiscal_set(r, current_period, current_year), precision: 2) %></td>
+          </tr>
+          <% interest = interest+fiscal_set(r, current_period, current_year) %>
+        <% end %>
+
+        <tr class="info">
+          <td><b>Net Cash Flow by Operating Activities</b></td>
+          <td align="right"><b><%= number_to_currency(cash_received_from_customers-paid_to_vendors-salaries-interest, preicsion: 2) %></b></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Monthly Cash FLow</h2>
+    <div class="m-t-sm">
+      <%= column_chart charts_finance_cash_flow_path, height: "350px", thousands: ",", curve: false, prefix: "$", adapter: "highcharts" %>
+    </div>
+  </div>
+</div>

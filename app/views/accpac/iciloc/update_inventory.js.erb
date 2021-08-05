@@ -1,0 +1,7 @@
+$("#location_diff_items").html("<%= escape_javascript(render partial: 'accpac/icitem/location_diff_items') %>");
+$('#modal').modal('hide');
+
+$(toastr.success('Inventory', 'Successfully save!'));
+$('#cleartoasts').click(function() {
+  toastr.clear();
+});

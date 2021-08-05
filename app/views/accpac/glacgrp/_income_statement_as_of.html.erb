@@ -1,0 +1,38 @@
+<!-- Revenue -->
+<% revenue=0 %>
+<% @revenue.each do |r| %>
+  <tr>
+    <td><%= account_groups_description(r.GRPCOD) %></td>
+    <td align="right"><%= number_to_currency(fiscal_set(r, params[:period], params[:year])*-1, precision: 2) %></td>
+  </tr>
+  <% revenue = revenue+(fiscal_set(r, params[:period], params[:year])*-1) %>
+<% end %>
+
+<!-- Cost of Sales -->
+<% cost_of_sales=0 %>
+<% @cost_of_sales.each do |r| %>
+  <tr>
+    <td><%= account_groups_description(r.GRPCOD) %></td>
+    <td align="right"><%= number_to_currency(fiscal_set(r, params[:period], params[:year]), precision: 2) %></td>
+  </tr>
+  <% cost_of_sales = cost_of_sales+fiscal_set(r, params[:period], params[:year]) %>
+<% end %>
+<tr>
+  <td><b>Gross Profit</b></td>
+  <td align="right"><b><%= number_to_currency(revenue-cost_of_sales, precision: 2) %></b></td>
+</tr>
+
+<!-- Expenses -->
+<% expenses=0 %>
+<% @expenses.each do |r| %>
+  <tr>
+    <td><%= r.ACCTGRPDES %></td>
+    <td align="right"><%= number_to_currency(fiscal_set(r, params[:period], params[:year]), precision: 2) %></td>
+  </tr>
+  <% expenses = expenses+fiscal_set(r, params[:period], params[:year]) %>
+<% end %>
+
+<tr class="info">
+  <td><b>Net Income (Loss)</b></td>
+  <td align="right"><b><%= number_to_currency(revenue-cost_of_sales-expenses, precision: 2) %></b></td>
+</tr>

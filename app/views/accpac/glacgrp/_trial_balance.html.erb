@@ -1,0 +1,73 @@
+<%= render 'spiner' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>
+          Trial Balance
+          <small id="download">
+            <%= link_to trial_balance_accpac_glacgrp_index_path(format: :xls, period: current_period, year: current_year) do %>
+              Download <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+            <% end %>
+          </small>
+        </h2>
+      </div>
+      <div class="col-md-8">
+        <%= form_tag trial_balance_accpac_glacgrp_index_path(format: :js), method: :get, remote: true, class: "form-inline pull-right" do %>
+          <div class="form-group">
+            <%= select_tag 'year', options_for_select(Accpac::Glacgrp::YEARS, selected: current_year), {class: "form-control input-sm"} %>
+          </div>
+          <div class="form-group">
+            <%= select_tag 'period', options_for_select(Accpac::Glacgrp::PERIODS, selected: current_period), {class: "form-control input-sm"} %>
+          </div>
+          <%= button_tag "Update", class: "btn btn-sm btn-primary", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Loading..." } %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="scroll_account_table" style="height: 650px;">
+      <table class="table table-hover table-condensed">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th class="text-right">Debit</th>
+            <th class="text-right">Credit</th>
+          </tr>
+        </thead>
+        <tbody id="as_of">
+          <% debit = 0 %>
+          <% credit = 0 %>
+          <% Accpac::Glamf.all.each do |a| %>
+            <tr>
+              <td><%= "#{a.ACCTID} - #{a.ACCTDESC}" %></td>
+              <% if a.ACCTBAL == '1' %>
+                <td align="right"><%= number_to_currency(fiscal_set(a, current_period, current_year), precision: 2) %></td>
+                <td></td>
+                <% debit = debit+fiscal_set(a, current_period, current_year) %>
+              <% elsif a.ACCTBAL == '2' %>
+                <td></td>
+                <td align="right"><%= number_to_currency(fiscal_set(a, current_period, current_year), precision: 2) %></td>
+                <% credit = credit+fiscal_set(a, current_period, current_year) %>
+              <% end %>
+            </tr>
+          <% end %>
+          <tr>
+            <td><b>Total</b></td>
+            <td align="right"><b><%= number_to_currency(debit, precision: 2) %></b></td>
+            <td align="right"><b><%= number_to_currency(credit, precision: 2) %></b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('.scroll_account_table').slimscroll({
+        height: '650px'
+    })
+  });
+</script>
+

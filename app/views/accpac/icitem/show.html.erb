@@ -1,0 +1,49 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Inventory Control</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Item Inquiry
+      </li>
+      <li class="active">
+        <!-- previous -->
+        <% if @accpac_icitem.previous %>
+          <%= link_to @prev_item do %>
+            <small>Previous</small>	&nbsp;
+          <% end %>
+        <% end %>
+        <%= @accpac_icitem.FMTITEMNO %> | <%= @accpac_icitem.DESC %>
+        <!-- next -->
+        <% if @accpac_icitem.next %>
+          <%= link_to @next_item do %>
+            &nbsp; <small>Next</small>
+          <% end %>
+        <% end %>
+      </li>
+    </ol>
+	</div>
+	<div class="col-lg-4">
+		<div class="title-action">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal5">
+				<i class="fa fa-search"></i>&nbsp;Search</button>
+      </button>
+		</div>
+	</div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+	<div class="row">
+    <div class="tabs-container">
+      <%= render 'tabs' %>
+      <div class="tab-content">
+        <%= render 'tabs_content' %>
+      </div>
+    </div>
+	</div>
+</div>
+
+<!-- Modal -->
+<%= render 'modal' %>

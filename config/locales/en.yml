@@ -1,0 +1,120 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  global:
+    loading: Loading...
+
+  top:
+    search: Search for something...
+
+  menu:
+    settings: Settings
+    dashboard: Dashboard
+    analytics:
+      main: vAnalytics
+      order_action: Order Action
+      sales_analysis:
+        pivot: Pivot Mode
+        gp: Gross Profit
+        charts: Charts
+      purchases_analysis: Purchases Analysis
+      budget: Budget
+    account_payable:
+      main: Account Payable
+      vendor_inquiry: Vendor Inquiry
+      debts: Vendor Debts
+    account_receivable:
+      main: Account Receivable
+      customer_inquiry: Customer Inquiry
+      debts: Customer Debts
+      sales_reps: Sales Reps Inquiry
+    general_ledger:
+      main: General Ledger
+      financial_reports: Financial Reports
+    inventory_control:
+      main: Inventory Control
+      categories: Item Categories
+      item_inquiry: Item Inquiry
+      internal_usage: Internal Usage
+      transfers: Transfers
+      item_change: Item Change
+      duties: Duties
+      reports:
+        main: Reports
+        differences: Differences
+        moving_average: Moving Average
+        location_detail: Location Detail
+        company_detail: Company Detail
+        location_differences: Location Differences
+        inv_vs_sales: Inv vs Sales
+    order_entry:
+      main: Order Entry
+      sales_orders: Sales Orders
+      shipments: Shipments
+      invoices: Invoices
+      misc_charges: Misc Charges
+      order_action:
+        main: Order Action
+        open_orders: Open Orders
+        fulfillable: Fulfillable
+        backorders: Backorders
+        transfer_demand: Transfer Demand
+        drops: Drop/Specials
+        invoices_report: Invoices Report
+        users_report: Users Report
+    purchase_orders:
+      main: Purchase Orders
+      open: Open Purchase Orders
+      purchase_orders: Purchase Orders
+      receipts: Receipts
+      invoices: Invoices
+    application:
+
+  widgets:
+    ytd_net_sales: YTD Net Sales
+    ytd_margin: YTD Margin
+    current_month: Current Month Sales
+    last_year_net_sales: Last Year Net Sales
+    abc_ranking: ABC Items Ranking
+    upcomming_containers: Loading Containers
+    low_stock_a_items: Loading items
+    gp:
+      last_year: Last year
+      current_year: Current Year
+      net_sales: Net Sales
+      cost: Cost of Sales
+      margin: Margin
+      returns: Returns
+    customers:
+      balance: Outstanding Balance
+      open_orders: Open Sales Orders
+      invoices_pending: Invoices Pending
+
+  charts:
+    customers:
+      trend: 
+        header: Sales Trend
+        range: Last 36 months
+      sales_by_years: 
+        header: Sales by Years
+        range: Net sales last 5 years
+        ytd_net_sales: YTD Net Sales

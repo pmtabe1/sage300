@@ -1,0 +1,105 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Receipts</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Purchase Orders
+      </li>
+      <li>
+        Receipts
+      </li>
+      <li class="active">
+        <b><%= @accpac_porcph1.RCPNUMBER %></b>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-4">
+    <div class="title-action">
+      <%= link_to "<i class='fa fa-print fa-lg'></i> Print".html_safe, print_accpac_porcph1_path, target: "_blank", class: "btn btn-primary" %>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal5">
+        <i class="fa fa-search"></i>&nbsp;Search</button>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="ibox-content p-xl">
+        <div class="row">
+          <!-- Purchase Order Header -->
+          <div class="col-sm-6">
+            <h5>From:</h5>
+            <address>
+              <strong><%= @accpac_porcph1.VDNAME %></strong><br>
+              <%= link_to @accpac_porcph1.VDCODE.gsub(/\s+/, ''), accpac_apven_path(id: @accpac_porcph1.VDCODE) %><br>
+              <%= @accpac_porcph1.VDADDRESS1 %> <%= @accpac_porcph1.VDADDRESS2 %><br>
+              <%= @accpac_porcph1.VDCITY %>, <%= @accpac_porcph1.VDSTATE %> <%= @accpac_porcph1.VDZIP %><br>
+              <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_porcph1.VDPHONE) %>
+            </address>
+            <ul class="breadcrumb">
+              <strong>Purchase Order(s):</strong>
+              <% @accpac_porcph1.porcpl.select(:PONUMBER, :PORHSEQ).joins(:poporh1).group(:PONUMBER, :PORHSEQ).each do |po| %>
+                <li><%= link_to po.PONUMBER, accpac_poporh1_path(id: po.PORHSEQ.to_i) %></li>
+              <% end %>
+            </ul>
+            <strong>Addictional Cost:</strong> <%= number_to_currency(@accpac_porcph1.porcps.sum(:AMOUNT), presicion: 2) %>
+            <a data-toggle="modal" href="#additional_cost"> Show Additional Costs</a>
+          </div>
+
+          <div class="col-sm-6 text-right">
+            <h4>Receipt No.</h4>
+            <h4 class="text-navy"><%= @accpac_porcph1.RCPNUMBER %></h4>
+            <span>To:</span>
+            <address>
+              <strong>Vertilux Ltd.</strong><br>
+            </address>
+            <p>
+              <span><strong>Post Date:</strong> <%= to_date_helper(@accpac_porcph1.POSTDATE) %></span><br>
+              <strong>Posted by:</strong> <%= posted_by(@accpac_porcph1.RCPNUMBER, @accpac_porcph1.RCPHSEQ) %></span><br>
+              <strong>Completed:</strong> <%= @accpac_porcph1.ISCOMPLETE %></span>
+            </p>
+          </div>
+        </div>
+        <!--/ End Purchase Order Header -->
+
+        <div class="table-responsive m-t">
+          <%= render_async details_accpac_porcph1_index_path(id: params[:id]) do %>
+            <h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading details...</h4>
+          <% end %>
+        </div>
+
+        <table class="table invoice-total">
+          <tbody>
+            <tr>
+              <td><strong>Subtotal :</strong></td>
+              <td><%= number_to_currency(@accpac_porcph1.EXTENDED, precision: 2, delimiter: ",") %></td>
+            </tr>
+            <tr>
+              <td><strong>Additional Cost :</strong></td>
+              <td><%= number_to_currency(@accpac_porcph1.porcps.sum(:AMOUNT), precision: 2, delimiter: ",") %></td>
+            </tr>
+            <tr>
+              <td><strong>TOTAL :</strong></td>
+              <td><%= number_to_currency((@accpac_porcph1.porcps.sum(:AMOUNT) + @accpac_porcph1.EXTENDED), precision: 2, delimiter: ",") %></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="well m-t">
+          <strong>Description:</strong> <%= @accpac_porcph1.DESCRIPTIO %><br>
+          <strong>Comments:</strong> <%= @accpac_porcph1.COMMENT %><br>
+          <strong>Reference:</strong> <%= @accpac_porcph1.REFERENCE %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<%= render 'modal' %>
+<%= render 'additional_cost' %>

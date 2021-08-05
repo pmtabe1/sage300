@@ -1,0 +1,41 @@
+<ul class="nav nav-tabs" id="itemTab">
+  <li class="active">
+    <a href="#profile" data-toggle="tab" aria-expanded="true">Details</a>
+  </li>
+  <li class="">
+    <a href="#locations" data-toggle="tab" aria-expanded="false">Inventory</a>
+  </li>
+  <li class="">
+    <a href="#inventory" data-toggle="tab" aria-expanded="false">Inv by Dist Centers</a>
+  </li>
+  <li class="">
+    <a href="#sales_orders" data-toggle="tab" aria-expanded="false">S/Os</a>
+  </li>
+  <li class="">
+    <a href="#purchase_orders" data-toggle="tab" aria-expanded="false">P/Os</a>
+  </li>
+  <li class="">
+    <a href="#transfers" data-toggle="tab" aria-expanded="false">Open Transfers</a>
+  </li>
+  <li class="">
+    <a href="#transactions" data-toggle="tab" aria-expanded="false">Transaction History</a>
+  </li>
+  <li class="">
+    <a href="#customer_history_details" data-toggle="tab" aria-expanded="false">Sales History</a>
+  </li>
+  <li class="">
+    <a href="#vendor_history_details" data-toggle="tab" aria-expanded="false">Purchases History</a>
+  </li>
+</ul>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+      localStorage.setItem('ItemActiveTab', $(e.target).attr('href'));
+    });
+    var ItemActiveTab = localStorage.getItem('ItemActiveTab');
+    if(ItemActiveTab){
+      $('#itemTab a[href="' + ItemActiveTab + '"]').tab('show');
+    }
+  });
+</script>

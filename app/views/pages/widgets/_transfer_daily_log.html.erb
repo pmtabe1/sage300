@@ -1,0 +1,90 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div>
+      <span class="pull-right text-right">
+        <small>Daily transfer analysis: <strong>All Locations</strong></small>
+      </span>
+      <h3 class="font-bold no-margins">
+        Trasnfers Log
+      </h3>
+      <small>Transfer 30 days period analysis.</small>
+    </div>
+
+    <div class="m-t-sm">
+      <div class="row">
+        <div class="col-md-8">
+          <span class="pull-right text-right">
+            <%= form_tag charts_transfers_daily_path(format: :js), remote: true, class: "form-inline" do %>
+              <div class="form-group">
+                <%= text_field_tag :from_date, "", class: "datepicker form-control input-sm", placeholder: "From Date" %>
+              </div>
+              <div class="form-group">
+                <%= text_field_tag :to_date, "", class: "datepicker form-control input-sm", placeholder: "To Date" %>
+              </div>
+              <%= button_tag "Update", class: "btn btn-sm btn-default", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Reloading chart, please wait..." } %>
+            <% end %>
+          </span>
+          <div class="m-t-md">
+            <%= line_chart charts_transfers_daily_path, height: "330px", thousands: ",", curve: false, id: "daily-transfers" %>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="scroll_content">
+            <table class="table table-hover margin bottom">
+              <thead>
+                <tr>
+                  <th>No. Lines</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th class="text-center">Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @transfers_location_cost.each do |transfer| %>
+                  <tr>
+                    <td><%= transfer.COUNTER %></td>
+                    <td><%= transfer.FROMLOC %></td>
+                    <td><%= transfer.TOLOC %></td>
+                    <td class="text-center"><%= number_to_currency(transfer.COST, precision: 0) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-t-md">
+      <small class="pull-right">
+        <i class="fa fa-clock-o"> </i>
+        Update on <%= Time.zone.now.strftime("%Y-%m-%d") %> 8.00 am
+      </small>
+      <small>
+        <strong>Transfers log:</strong> This graph represent the daily transfers for the last 30 days.
+      </small>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    // Add slimscroll to element
+    $('.scroll_content').slimscroll({
+        height: '300px'
+    })
+	});
+
+	$(document).ready(function() {
+		$('form').submit(function(e) {
+			e.preventDefault();
+			data = $(this).serialize();
+
+			Chartkick.eachChart( function(chart) {
+				chart.updateData(chart.getDataSource() + '?' + data);
+			});
+
+			return false;
+		});
+	});
+</script>

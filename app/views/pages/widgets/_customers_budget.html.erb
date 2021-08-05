@@ -1,0 +1,60 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div>
+      <h3 class="font-bold no-margins">
+        Budget by Customers
+      </h3>
+      <small>List of customers budget projection comparison with netsales.</small>
+    </div>
+
+    <div class="m-t-sm">
+      <div class="row">
+        <div class="col-lg-3">
+          <ul class="stat-list">
+            <li>
+              <h2 class="no-margins"><%= number_to_currency(budget_projection(current_user.arsap), precision: 0) %></h2>
+              <small>Total Budget</small>
+            </li>
+            <li>
+              <h2 class="no-margins "><%= number_to_currency(ytd_budget, precision: 0) %></h2>
+              <small>YTD Budget</small>
+              <div class="stat-percent"><%= number_to_percentage(ytd_budget_vs_budget_projection(current_user.arsap), precision: 0) %></div>
+              <div class="progress progress-mini">
+                <div style="width: <%= number_to_percentage(ytd_budget_vs_budget_projection(current_user.arsap), precision: 0) %>;" class="progress-bar"></div>
+              </div>
+            </li>
+            <li>
+              <h2 class="no-margins "><%= number_to_currency(net_sales_current_year, precision: 0) %></h2>
+              <small>YTD Netsales</small>
+              <div class="stat-percent"><%= number_to_percentage(ytd_netsales_vs_budget_projection(current_user.arsap), precision: 0) %></div>
+              <div class="progress progress-mini">
+                  <div style="width: <%= number_to_percentage(ytd_netsales_vs_budget_projection(current_user.arsap), precision: 0) %>;" class="progress-bar"></div>
+              </div>
+            </li>
+            <li>
+              <h2 class="no-margins "><%= number_to_currency(ytd_budget_vs_ytd_netsales, precision: 0) %></h2>
+              <small>YTD Diff Netsales/Budget</small>
+              <div class="stat-percent"><%= ytd_budget_vs_ytd_netsales_percentage %></div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <div class="scroll_credit_table" style="height: 300px;">
+            <%= render_async customers_budget_widget_path do %>
+              <h4 class="text-center"><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading...</h4>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    // Add slimscroll to element
+    $('.scroll_credit_table').slimscroll({
+        height: '300px'
+    })
+  });
+</script>

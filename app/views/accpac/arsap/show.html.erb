@@ -1,0 +1,64 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-6">
+    <h2><%= @accpac_arsap.NAMEEMPL.humanize.titleize %></h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Sales Representative Inquiry
+      </li>
+      <li class="active">
+        <strong><%= @accpac_arsap.NAMEEMPL.humanize.titleize %></strong>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+
+    <!-- Sales by Years -->
+    <%= render 'sales_by_years' %>
+
+    <!-- Monthly Sales Comparison Chart -->
+    <%= render 'sales_by_months' %>
+
+    <!-- Customers -->
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5><i class="fa fa-address-book"></i> Customers</h5>
+          <div class="ibox-tools">
+            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+          </div>
+        </div>
+        <div class="ibox-content" style="height: 450px;">
+          <div id="customers_grid" class="ag-theme-balham" style="width: 100%; height: 100%;" 
+            data-customer_path="<%= customers_accpac_arsap_path(format: "json") %>" >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5><i class="fa fa-history"></i> Sales History</h5>
+          <div class="ibox-tools">
+            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+          </div>
+        </div>
+        <div class="ibox-content" style="height: 450px;">
+          <div id="sales_history_grid" class="ag-theme-balham" style="width: 100%; height: 100%;" 
+            data-sales_history_path="<%= sales_history_accpac_arsap_path(format: "json") %>">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

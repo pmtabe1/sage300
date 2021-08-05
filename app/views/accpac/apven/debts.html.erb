@@ -1,0 +1,43 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Vendors</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Vendors
+      </li>
+      <li class="active">
+        <b>Debts</b>
+      </li>
+    </ol>
+	</div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Debts by Vendors</h5>
+          <div class="ibox-tools">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-wrench"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+              <li><a href="#" onclick="saveVendorDebtsState()">Save State</a></li>
+              <li><a href="#" onclick="resetVendorDebtsState()">Reset State</a></li>
+            </ul>
+            <a class="fullscreen-link">
+              <i class="fa fa-expand"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content" style="height: 75vh;">
+          <div id="vendor_debts_grid" style="height: 100%" class="ag-theme-balham" data-vendor_debts_path="<%= debts_accpac_apven_index_url(format: "json") %>"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

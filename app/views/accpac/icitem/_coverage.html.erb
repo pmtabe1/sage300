@@ -1,0 +1,13 @@
+<% if @company_coverage.instance_of? String %>
+    <div class="alert alert-danger">
+      <i class="fa fa-exclamation-triangle"></i> <%= @company_coverage %>
+    </div>
+<% else %>
+  <% if @company_coverage < 4 && current_user.type == "employee" %>
+    <div class="alert alert-warning">
+      <i class="fa fa-exclamation-triangle"></i> The inventory on hand of this item is bellow the average sales.
+      Quantity on hand will cover only <%= number_with_precision(@company_coverage, precision: 2) %> month(s).
+    </div>
+  <% end %>
+<% end %>
+

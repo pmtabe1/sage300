@@ -1,0 +1,80 @@
+<div class="panel-body">
+  <div class="ibox float-e-margins">
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-lg-12" style="margin-bottom: 15px;">
+          <%= link_to "#add_comment", "data-toggle": "modal" do %>
+            <button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-comments-o"></i> Add comment</button>
+          <% end %>
+        </div>
+        <div class="col-lg-12">
+          <div id="arcmm">
+            <%= render partial:  @accpac_arcus.arcmm.reverse %>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="add_comment" tabindex="-1" role="dialog" aria-labelledby="document_line_label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="document_line">Create Customer Comment</h4>
+      </div>
+
+      <%= form_tag('accpac/arcmm', remote: true) do |f| %>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-4">
+                <label>Date Entered</label>
+                <%= text_field :arcmm, :DATEENTR, autofocus: true, class: "arcmm-datepicker form-control" %>
+              </div>
+              <div class="col-md-4">
+                <label>Expiration Date</label>
+                <%= text_field :arcmm, :DATEEXPR, autofocus: true, class: "arcmm-datepicker form-control" %>
+              </div>
+              <div class="col-md-4">
+                <label>Follow Up Date</label>
+                <%= text_field :arcmm, :DATEFLUP, autofocus: true, class: "arcmm-datepicker form-control" %>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12">
+                <label>Comment Type</label>
+                <%= text_field :arcmm, :CMNTTYPE, autofocus: true, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12">
+                <label>Comment</label>
+                <%= text_area :arcmm, :TEXTCMNT1, autofocus: true, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%= hidden_field(:arcmm, :IDCUST, value: @accpac_arcus.IDCUST) %>
+        <%= hidden_field(:arcmm, :USERID, value: 'Sage300') %>
+        <%= hidden_field(:arcmm, :CNTUNIQ, value: 1) %>
+        <%= hidden_field(:arcmm, :AUDTDATE, value: Time.now.strftime("%Y%m%d")) %>
+        <%= hidden_field(:arcmm, :AUDTTIME, value: Time.now.strftime("%H%M%S%L")) %>
+        <%= hidden_field(:arcmm, :AUDTUSER, value: 'Sage300') %>
+        <%= hidden_field(:arcmm, :AUDTORG, value: company_id) %>
+
+        <%= hidden_field_tag :customer_id, @accpac_arcus.IDCUST %>
+
+        <div class="modal-footer">
+        <%= button_tag "Save", class: "btn btn-sm btn-primary", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Saving..." } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

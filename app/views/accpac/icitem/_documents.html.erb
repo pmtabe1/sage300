@@ -1,0 +1,35 @@
+<% @purchase_orders.each do |po| %>
+  <h4><%= link_to po.PONUMBER, accpac_poporh1_path(id: po.PORHSEQ.to_i), target: "_blank" %> <small>to location</small> <%= po.LOCATION %></h4>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Vendor</th>
+        <th>Document</th>
+        <th class="text-right">Quantity</th>
+        <% if can? :read, Accpac::Poporh1 %>
+          <th class="text-right">Cost</th>
+          <th class="text-right">Ext Cost</th>
+        <% end %>
+        <th>Container/AWB</th>
+        <th>OBD</th>
+        <th>ETA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% shipping_documents(po.PORHSEQ, @accpac_icitem.FMTITEMNO).each do |row| %>
+        <tr>
+          <td><%= po.VDCODE %></td>
+          <td><%= row.name %></td>
+          <td align="right"><%= number_with_precision(row.quantity, precision: 2, delimiter: ',') %></td>
+          <% if can? :read, Accpac::Poporh1 %>
+            <td align="right"><%= number_to_currency(row.price, precision: 2, delimiter: ',') %></td>
+            <td align="right"><%= number_to_currency(row.ext_price, precision: 2, delimiter: ',') %></td>
+          <% end %>
+          <td><%= container(row.id) %></td>
+          <td><%= on_board_date(row.id) %></td>
+          <td><%= arrival_date(row.id) %></td>
+        <tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

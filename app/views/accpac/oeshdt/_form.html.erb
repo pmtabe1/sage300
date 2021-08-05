@@ -1,0 +1,75 @@
+<%= form_tag graphs_accpac_oeshdt_index_path(format: :js), method: :get, remote: true do %>
+  <div class="form-group">
+    <%= text_field_tag :start_date, "", class: "datepicker form-control input-sm", placeholder: "From Date" %>
+  </div>
+  <div class="form-group">
+    <%= text_field_tag :end_date, "", class: "datepicker form-control input-sm", placeholder: "To Date" %>
+  </div>
+  <div class="form-group">
+    <label>Customers</label>
+    <%= select_tag :customer, options_from_collection_for_select(Accpac::Arcus.all.order(IDCUST: :asc), :IDCUST, :NAMECUST),
+      prompt: "Select Customer(s)", class: "select-vendor", multiple: true %>
+  </div>
+  <div class="form-group">
+    <label>Countries</label>
+    <%= select_tag :country, options_from_collection_for_select(Accpac::Arcus.all.order(CODECTRY: :asc), :CODECTRY, :CODECTRY),
+      prompt: "Select Country(s)", class: "select-vendor", multiple: true %>
+  </div>
+  <div class="form-group">
+    <label>Sales Reps</label>
+    <%= select_tag :sales_person, options_from_collection_for_select(Accpac::Arsap.where(SWACTV: 1).order(NAMEEMPL: :asc), :CODESLSP, :NAMEEMPL),
+      prompt: "Select Rep(s)", class: "select-vendor", multiple: true %>
+  </div>
+  <div class="form-group">
+    <label>Items</label>
+    <%= select_tag :item, options_from_collection_for_select(Accpac::Icitem.all.order(ITEMNO: :asc), :ITEMNO, :FMTITEMNO),
+      prompt: "Select Item(s)", class: "select-vendor", multiple: true %>
+  </div>
+  <div class="form-group">
+    <label>Categories</label>
+    <%= select_tag :category, options_from_collection_for_select(Accpac::Iccatg.all.order(DESC: :asc), :CATEGORY, :DESC),
+      prompt: "Select Categories(s)", class: "select-vendor", multiple: true %>
+  </div>
+  <div class="form-group">
+    <label>Opt Field Category</label>
+    <%= select_tag :optfield_category, options_from_collection_for_select(Views::SalesAnalysis.select(:OPTFCAT).group(:OPTFCAT).order(OPTFCAT: :asc), :OPTFCAT, :OPTFCAT),
+      prompt: "Select Opt Field Category", class: "select-vendor", multiple: true %>
+  </div>
+  <div class="form-group">
+    <label>Opt Field Product</label>
+    <%= select_tag :optfield_product, options_from_collection_for_select(Views::SalesAnalysis.select(:OPTFPROD).group(:OPTFPROD).order(OPTFPROD: :asc), :OPTFPROD, :OPTFPROD),
+      prompt: "Select Opt Field Prodcut", class: "select-vendor", multiple: true %>
+  </div>
+  <div class="form-group">
+    <label>Opt Field Type</label>
+    <%= select_tag :optfield_type, options_from_collection_for_select(Views::SalesAnalysis.select(:OPTFTYPE).group(:OPTFTYPE).order(OPTFTYPE: :asc), :OPTFTYPE, :OPTFTYPE),
+      prompt: "Select Opt Field Type", class: "select-vendor", multiple: true %>
+  </div>
+
+  <%= button_tag "Apply Filters", class: "btn btn-primary btn-xs", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Reloading chart, please wait..." } %>
+<% end %>
+
+<script>
+	$(document).ready(function() {
+    $('.select-vendor').selectize({
+    });
+    $('.datepicker').datepicker({
+      format: "yyyy-mm-dd"
+    });
+  });
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('form').submit(function(e) {
+			e.preventDefault();
+			data = $(this).serialize();
+
+			Chartkick.eachChart( function(chart) {
+				chart.updateData(chart.getDataSource() + '?' + data);
+			});
+
+			return false;
+		});
+	});
+</script>

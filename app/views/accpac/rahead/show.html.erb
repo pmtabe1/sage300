@@ -1,0 +1,58 @@
+<h1 class="page-header"><%= @accpac_rahead.RMANUMBER %></h1>
+
+<div class="row">
+  <div class="col-md-4">
+    <h4><i class="fa fa-archive" aria-hidden="true"></i> <%= @accpac_rahead.BILNAME %></h4>
+    <h4><i class="fa fa-hashtag" aria-hidden="true"></i> <%= link_to @accpac_rahead.CUSTOMER.gsub(/\s+/, ''), "/accpac_arcus/#{@accpac_rahead.CUSTOMER}" %></h4>
+    <h4><i class="fa fa-calendar-o" aria-hidden="true"></i> <%= @accpac_rahead.RMADATE.to_s.to_date %></h4>
+  </div>
+
+  <div class="col-md-4">
+    <h4><i class="fa fa-ship" aria-hidden="true"></i> <%= @accpac_rahead.VIADESC %></h4>
+    <h4><i class="fa fa-tags" aria-hidden="true"></i> <%= @accpac_rahead.CSTORIGINV %></h4>
+  </div>
+
+  <div class="col-md-4">
+    <%= link_to "Download Excel", { action: "show", id: @accpac_rahead.RMAUNIQ, format: "xls" }, { class: "btn btn-danger btn-xs" } %>
+  </div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="well well-sm">
+			Description: <%= @accpac_rahead.DESC %><br>
+			Comments: <%= @accpac_rahead.COMMENT %>
+		</div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <table class="table">
+     <thead>
+        <tr>
+           <th>Item Code</th>
+           <th>Description</th>
+           <th>Location</th>
+           <th>Unit</th>
+           <th>Qty</th>
+           <th>Cost</th>
+           <th>Price</th>
+        </tr>
+     </thead>
+     <tbody>
+       <% @accpac_rahead.radet.each do |rmadet| %>
+        <tr class="gradeX">
+          <td><%= link_to rmadet.ITEM, accpac_icitem_path(:id => rmadet.ITEM) %></td>
+          <td><%= rmadet.DESC %></td>
+          <td><%= rmadet.LOCATION %></td>
+          <td><%= rmadet.UNIT %></td>
+          <td><%= rmadet.QTY %></td>
+          <td><%= rmadet.EXTCOST %></td>
+          <td><%= rmadet.EXTPRICE %></td>
+        </tr>
+       <% end %>
+     </tbody>
+  </table>
+</div>

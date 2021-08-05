@@ -1,0 +1,20 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div class="scroll_content">
+      <h2>Customers</h2>
+      <div class="hr-line-dashed"></div>
+      <% if @customers.present? %>
+        <% @customers.each do |customer| %>
+          <div class="search-result">
+            <h3><%= link_to customer.IDCUST, customer %></h3>
+              <a href="#" class="search-link"><%= customer.CODECTRY %></a>
+              <p><%= customer.NAMECUST %></p>
+          </div>
+          <div class="hr-line-dashed"></div>
+        <% end %>
+      <% else %>
+        No matches found!
+      <% end %>
+    </div>
+  </div>
+</div>

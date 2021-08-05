@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Item Code</Data></Cell>
+        <Cell><Data ss:Type="String">Description</Data></Cell>
+        <Cell><Data ss:Type="String">UNIT</Data></Cell>
+        <Cell><Data ss:Type="String">Packing Unit</Data></Cell>
+      </Row>
+    <% @item_list.each do |item_list| %>
+      <% Accpac::Icitem.where("ITEMNO = ?", item_list.ITEMNO).each do |item| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= item.ITEMNO %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= item.DESC %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= item.STOCKUNIT %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= item.COMMENT1 %></Data></Cell>
+      </Row>
+      <% end %>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

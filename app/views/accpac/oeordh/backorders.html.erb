@@ -1,0 +1,48 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-6">
+    <h2>Order Entry</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Sales Orders
+      </li>
+      <li>
+        Order Action
+      </li>
+      <li class="active">
+        Backorders
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Backorders</h5>
+          <div class="ibox-tools">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-wrench"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+              <li><a onclick="saveOrderActionBackordersState()">Save State</a></li>
+              <li><a onclick="resetOrderActionBackordersState()">Reset State</a></li>
+            </ul>
+            <a class="fullscreen-link">
+              <i class="fa fa-expand"></i>
+            </a>
+          </div>
+        </div>
+	      <div class="ibox-content" style="height: 75vh;">
+          <div id="backorders_grid" class="ag-theme-balham" style="height: 100%;" 
+            data-backorders_path= "<%= backorders_accpac_oeordh_index_path(format: "json") %>">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

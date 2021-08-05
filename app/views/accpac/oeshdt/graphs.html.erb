@@ -1,0 +1,38 @@
+<div class="sidebar-panel" style="min-height: 1218px;">
+  <div>
+    <h4>Filters</h4>
+		<%= render_async accpac_filter_form_path do %>
+			<h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading...</h4>
+		<% end %>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12" id="filtered">
+      <%= render 'pages/widgets/sales_analysis/sales_trend' %>
+
+      <%= render 'pages/widgets/sales_analysis/net_sales_by_years' %>
+
+      <%= render 'pages/widgets/sales_analysis/ytd_net_sales' %>
+
+      <%= render 'pages/widgets/sales_analysis/net_sales_by_countries' %>
+    </div>
+  </div>
+</div>
+
+<!-- begin Wootric code 
+<script type="text/javascript">
+  window.wootric_survey_immediately = true;
+  window.wootricSettings = {
+    email:'< current_user.email >',
+    created_at: < Date.today.to_time.to_i >,
+    account_token: 'NPS-81e30d99'
+  };
+</script>
+<script type="text/javascript" src="https://cdn.wootric.com/wootric-sdk.js"></script>
+<script type="text/javascript">
+  // This loads the Wootric survey
+  window.wootric('run');
+</script>
+<!-- end Wootric code -->

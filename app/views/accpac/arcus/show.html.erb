@@ -1,0 +1,110 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Customer Inquiry</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Customer Inquiry
+      </li>
+      <li class="active">
+        <strong><%= @accpac_arcus.IDCUST %> - <%= @accpac_arcus.NAMECUST %></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-4">
+    <div class="title-action">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal5">
+        <i class="fa fa-search"></i>&nbsp;Search</button>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+
+		<div class="wrapper wrapper-content animated fadeIn">
+			<div class="row">
+        <div class="col-lg-12">
+          <% if @accpac_arcus.SWHOLD == 1 %>
+            <div class="alert alert-warning">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This customer is On Hold, it could have exceeded their credit limit.
+            </div>
+          <% end %>
+					<div class="tabs-container">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#profile" data-toggle="tab" aria-expanded="true">Profile</a>
+							</li>
+							<li class="">
+								<a href="#receivable" data-toggle="tab" aria-expanded="true">Receivable</a>
+							</li>
+              <li class="">
+                <a href="#misc_charges" data-toggle="tab" aria-expanded="true">Misc Charges</a>
+              </li>
+							<li class="">
+								<a href="#open_sales_orders" data-toggle="tab" aria-expanded="false">Opened Orders</a>
+							</li>
+							<li class="">
+								<a href="#backorders" data-toggle="tab" aria-expanded="false">Backorders</a>
+							</li>
+              <li class="">
+                <a href="#fulfillable" data-toggle="tab" aria-expanded="false">Fulfillable</a>
+              </li>
+							<li class="">
+								<a href="#sales_history" data-toggle="tab" aria-expanded="false">Sales History</a>
+							</li>
+							<li class="">
+								<a href="#documents" data-toggle="tab" aria-expanded="false">Documents</a>
+							</li>
+              <li class="">
+                <a href="#price_lists" data-toggle="tab" aria-expanded="false">Price Lists</a>
+              </li>
+              <li class="">
+                <a href="#comments" data-toggle="tab" aria-expanded="false">Comments</a>
+              </li>
+						</ul>
+						<div class="tab-content">
+							<div id="profile" class="tab-pane active">
+								<%= render 'profile' %>
+              </div>
+							<div id="receivable" class="tab-pane">
+								<%= render 'receivable' %>
+              </div>
+							<div id="open_sales_orders" class="tab-pane">
+								<%= render 'opened_orders' %>
+              </div>
+							<div id="sales_history" class="tab-pane">
+								<%= render 'sales_history' %>
+              </div>
+							<div id="backorders" class="tab-pane">
+								<%= render 'backorders' %>
+              </div>
+							<div id="documents" class="tab-pane">
+								<%= render 'documents' %>
+							</div>
+              <div id="misc_charges" class="tab-pane">
+                <%= render 'misc_charges' %>
+              </div>
+              <div id="price_lists" class="tab-pane">
+                <%= render 'price_lists' %>
+              </div>
+              <div id="fulfillable" class="tab-pane">
+                <%= render 'fulfillable' %>
+              </div>
+              <div id="comments" class="tab-pane">
+                <%= render 'comments' %>
+              </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- Modal -->
+<%= render 'modal' %>

@@ -1,0 +1,36 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <div>
+      <span class="pull-right text-right">
+        <small>Daily Sales Analysis: <strong>Net Sales</strong></small>
+      </span>
+      <h3 class="font-bold no-margins">
+        Daily Sales Analysis
+      </h3>
+      <small>Daily sales analysis comparison, <%= "#{current_year} vs #{last_year}" %>.</small>
+    </div>
+
+    <div class="m-t-sm">
+      <div class="row">
+        <div class="col-md-9">
+          <%= column_chart charts_sales_analysis_daily_sales_path, height: "350px", thousands: ",", curve: false, prefix: "$", colors: ["#008EFA", "#06E397", "#FEB019"] %>
+        </div>
+        <div class="col-md-3">
+          <ul class="stat-list">
+            <li>
+              <h2 class="no-margins"><%= number_to_currency(ave_daily_sales_last_year, precision: 0) %></h2>
+              <small>Daily sales average <%= last_year %></small>
+            </li>
+            <li>
+              <h2 class="no-margins"><%= number_to_currency(ave_daily_sales_current_year, precision: 0) %></h2>
+              <small>Daily sales average <%= current_year %></small>
+            </li>
+            <li>
+              <%= daily_sales_diff %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

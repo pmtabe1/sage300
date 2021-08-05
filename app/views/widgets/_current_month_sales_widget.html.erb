@@ -1,0 +1,8 @@
+<div class="ibox">
+  <div class="ibox-content">
+    <h5><%= t('widgets.current_month') %></h5>
+    <h1 class="no-margins"><%= number_to_currency(ytd_month_current_year, precision: 0) %></h1>
+    <%= ytd_month_percentage %>
+    <small>Diff Last Year</small>
+  </div>
+</div>

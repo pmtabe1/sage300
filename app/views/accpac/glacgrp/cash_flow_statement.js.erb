@@ -1,0 +1,7 @@
+<% if params[:year].present? %>
+  $("#as_of").html("<%= escape_javascript(render partial: 'cash_flow_statement_as_of') %>");
+  $("#filters").hide();
+<% else %>
+  $("#balances").html("<%= escape_javascript(render partial: 'cash_flow_statement') %>");
+  $("#filters").hide();
+<% end %>

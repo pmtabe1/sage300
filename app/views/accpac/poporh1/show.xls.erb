@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">C</Data></Cell>
+        <Cell><Data ss:Type="String">Item Code</Data></Cell>
+        <Cell><Data ss:Type="String">Description</Data></Cell>
+        <Cell><Data ss:Type="String">Vendor Code</Data></Cell>
+        <Cell><Data ss:Type="String">Unit</Data></Cell>
+        <Cell><Data ss:Type="String">Quantity</Data></Cell>
+        <Cell><Data ss:Type="String">Unit Cost</Data></Cell>
+      </Row>
+      <% @accpac_poporh1.poporl.each do |item| %>
+        <Row>
+          <Cell><Data ss:Type="String">L</Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.ITEMNO %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.ITEMDESC %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.VENDITEMNO %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.ORDERUNIT %></Data></Cell>
+          <Cell><Data ss:Type="Number"><%= item.OQORDERED %></Data></Cell>
+          <Cell><Data ss:Type="Number"><%= number_with_precision(item.UNITCOST, precision: 6) %></Data></Cell>
+        </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

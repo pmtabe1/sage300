@@ -1,0 +1,59 @@
+<% @production.each do |po| %>
+	<% cache "production_card_#{po.porhseq}", skip_digest: true do %>
+		<div class="well well-sm">
+			<div class="row">
+				<div class="col-md-10">
+					<h6>
+						<%= link_to po.ponumber, accpac_poporh1_path(id: po.porhseq) %> -
+						<%= vendor_name(po) %> |
+						<i class="fa fa-calendar"></i>
+						<%= Accpac::Poporh1.find(po.porhseq).POSTDATE.to_s.to_date %>
+					</h6>
+				</div>
+				<div class="col-md-2 text-right">
+					<% if can? :update, PurchaseOrderHeader %>
+						<%= link_to "##{po.id}", "data-toggle": "modal" do %>
+							<i class="fa fa-pencil"></i>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+
+			<div class="card_badges">
+				<%= etd_label(po) %>
+				<!-- Displaying only document types that has been requested allready -->
+				<!-- DocumentType.all.order("preferences ->> 'position' ASC").each do |type| -->
+				<% DocumentType.select("id", "name", "slug").joins(:supply_chain_events).where("supply_chain_events.purchase_order_header_id = ?", po.porhseq).uniq.each do |type| %>
+					<%= documents(type, po) %>
+				<% end %>
+			</div>
+		</div>
+
+		<div class="modal fade" id="<%= po.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Update PO: <%= po.ponumber %></h4>
+					</div>
+					<%= form_for po, role: "form" do |f| %>
+						<div class="modal-body">
+							<div class="form-group">
+								<%= f.label :status, "Status" %>
+								<%= f.text_field :status, class: "form-control" %>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<%= submit_tag "Update", class: "btn btn-primary" %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	<% end %>
+<% end %>
+
+<div class="text-center">
+  <%= link_to_next_page @production, 'Load More', remote: true, param_name: :production, id: "load_more_production",
+    data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Loading..."} %>
+</div>

@@ -1,0 +1,172 @@
+<%= render 'spiner' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Liquidity Ratios</h2>
+    <p>This ratios measure the availability of cash to pay debt.</p>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Current Ratio</h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Current Assets
+                  </td>
+                  <td align="right" class="no-borders">
+                    <% total_current_assets=0 %>
+                    <% @current_assets.each do |r| %>
+                      <% total_current_assets = total_current_assets+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <%= number_to_human(total_current_assets, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Current Liabilities
+                  </td>
+                  <td align="right">
+                    <% total_current_liabilities=0 %>
+                    <% @current_liabilities.each do |r| %>
+                      <% total_current_liabilities = total_current_liabilities+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <%= number_to_human(total_current_liabilities, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle text-navy"></i>
+                  </td>
+                  <td align="right">
+                    <%= number_with_precision(total_current_assets/total_current_liabilities, precision: 2) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>Current Ratio measures the capability to meet its short-term obligations that are due within a year. A rate of more than 1 suggests financial well-being for the company.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Cash Ratio</h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Cash and Cash Equivalents
+                  </td>
+                  <td align="right" class="no-borders">
+                    <% cash_equivalents=0 %>
+                    <% @cash_equivalents.each do |r| %>
+                      <% cash_equivalents = cash_equivalents+(fiscal_set(r, current_period, current_year)) %>
+                    <% end %>
+                    <%= number_to_human(cash_equivalents, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Current Liabilities
+                  </td>
+                  <td align="right">
+                    <% total_current_liabilities=0 %>
+                    <% @current_liabilities.each do |r| %>
+                      <% total_current_liabilities = total_current_liabilities+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <%= number_to_human(total_current_liabilities, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle text-navy"></i>
+                  </td>
+                  <td align="right">
+                    <%= number_with_precision(cash_equivalents/total_current_liabilities, precision: 2) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>Indicates the capacity to pay off short-term debt obligations with cash and cash equivalents. Compared to other liquidity ratios the cash ratio is a stricter, more conservative measure. Above 1 means that we will be able to pay off our current liabilities with cash and cash equivalents, and have funds left over. We possesses enough cash and cash equivalents to pay off <span class="text-navy"><%= number_to_percentage((cash_equivalents/total_current_liabilities)*100, precision: 2) %></span> our current liabilities.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Operating Cash Flow Ratio</h5>
+
+            <table class="table table-stripped small m-t-md">
+              <tbody>
+                <tr>
+                  <td class="no-borders">
+                    Operating Cash Flow
+                  </td>
+                  <td align="right" class="no-borders">
+                    <!-- Paid to Vendors -->
+                    <% paid_to_vendors=0 %>
+                    <% cash_paid_to_vendors.each do |r| %>
+                      <% paid_to_vendors = paid_to_vendors + r.AMTINVPDHC %>
+                    <% end %>
+                    <!-- Salaries -->
+                    <% salaries=0 %>
+                    <% @salaries.each do |r| %>
+                      <% salaries = salaries+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <!-- Interest Expenses -->
+                    <% interest=0 %>
+                    <% @interest.each do |r| %>
+                      <% interest = interest+fiscal_set(r, current_period, current_year) %>
+                    <% end %>
+                    <%= number_to_human(cash_received_from_customers-paid_to_vendors-salaries-interest, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    (/) Current Liabilities
+                  </td>
+                  <td align="right">
+                    <% total_current_liabilities=0 %>
+                    <% @current_liabilities.each do |r| %>
+                      <% total_current_liabilities = total_current_liabilities+(fiscal_set(r, current_period, current_year)*-1) %>
+                    <% end %>
+                    <%= number_to_human(total_current_liabilities, format: '%n%u', units: { thousand: 'K', million:'M' }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fa fa-circle text-navy"></i>
+                  </td>
+                  <td align="right">
+                    <%= number_with_precision((cash_received_from_customers-paid_to_vendors-salaries-interest)/total_current_liabilities, precision: 2) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <small>Measure how well can we pay off current liabilities with the cash flow generated from our core business operations.</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

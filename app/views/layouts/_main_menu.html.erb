@@ -1,0 +1,125 @@
+<li class="">
+  <a href="/">
+    <i class="fa fa-th-large"></i> <span class="nav-label"><%= t('menu.dashboard') %></span>
+  </a>
+</li>
+
+<!-- AP - Sales Analysis -->
+<li class="">
+  <a href="#"><i class="fa fa-line-chart"></i> <span class="nav-label"><%= t('menu.analytics.main') %></span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li><%= nav_link t('menu.analytics.order_action'), order_action_report_accpac_oeordh_index_path %></li>
+    <li>
+      <a href="#"><%= t('menu.analytics.sales_analysis.main') %><span class="fa arrow"></span></a>
+      <ul class="nav nav-third-level">
+        <li><%= nav_link t('menu.analytics.sales_analysis.pivot'), sales_analysis_accpac_oeshdt_index_path %></li>
+        <li><%= nav_link t('menu.analytics.sales_analysis.gp'), sales_analysis_nopivot_accpac_oeshdt_index_path %></li>
+        <li><%= nav_link t('menu.analytics.sales_analysis.charts'), graphs_accpac_oeshdt_index_path %></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#"><%= t('menu.analytics.purchases_analysis') %><span class="fa arrow"></span></a>
+      <ul class="nav nav-third-level">
+        <li><%= nav_link t('menu.analytics.purchases_analysis'), purchases_analysis_accpac_pohstl_index_path %></li>
+        <li><%= nav_link "Vendors Analysis", vendors_analysis_accpac_pohstl_index_path %></li>
+      </ul>
+  </ul>
+</li>
+
+<!-- AP - Accounts Payable -->
+<li class="">
+  <a href="#"><i class="fa fa-address-book"></i> <span class="nav-label"><%= t('menu.account_payable.main') %></span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li><%= nav_link t('menu.account_payable.vendor_inquiry'), accpac_apven_index_path %></li>
+    <li><%= nav_link t('menu.account_payable.debts'), debts_accpac_apven_index_url %></li>
+  </ul>
+</li>
+
+<!-- AR - Accountr Receivable -->
+<li class="">
+  <a href="#"><i class="fa fa-book"></i> <span class="nav-label"><%= t('menu.account_receivable.main') %></span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li><%= nav_link t('menu.account_receivable.customer_inquiry'), accpac_arcus_path %></li>
+    <li><%= nav_link t('menu.account_receivable.debts'), debts_accpac_arcus_url %></li>
+    <li><%= nav_link t('menu.account_receivable.sales_reps'), accpac_arsap_index_path %></li>
+  </ul>
+</li>
+
+<!-- GL - General Ledger -->
+<li class="">
+  <a href="#"><i class="fa fa-folder-open"></i> <span class="nav-label"><%= t('menu.general_ledger.main') %></span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li><%= nav_link t('menu.general_ledger.financial_reports'), accpac_glacgrp_index_path %></li>
+  </ul>
+</li>
+
+<!-- IC - Inventory Control -->
+<li class="">
+  <a href="#"><i class="fa fa-cube"></i> <span class="nav-label"><%= t('menu.inventory_control.main') %></span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li><%= nav_link t('menu.inventory_control.categories'), accpac_iccatg_index_path %></li>
+    <li><%= nav_link t('menu.inventory_control.item_inquiry'), accpac_icitem_path(Accpac::Icitem.first) %></li>
+    <li><%= nav_link t('menu.inventory_control.internal_usage'), accpac_iciceh_index_path %></li>
+    <li><%= nav_link t('menu.inventory_control.transfers'), accpac_ictreh_index_path %></li>
+    <li><%= link_to t('menu.inventory_control.item_change'), accpac_siaud_index_path %></li>
+    <li><%= nav_link t('menu.inventory_control.duties'), duties_accpac_icitem_index_path %></li>
+    <li>
+      <a href="#"><%= t('menu.inventory_control.reports.main') %><span class="fa arrow"></span></a>
+      <ul class="nav nav-third-level">
+        <li><%= nav_link t('menu.inventory_control.reports.inv_vs_sales'), inv_vs_sales_accpac_icitem_index_path %></li>
+        <li><%= nav_link t('menu.inventory_control.reports.differences'), inventory_diff_accpac_icitem_index_path %></li>
+        <li><%= nav_link t('menu.inventory_control.reports.moving_average'), moving_average_accpac_icitem_index_path %></li>
+        <li><%= nav_link t('menu.inventory_control.reports.location_detail'), item_location_detail_accpac_icitem_index_path %></li>
+        <li><%= nav_link t('menu.inventory_control.reports.company_detail'), item_company_detail_accpac_icitem_index_path %></li>
+        <li><%= nav_link t("menu.inventory_control.reports.location_differences"), location_diff_accpac_icitem_index_path %></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<!-- OE Order Entry -->
+<li class="">
+  <a href="#"><i class="fa fa-arrow-circle-up"></i> <span class="nav-label"><%= t('menu.order_entry.main') %></span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li><%= nav_link t('menu.order_entry.sales_orders'), accpac_oeordh_index_path %></li>
+    <li><%= nav_link t('menu.order_entry.shipments'), accpac_oeshih_index_path %></li>
+    <li><%= nav_link t('menu.order_entry.invoices'), accpac_oeinvh_index_path %></li>
+    <li><%= nav_link t('menu.order_entry.misc_charges'), miscellaneous_charges_accpac_oeordh_index_path %></li>
+    <li>
+      <a href="#"><%= t('menu.order_entry.order_action.main') %><span class="fa arrow"></span></a>
+      <ul class="nav nav-third-level">
+        <li><%= nav_link t('menu.order_entry.order_action.open_orders'), order_action_accpac_oeordh_index_path %></li>
+        <li><%= nav_link t('menu.order_entry.order_action.fulfillable'), fulfillable_accpac_oeordh_index_path %></li>
+        <li><%= nav_link t('menu.order_entry.order_action.backorders'), backorders_accpac_oeordh_index_path %></li>
+        <li><%= nav_link t('menu.order_entry.order_action.transfer_demand'), transfer_demand_accpac_oeordh_index_path %></li>
+        <li><%= nav_link t('menu.order_entry.order_action.drops'), drop_shipments_accpac_poporh1_index_path %></li>
+        <li><%= nav_link t('menu.order_entry.order_action.invoices_report'), invoice_report_accpac_oeinvh_index_path %></li>
+        <li><%= nav_link t('menu.order_entry.order_action.users_report'), users_report_accpac_oeordh_index_path %></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<!-- PO Purchase Order Entry -->
+<li class="">
+  <a href="#"><i class="fa fa-arrow-circle-down"></i> <span class="nav-label"><%= t('menu.purchase_orders.main') %></span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li><%= nav_link t('menu.purchase_orders.open'), open_purchase_orders_accpac_poporh1_index_path %></li>
+    <li><%= nav_link t('menu.purcahse_orders.purchase_orders'), accpac_poporh1_index_path %></li>
+    <li><%= nav_link t('menu.purchase_orders.receipts'), accpac_porcph1_index_path %></li>
+    <li><%= nav_link t('menu.purchase_orders.invoices'), accpac_poinvh1_index_path %></li>
+  </ul>
+</li>
+
+<li class="">
+  <a href="#"><i class="fa fa-rocket"></i> <span class="nav-label"><%= t('menu.application.main') %></span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li>
+      <a href="#">Config<span class="fa arrow"></span></a>
+      <ul class="nav nav-third-level">
+        <li><%= link_to "Queries", queries_path %></li>
+        <li><%= link_to "Widgets", widgets_path %></li>
+      </ul>
+    </li>
+  </ul>
+</li>

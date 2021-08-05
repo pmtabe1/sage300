@@ -1,0 +1,33 @@
+<table class="table table-stripe table-hover table-font">
+  <thead>
+    <tr>
+      <th>Item No.</th>
+      <th>Descripion</th>
+      <th>Category</th>
+      <th>Location</th>
+      <th>Department</th>
+      <th>Unit</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accpac_iciceh.iciced.each do |value| %>
+      <tr>
+        <td><%= value.ITEMNO %></td>
+        <td>
+          <%= value.ITEMDESC %><br>
+          <small><%= value.COMMENTS %></small>
+        </td>
+        <td><%= value.CATEGORY %></td>
+        <td><%= value.LOCATION %></td>
+        <td>
+          <% Accpac::Icitemo.where(ITEMNO: value.ITEMNO.gsub('-', ''), OPTFIELD: "DEPT").each do |optfield| %>
+            <%= optfield.VALUE %>
+          <% end %>
+        </td>
+        <td><%= value.UNIT %></td>
+        <td align="right"><%= value.QUANTITY %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

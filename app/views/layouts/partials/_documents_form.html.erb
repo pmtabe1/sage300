@@ -1,0 +1,28 @@
+<div class="btn-group">
+  <ul class="nav navbar-right">
+    <li class="dropdown">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        New Document <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <% DocumentType.select("id, name, JSON_VALUE(preferences,'$.multiple_po') AS multiple_po, JSON_VALUE(preferences,'$.user_type') AS user_type").order("JSON_VALUE(preferences,'$.position') ASC").each do |document_type| %>
+          <li>
+            <% if document_type.user_type == current_user.type %>
+              <% if document_type.multiple_po == '0' && controller_name == 'poporh1' %>
+                <%= link_to document_type.name, new_document_path(document_type_id: document_type.id, purchase_order: @accpac_poporh1.PORHSEQ) %>
+              <% else %>
+                <%= link_to document_type.name, new_document_path(document_type_id: document_type.id) %>
+              <% end %>
+            <% elsif document_type.user_type == "" %>
+              <% if document_type.multiple_po == '0' && controller_name == 'poporh1' %>
+                <%= link_to document_type.name, new_document_path(document_type_id: document_type.id, purchase_order: @accpac_poporh1.PORHSEQ) %>
+              <% else %>
+                <%= link_to document_type.name, new_document_path(document_type_id: document_type.id) %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  </ul>
+</div>

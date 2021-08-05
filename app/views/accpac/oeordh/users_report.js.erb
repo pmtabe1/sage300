@@ -1,0 +1,17 @@
+$("#filtered").html("<%= j render 'users_report', locals: {
+  start_date: params[:start_date],
+  end_date: params[:end_date]
+} %>");
+
+$(document).ready(function() {
+  $('form').submit(function(e) {
+    e.preventDefault();
+    data = $(this).serialize();
+
+    Chartkick.eachChart( function(chart) {
+      chart.updateData(chart.getDataSource() + '?' + data);
+    });
+
+    return false;
+  });
+});

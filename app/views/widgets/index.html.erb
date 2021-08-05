@@ -1,0 +1,28 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-6">
+    <h2>Widgets</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li class="active">
+        <b>Widgets</b>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-6 text-right" style="margin-top: 20px;">
+    <div class="form-group">
+      <% if can? :create, Widget %>
+        <%= link_to "New Widget", new_widget_path, class: "btn btn-w-m btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <% @widgets.each do |widget| %>
+      <%= liquidize widget.template, 'widget' => widget, 'edit_path' => edit_widget_path(widget), 'delete_path' => widget_url(widget)%>
+    <% end %>
+  </div>
+</div>

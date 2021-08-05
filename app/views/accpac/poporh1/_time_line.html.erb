@@ -1,0 +1,25 @@
+<ul class="sidebar-list">
+  <% Ahoy::Event.where("properties ->> 'porhseq' = '#{@accpac_poporh1.PORHSEQ}'").reverse_each do |time_line| %>
+		<li>
+			<a href="#">
+				<div class="small pull-right m-t-xs"><%= distance_of_time_in_words(Time.now - time_line.time) %> ago</div>
+				<% if time_line.user_id.present? %>
+					<h4 class="primary-font"><%= User.find(time_line.user_id).full_name %></h4>
+				<% else %>
+					<h4 class="primary-font">V-Bot</h4>
+				<% end %>
+				<%= time_line.name %>
+        <% time_line.properties.each do |key, value| %>
+          <% if key.include?("notes") && value.present? %>
+            <%= link_to "#", rel: "tooltip", 'data-toggle': 'tooltip', 'data-placement': "top", title: "#{value}" do %>
+              <i class="fa fa-commenting"></i>
+            <% end %>
+          <% end %>
+				<% end %>
+				<div class="small text-muted m-t-xs">
+					<%= time_line.time.strftime("%l:%M %P") %> - <%= time_line.time.strftime("%B %d %Y") %>
+				</div>
+			</a>
+		</li>
+	<% end %>
+</ul>

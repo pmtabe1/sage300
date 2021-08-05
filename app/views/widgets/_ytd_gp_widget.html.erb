@@ -1,0 +1,49 @@
+<div class="row m-t-xs">
+  <div class="col-xs-6">
+    <h5 class="m-b-xs"><%= t('widgets.gp.last_year') %></h5>
+    <h1 class="no-margins"><%= number_to_human(ytd_sales_last_year, format: '%n%u', delimiter: ",", units: { thousand: 'K' }) %></h1>
+    <div class="font-bold text-navy">GP <%= number_to_percentage(ytd_gross_profit_last_year, precision: 2) %></div>
+  </div>
+  <div class="col-xs-6">
+    <h5 class="m-b-xs"><%= t('widgets.gp.current_year') %></h5>
+    <h1 class="no-margins"><%= number_to_human(ytd_sales_current_year, format: '%n%u', delimiter: ",", units: { thousand: 'K' }) %></h1>
+    <div class="font-bold text-navy">GP <%= number_to_percentage(ytd_gross_profit_current_year, precision: 2) %></div>
+  </div>
+</div>
+
+<table class="table small m-t-sm">
+  <tbody>
+    <tr>
+      <td>
+        <strong><%= number_with_precision(ytd_sales_last_year, precision: 0, delimiter: ",") %></strong> <%= t('widgets.gp.net_sales') %>
+      </td>
+      <td>
+        <strong><%= number_with_precision(ytd_sales_current_year, precision: 0, delimiter: ",") %></strong> <%= t('widgets.gp.net_sales') %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong><%= number_with_precision(ytd_cost_of_sales_last_year, precision: 0, delimiter: ",") %></strong> <%= t('widgets.gp.cost') %>
+      </td>
+      <td>
+        <strong><%= number_with_precision(ytd_cost_of_sales_current_year, precision: 0, delimiter: ",") %></strong> <%= t('widgets.gp.cost') %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong><%= number_with_precision(ytd_margin_last_year, precision: 0, delimiter: ",") %></strong> <%= t('widgets.gp.margin') %>
+      </td>
+      <td>
+        <strong><%= number_with_precision(ytd_margin_current_year, precision: 0, delimiter: ",") %></strong> <%= t('widgets.gp.margin') %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong><%= number_with_precision(ytd_returns_last_year, precision: 0, delimiter: ",") %></strong> <%= t('widgets.gp.returns') %>
+      </td>
+      <td>
+        <strong><%= number_with_precision(ytd_returns_current_year, precision: 0, delimiter: ",") %></strong> <%= t('widgets.gp.returns') %>
+      </td>
+    </tr>
+  </tbody>
+</table>

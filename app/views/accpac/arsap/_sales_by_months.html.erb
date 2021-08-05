@@ -1,0 +1,10 @@
+<div class="col-lg-6">
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h5><i class="fa fa-line-chart"></i> Monthly Sales Comparison: <%= last_year %> - <%= current_year %></h5>
+    </div>
+    <div class="ibox-content">
+      <%= area_chart charts_sales_reps_months_sales_chart_path(id: @accpac_arsap.CODESLSP), refresh: 60, thousands: "," %>
+    </div>
+  </div>
+</div>

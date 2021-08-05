@@ -1,0 +1,41 @@
+<table class="table table-hover no-margins">
+  <thead>
+    <tr>
+      <th>Vendor</th>
+      <th>Container</th>
+      <th>ETD</th>
+      <th>ETA</th>
+      <th>PL No.</th>
+      <th class="text-right">Add Costs</th>
+      <th class="text-right">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% total_amount = 0 %>
+    <% all_upcomming_containers.each do |d| %>
+      <tr>
+        <td><%= link_to Accpac::Poporh1.find(d.purchase_orders.last).VDCODE, accpac_apven_path(id: Accpac::Poporh1.find(d.purchase_orders.last).VDCODE) %></td>
+        <td><%= d.container %></td>
+        <td><%= d.etd %></td>
+        <td><%= d.eta %></td>
+        <% if Document.find_by(id: d.document_id[0]).present? %>
+        <td>
+          <%= link_to Document.where(id: d.document_id[0]).first.try(:document_id).map { |i| i.to_i }.join(","),
+              document_path(id: Document.where(id: d.document_id[0]).first.try(:document_id).map { |i| i.to_i }.join(",")) %>
+        </td>
+        <td align="right">
+          <%= number_to_currency(AdditionalCost.where(document_id: Document.where(id: d.document_id[0]).first.try(:document_id).map { |i| i.to_i }.join(",")).sum(:amount), precision: 2) %>
+        </td>
+        <% else %>
+          <td></td>
+        <% end %>
+        <td align="right"><%= number_to_currency(d.amount, precision: 2) %></td>
+        <% total_amount = total_amount + d.amount %>
+      </tr>
+    <% end %>
+    <tr>
+      <td colspan="6"><b>Total</b></td>
+      <td align="right"><b><%= number_to_currency(total_amount, precision: 2) %></b></td>
+    </tr>
+  </tbody>
+</table>

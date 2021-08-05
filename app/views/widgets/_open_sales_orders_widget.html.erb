@@ -1,0 +1,13 @@
+<%= link_to accpac_oeordh_index_path(open: true) do %>
+  <div class="widget style1 blue-bg">
+    <div class="row">
+      <div class="col-xs-4">
+        <i class="fa fa-tasks fa-5x"></i>
+      </div>
+      <div class="col-xs-8 text-right">
+        <span> <%= t('widgets.customers.open_orders') %> </span>
+        <h2 class="font-bold"><%= customer_open_orders_counter %></h2>
+      </div>
+    </div>
+  </div>
+<% end %>

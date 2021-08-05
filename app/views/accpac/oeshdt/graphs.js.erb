@@ -1,0 +1,24 @@
+$("#filtered").html("<%= j render 'graphs', locals: {
+  start_date: params[:start_date],
+  end_date: params[:end_date],
+  item: params[:item],
+  category: params[:category],
+  customer: params[:customer],
+  sales_person: params[:sales_person],
+  optfield_category: params[:optfield_category],
+  optfield_product: params[:optfield_product],
+  optfield_type: params[:optfield_type]
+} %>");
+
+$(document).ready(function() {
+  $('form').submit(function(e) {
+    e.preventDefault();
+    data = $(this).serialize();
+
+    Chartkick.eachChart( function(chart) {
+      chart.updateData(chart.getDataSource() + '?' + data);
+    });
+
+    return false;
+  });
+});

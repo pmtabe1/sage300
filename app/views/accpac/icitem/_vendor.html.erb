@@ -1,0 +1,23 @@
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @accpac_icitem.icitmv.each do |vendor| %>
+        <tr>
+          <td>
+            <div>
+              <%= link_to vendor.VENDNUM.gsub(/\W\s?/, ""), accpac_apven_path(:id => vendor.VENDNUM) %>
+            </div>
+            <small><%= vendor.VENDITEM %></small>
+          </td>
+          <td><%= number_with_precision(vendor.VENDCOST, precision: 4) %> <small><%= vendor.VENDCNCY %></small></td>
+        <tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

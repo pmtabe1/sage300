@@ -1,0 +1,117 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Order Entry</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        Sales Orders
+      </li>
+      <li class="active">
+        <%= @accpac_oeordh.ORDNUMBER %>
+      </li>
+    </ol>
+  </div>
+	<div class="col-lg-4">
+		<div class="title-action">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal5">
+				<i class="fa fa-search"></i>&nbsp;Search</button>
+      </button>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="ibox-content p-xl">
+        <div class="row">
+          <div class="col-sm-4">
+            <h5>From:</h5>
+            <address>
+              <strong>Vertilux Ltd.</strong><br>
+              Location: <%= @accpac_oeordh.LOCATION %><br>
+              <%= @accpac_oeordh.icloc.ADDRESS1 %> <%= @accpac_oeordh.icloc.ADDRESS2 %><br>
+              <%= @accpac_oeordh.icloc.CITY %>, <%= @accpac_oeordh.icloc.STATE %> <%= @accpac_oeordh.icloc.ZIP %><br>
+              <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_oeordh.icloc.PHONE) %><br>
+            </address>
+            <p>
+              <span><strong>Sales Person:</strong> <%= @accpac_oeordh.SALESPER1 %></span>
+            </p>
+          </div>
+
+          <div class="col-sm-2 text-center">
+            <%= render_async invoices_accpac_oeordh_index_path(order: @accpac_oeordh.ORDNUMBER) do %>
+              <h5><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading invoice(s)...</h5>
+            <% end %>
+          </div>
+
+          <div class="col-sm-2 text-center">
+            <%= render_async shipments_accpac_oeordh_index_path(order_number: @accpac_oeordh.ORDNUMBER) do %>
+              <h5><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading shipment(s)...</h5>
+            <% end %>
+          </div>
+
+          <div class="col-sm-4 text-right">
+            <h4>Sales Order No.</h4>
+            <h4 class="text-navy"><%= @accpac_oeordh.ORDNUMBER %></h4>
+            <span>To:</span>
+            <address>
+              <strong><%= @accpac_oeordh.SHPNAME.humanize.titleize %></strong><br>
+              <%= @accpac_oeordh.SHPADDR1 %> <%= @accpac_oeordh.SHPADDR2 %><br>
+              <%= @accpac_oeordh.SHPCITY%>, <%= @accpac_oeordh.SHPSTATE %> <%= @accpac_oeordh.SHPZIP %><br>
+              <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_oeordh.SHPPHONE) %>
+            </address>
+            <p>
+              <span><strong>Sales Order Date:</strong> <%= to_date_helper(@accpac_oeordh.ORDDATE) %></span><br />
+              <span><strong>Entered by:</strong> <%= @accpac_oeordh.oeordh1.ENTEREDBY %></span><br />
+              <span><strong>PO Number:</strong> <%= @accpac_oeordh.PONUMBER %></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="table-responsive m-t">
+          <%= render_async details_accpac_oeordh_index_path(id: @accpac_oeordh) do %>
+            <h4><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading details...</h4>
+          <% end %>
+        </div>
+
+        <table class="table invoice-total">
+          <tbody>
+            <tr>
+              <td><strong>Sub Total :</strong></td>
+                <td><%= number_to_currency(@accpac_oeordh.INVNETNOTX, presicion: 2, delimiter: ",") %></td>
+            </tr>
+            <tr>
+              <td><strong>TAX :</strong></td>
+              <td><%= number_to_currency(@accpac_oeordh.INVITAXTOT, precision: 2, delimiter: ",") %></td>
+            </tr>
+            <tr>
+              <td><strong>DISCOUNT :</strong></td>
+              <td><%= number_to_currency(@accpac_oeordh.INVDISCAMT, precision: 2, delimiter: ",") %></td>
+            </tr>
+            <tr>
+              <td><strong>TOTAL :</strong></td>
+              <td><%= number_to_currency(@accpac_oeordh.INVNETWTX, precision: 2, delimiter: ",") %></td>
+            </tr>
+            <% if current_user.type == 'employee' %>
+              <tr>
+                <td><strong>GP% :</strong></td>
+                <td><%= number_to_percentage(sales_order_gross_margin(@accpac_oeordh), precision: 2) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <div class="well m-t">
+          <strong>Comments</strong> <%= @accpac_oeordh.COMMENT %><br>
+          <strong>Description</strong> <%= @accpac_oeordh.DESC %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<%= render 'modal' %>

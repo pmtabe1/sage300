@@ -1,0 +1,9 @@
+<%= raw Pygments.highlight(
+'<div class="text-right">
+  <a href="{{edit_path}}">
+    <i class="fa fa-pencil"></i> Edit
+  </a> |
+  <a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="{{delete_path}}">
+    <i class="fa fa-trash"></i> Delete
+  </a>
+</div>', lexer: 'html') %>

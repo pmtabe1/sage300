@@ -1,0 +1,36 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-6">
+    <h2>Finance</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">Home</a>
+			</li>
+			<li>
+				Finance
+			</li>
+      <li class="active">
+        <b>Account Balance Analysis</b>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Account Balance Analysis</h5>
+          <div class="ibox-tools">
+            <a class="fullscreen-link">
+              <i class="fa fa-expand"></i>
+            </a>
+          </div>
+        </div>
+	      <div class="ibox-content" style="height: 75vh;">
+          <div id="fiscal_sets_grid" class="ag-theme-balham" data-fiscal_sets="<%= fiscal_sets_accpac_glacgrp_index_path(format: "json") %>" style="height: 100%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

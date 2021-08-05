@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Vendor</Data></Cell>
+        <Cell><Data ss:Type="String">Container</Data></Cell>
+        <Cell><Data ss:Type="String">ETD</Data></Cell>
+        <Cell><Data ss:Type="String">ETA</Data></Cell>
+        <Cell><Data ss:Type="String">PL No.</Data></Cell>
+        <Cell><Data ss:Type="String">Add Cost</Data></Cell>
+        <Cell><Data ss:Type="String">Amount</Data></Cell>
+      </Row>
+      <% all_upcomming_containers.each do |d| %>
+        <Row>
+          <Cell><Data ss:Type="String"><%= link_to Accpac::Poporh1.find(d.purchase_orders.last).VDCODE, accpac_apven_path(id: Accpac::Poporh1.find(d.purchase_orders.last).VDCODE) %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= d.container %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= d.etd %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= d.eta %></Data></Cell>
+          <% if Document.find_by(id: d.document_id[0]).present? %>
+            <Cell><Data ss:Type="String"><%= Document.where(id: d.document_id[0]).first.try(:document_id).map { |i| i.to_i }.join(",") %></Data></Cell>
+            <Cell><Data ss:Type="Number"><%= number_with_precision(AdditionalCost.where(document_id: Document.where(id: d.document_id[0]).first.try(:document_id).map { |i| i.to_i }.join(",")).sum(:amount), precision: 2) %> </Data></Cell>
+            <Cell><Data ss:Type="Number"><%= number_with_precision(d.amount, precision: 2) %> </Data></Cell>
+          <% end %>
+        </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

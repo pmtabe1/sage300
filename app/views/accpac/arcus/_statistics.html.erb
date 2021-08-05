@@ -1,0 +1,202 @@
+<table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Transaction Types</th>
+        <th>Amount</th>
+        <th>Count</th>
+        <th>YTD Amount</th>
+        <th>YTD Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if params[:year].present? %>
+        <tr>
+          <td>Invoices</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTINVCHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTINVC).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTINVCHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTINVC).to_i %></td>
+        </tr>
+        <tr>
+          <td>Receipts</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTPAYMHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTPAYM).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTPAYMHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTPAYM).to_i %></td>
+        </tr>
+        <tr>
+          <td>Discounts</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTDISCHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTDISC).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTDISCHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTDISC).to_i %></td>
+        </tr>
+        <tr>
+          <td>Credit Notes</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTCRHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTCR).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTCRHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTCR).to_i %></td>
+        </tr>
+        <tr>
+          <td>Debit Notes</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTDRHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTDR).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTDRHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTDR).to_i %></td>
+        </tr>
+        <tr>
+          <td>Adjustments</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTADJHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTADJ).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTADJHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTADJ).to_i %></td>
+        </tr>
+        <tr>
+          <td>Write-Offs</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTWROFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTWROF).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTWROFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTWROF).to_i %></td>
+        </tr>
+        <tr>
+          <td>Interest Charges</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTINTTHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTINTT).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTINTTHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTINTT).to_i %></td>
+        </tr>
+        <tr>
+          <td>Returned Checks</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTRIFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTRIF).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTRIFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTRIF).to_i %></td>
+        </tr>
+        <tr>
+          <td>Total Invoice Paid</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTINVPDHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTINVCPD).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTINVPDHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTINVCPD).to_i %></td>
+        </tr>
+        <tr>
+          <td>Refunds</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:AMTRFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).sum(:CNTRF).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:AMTRFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).sum(:CNTRF).to_i %></td>
+        </tr>
+      <% else %>
+        <tr>
+          <td>Invoices</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTINVCHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTINVC).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year).sum(:AMTINVCHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTINVC).to_i %></td>
+        </tr>
+        <tr>
+          <td>Receipts</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTPAYMHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTPAYM).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year).sum(:AMTPAYMHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTPAYM).to_i %></td>
+        </tr>
+        <tr>
+          <td>Discounts</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTDISCHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTDISC).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year).sum(:AMTDISCHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTDISC).to_i %></td>
+        </tr>
+        <tr>
+          <td>Credit Notes</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTCRHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTCR).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year]).sum(:AMTCRHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTCR).to_i %></td>
+        </tr>
+        <tr>
+          <td>Debit Notes</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTDRHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTDR).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year).sum(:AMTDRHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTDR).to_i %></td>
+        </tr>
+        <tr>
+          <td>Adjustments</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTADJHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTADJ).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year]).sum(:AMTADJHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTADJ).to_i %></td>
+        </tr>
+        <tr>
+          <td>Write-Offs</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTWROFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTWROF).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year]).sum(:AMTWROFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTWROF).to_i %></td>
+        </tr>
+        <tr>
+          <td>Interest Charges</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTINTTHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTINTT).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year]).sum(:AMTINTTHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTINTT).to_i %></td>
+        </tr>
+        <tr>
+          <td>Returned Checks</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTRIFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTRIF).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year]).sum(:AMTRIFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTRIF).to_i %></td>
+        </tr>
+        <tr>
+          <td>Total Invoice Paid</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTINVPDHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTINVCPD).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year]).sum(:AMTINVPDHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTINVCPD).to_i %></td>
+        </tr>
+        <tr>
+          <td>Refunds</td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:AMTRFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).sum(:CNTRF).to_i %></td>
+          <td><%= number_to_currency(@accpac_arcus.arcsm.where(CNTYR: params[:year]).sum(:AMTRFHC), precision: 2) %></td>
+          <td><%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTRF).to_i %></td>
+        </tr>
+      <% end %>
+    </tbody>
+</table>
+
+<% if params[:year].present? %>
+  <div class="row">
+    <div class="col-md-6">
+      <strong>Total Days to Pay:</strong> <%= @accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).first.try(:CNTDTOPAY).to_i %>
+    </div>
+    <div class="col-md-6">
+      <strong>Averages Days to Pay:</strong> <%= number_with_precision(@accpac_arcus.arcsm.where(CNTYR: params[:year], CNTPERD: params[:period]).first.try(:AVGDAYSPAY), precision: 1) %>
+    </div>
+    <div class="col-md-6">
+      <strong>YTD Total Days to Pay:</strong> <%= @accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?",params[:year], params[:period]).sum(:CNTDTOPAY).to_i %>
+    </div>
+    <div class="col-md-6">
+      <strong>YTD Averages Days to Pay:</strong> <%= number_with_precision(@accpac_arcus.arcsm.where("CNTYR = ? AND CNTPERD <= ?", params[:year], params[:period]).average(:AVGDAYSPAY), precision: 1) %>
+    </div>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col-md-6">
+      <strong>Total Days to Pay:</strong> <%= @accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).first.try(:CNTDTOPAY).to_i %>
+    </div>
+    <div class="col-md-6">
+      <strong>Averages Days to Pay:</strong> <%= number_with_precision(@accpac_arcus.arcsm.where(CNTYR: current_year, CNTPERD: current_period).first.try(:AVGDAYSPAY), precision: 1) %>
+    </div>
+    <div class="col-md-6">
+      <strong>YTD Total Days to Pay:</strong> <%= @accpac_arcus.arcsm.where(CNTYR: current_year).sum(:CNTDTOPAY).to_i %>
+    </div>
+    <div class="col-md-6">
+      <strong>YTD Averages Days to Pay:</strong> <%= number_with_precision(@accpac_arcus.arcsm.where(CNTYR: current_year).average(:AVGDAYSPAY), precision: 1) %>
+    </div>
+  </div>
+<% end %>

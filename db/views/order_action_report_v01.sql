@@ -1,0 +1,16 @@
+SELECT
+  od.ORDUNIQ, oh.ORDNUMBER, oh.CUSTOMER,
+  oh.BILNAME, ARCUS.CODECTRY, oh.SALESPER1,
+  oh.CUSTGROUP, oh.ORDDATE, od.ITEM,
+  od.[DESC], od.QTYBACKORD, od.QTYCOMMIT,
+  od.LOCATION, od.UNITPRICE, od.UNITCOST, 
+  od.MOSTREC, od.AVGCOST, ohp.Loc1,
+  ohp.Loc1L, ohp.Loc10L, ohp.Loc10,
+  ohp.Loc5L, ohp.Loc4D, ohp.Loc2D,
+  ohp.Loc2M, ohp.Loc10M, ohp.Loc9,
+  ohp.Loc12, oh.TYPE
+FROM OEORDD od
+INNER JOIN OEORDH oh ON oh.ORDUNIQ = od.ORDUNIQ
+INNER JOIN on_hand_pivot ohp ON ohp.ITEMNO = REPLACE(od.ITEM, '-', '')
+INNER JOIN ARCUS ON oh.CUSTOMER = ARCUS.IDCUST
+WHERE (od.COMPLETE = 0)

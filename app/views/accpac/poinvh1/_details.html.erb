@@ -1,0 +1,34 @@
+<table class="table invoice-table">
+  <thead>
+    <tr>
+      <th>Item List</th>
+      <th>Loc</th>
+      <th>UOM</th>
+      <th>Qty Received</th>
+      <% if can? :read, Accpac::Apven %>
+        <th>Unit Cost</th>
+        <th>Ext Cost</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accpac_poinvh1.poinvl.each do |item| %>
+      <tr class="gradeX">
+        <td>
+          <div>
+            <strong><%= link_to item.ITEMNO.gsub(/\s+/, ''), accpac_icitem_path(id: item.ITEMNO.gsub('-', '')) %></strong>
+            <%= item.VENDITEMNO %>
+          </div>
+          <small><%= item.ITEMDESC %></small>
+        </td>
+        <td><%= item.LOCATION %></td>
+        <td><%= item.ORDERUNIT %></td>
+        <td><%= item.OQRECEIVED %></td>
+        <% if can? :read, Accpac::Apven %>
+          <td><%= number_to_currency(item.UNITCOST, presicion: 2, delimiter: ",") %></td>
+          <td><%= number_to_currency(item.EXTENDED, precision: 2, delimiter: ",") %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

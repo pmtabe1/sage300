@@ -1,0 +1,39 @@
+<table class="table invoice-table">
+  <thead>
+    <tr>
+      <th>Item List</th>
+      <th>UOM</th>
+      <th class="text-right">Qty Ordered</th>
+      <th class="text-right">Backorder</th>
+      <th class="text-right">Commit</th>
+      <th class="text-right">Qty Shipped</th>
+      <th class="text-right">Unit Price</th>
+      <th class="text-right">Ext Price</th>
+      <% if current_user.type == 'employee' %>
+        <th class="text-right">GP MRC%</th>
+        <th class="text-right">GP STC%</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accpac_oeordh.oeordd.each do |order| %>
+      <tr class="gradeX">
+        <td>
+          <div><strong><%= order.ITEM %></strong></div>
+          <small><%= order.DESC %></small>
+        </td>
+        <td><%= order.ORDUNIT %></td>
+        <td align="right"><%= number_with_precision(order.QTYORDERED, precision: 4, delimiter: ",") %></td>
+        <td align="right"><%= number_with_precision(order.QTYBACKORD, precision: 4, delimiter: ",") %></td>
+        <td align="right"><%= number_with_precision(order.QTYCOMMIT, precision: 4, delimiter: ",") %></td>
+        <td align="right"><%= number_with_precision(order.QTYSHPTODT, precision: 4, delimiter: ",") %></td>
+        <td align="right"><%= number_to_currency(order.UNITPRICE, presicion: 2, delimiter: ",") %></td>
+        <td align="right"><%= number_to_currency(order.EXTINVMISC, precision: 2, delimiter: ",") %></td>
+        <% if current_user.type == 'employee' %>
+          <td align="right"><%= number_to_percentage(sales_order_line_gross_margin(order.UNITPRICE, order.MOSTREC), precision: 2) %></td>
+          <td align="right"><%= number_to_percentage(sales_order_line_gross_margin((order.QTYBACKORD*order.UNITPRICE), order.EXTOCOST), precision: 2) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

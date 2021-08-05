@@ -1,0 +1,144 @@
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <!-- YTD Sales -->
+    <div class="col-lg-3">
+      <%= render_async ytd_net_sales_widget_path, data: { controller: 'poller', url: ytd_net_sales_widget_path } do %>
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5><%= t('widgets.ytd_net_sales') %></h5>
+            <div class="h1 m-t-xs text-navy">
+              <span class="loading"></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- YTD Margin -->
+    <div class="col-lg-3">
+      <%= render_async ytd_margin_widget_path, data: { controller: 'poller', url: ytd_margin_widget_path } do %>
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5><%= t('widgets.ytd_margin') %></h5>
+            <div class="h1 m-t-xs text-navy">
+              <span class="loading"></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Current Month Sales -->
+    <div class="col-lg-3">
+      <%= render_async current_month_sales_widget_path, data: { controller: 'poller', url: current_month_sales_widget_path } do %>
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5><%= t('widgets.current_month') %></h5>
+            <div class="h1 m-t-xs text-navy">
+              <span class="loading"></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Last Year Net Sales -->
+    <div class="col-lg-3">
+      <%= render_async last_year_net_sales_widget_path, data: { controller: 'poller', url: last_year_net_sales_widget_path } do %>
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5><%= t('widgets.last_year_net_sales') %></h5>
+            <div class="h1 m-t-xs text-navy">
+              <span class="loading"></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- YTD Gross Profit -->
+    <div class="col-lg-3">
+      <%= render_async ytd_gp_widget_path do %>
+        <div class="row m-t-xs">
+          <div class="col-xs-6">
+            <h5 class="m-b-xs"><%= t('widgets.gp.last_year') %></h5>
+            <div class="h2 m-t-xs text-navy">
+              <span class="loading"></span>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <h5 class="m-b-xs"><%= t('widgets.gp.current_year') %></h5>
+            <div class="h2 m-t-xs text-navy">
+              <span class="loading"></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Daily sales analysis -->
+    <div class="col-lg-9">
+      <%= render 'pages/widgets/daily_sales_analysis' %>
+    </div>
+
+    <!-- YTD net sales by ranking -->
+    <div class="col-lg-3">
+      <%= render_async abc_ranking_widget_path do %>
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5><%= t('widgets.abc_ranking') %></h5>
+            <div class="h1 m-t-xs text-navy">
+              <span class="loading"></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <% ytd_net_sales_ranking.each do |r| %>
+      <div class="col-lg-3">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>
+              <%= t('widgets.ytd_net_sales') %> - <i class="fa fa-circle" style="color: <%= r.color %>;"></i> <%= r.abc_sales_rank %> (<%= items_ranking_counter(r.abc_sales_rank) %>)
+            </h5>
+            <h1 class="no-margins"><%= number_to_currency(r.netsales, precision: 0) %></h1>
+            <div class="stat-percent font-bold text-navy">
+              <small><%= number_to_percentage(r.gp, precision: 2) %></small>
+            </div>
+            <small>Gorss Profit</small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Cash Flow (Direct Method) -->
+    <div class="col-lg-12">
+      <%= render 'pages/widgets/cash_flow' %>
+    </div>
+
+    <!-- YTD Net sales by conuntries -->
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-6">
+          <%= render 'pages/widgets/ytd_net_sales_geochart' %>
+        </div>
+        <div class="col-lg-6">
+          <%= render 'pages/widgets/ytd_net_sales_geochart_states' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12">
+      <%= render 'pages/widgets/customers_dues' %>
+    </div>
+
+    <script type="text/javascript">
+      $(function() {
+        $('.scroll_containers').slimscroll({
+          height: '350px'
+        })
+      });
+    </script>
+  </div>
+</div>

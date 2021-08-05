@@ -1,0 +1,134 @@
+<script>
+  window.onload = function() {
+    window.print();
+  }
+</script>
+
+<table class="table">
+  <thead>
+    <!-- Page Header -->
+      <tr>
+        <div class="row">
+          <div class="col-sm-6">
+            <%= company_logo(42) %>
+          </div>
+          <div class="col-sm-6">
+            <h1 class="text-right">Receipt: <small><%= @accpac_porcph1.RCPNUMBER %></small></h1>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-8">
+            <h5>From:</h5>
+            <address>
+              <strong><%= @accpac_porcph1.VDNAME %></strong><br>
+              <%= @accpac_porcph1.VDADDRESS1 %> <%= @accpac_porcph1.VDADDRESS2 %><br>
+              <%= @accpac_porcph1.VDCITY %>, <%= @accpac_porcph1.VDSTATE %> <%= @accpac_porcph1.VDZIP %><br>
+              <abbr title="Phone">P:</abbr> <%= number_to_phone(@accpac_porcph1.VDPHONE) %>
+            </address>
+            <ul class="breadcrumb">
+              <strong>Purchase Order(s):</strong>
+              <% @accpac_porcph1.porcpl.select(:PONUMBER, :PORHSEQ).joins(:poporh1).group(:PONUMBER, :PORHSEQ).each do |po| %>
+                <li><%= po.PONUMBER %></li>
+              <% end %>
+            </ul>
+            <strong>Addictional Cost:</strong> <%= number_to_currency(@accpac_porcph1.porcps.sum(:AMOUNT), presicion: 2) %>
+          </div>
+          <div class="col-sm-4 text-right">
+            <h4>Receipt No.</h4>
+            <h4 class="text-navy"><%= @accpac_porcph1.RCPNUMBER %></h4>
+            <span>To:</span>
+            <address>
+              <strong>Vertilux Ltd.</strong><br>
+            </address>
+            <p>
+              <span><strong>Post Date:</strong> <%= to_date_helper(@accpac_porcph1.POSTDATE) %></span><br>
+              <strong>Posted by:</strong> <%= posted_by(@accpac_porcph1.RCPNUMBER, @accpac_porcph1.RCPHSEQ) %></span>
+            </p>
+          </div>
+        </div>
+      </tr>
+      <hr>
+    <tr>
+      <th>PO No.</th>
+      <th>Item List</th>
+      <th>Location</th>
+      <th>UOM</th>
+      <th class="text-right">Quantity</th>
+      <th class="text-right">Unit Cost</th>
+      <th class="text-right">Ext Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accpac_porcph1.porcpl.each do |item| %>
+      <tr class="gradeX">
+        <td><%= item.poporh1.PONUMBER %></td>
+        <td>
+          <div>
+            <strong><%= item.ITEMNO %></strong>
+          </div>
+          <small><%= item.ITEMDESC %></small>
+        </td>
+        <td><%= item.LOCATION %></td>
+        <td><%= item.ORDERUNIT %></td>
+        <td align="right"><%= number_with_precision(item.OQRECEIVED, precision: 2, delimiter: ",") %></td>
+        <td align="right"><%= number_to_currency(item.UNITCOST, presicion: 2, delimiter: ",") %></td>
+        <td align="right"><%= number_to_currency(item.EXTENDED, precision: 2, delimiter: ",") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-sm-6 pull-left">
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>Vendor</th>
+          <th>Vendor Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th class="text-right">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @accpac_porcph1.porcps.each do |cost| %>
+          <tr>
+            <td><%= cost.VDCODE %></td>
+            <td><%= cost.VDCODE %></td>
+            <td><%= cost.ADDCOST %></td>
+            <td><%= cost.DESCRIPTIO %></td>
+            <td align="right"><%= number_to_currency(cost.AMOUNT, presicion: 2) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <table class="table invoice-total">
+      <tbody>
+        <tr>
+          <td><strong>TOTAL:</strong></td>
+          <td><%= number_to_currency(@accpac_porcph1.porcps.sum(:AMOUNT), presicion: 2) %></td>
+        <tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-sm-6">
+    <table class="table invoice-total">
+      <tbody>
+        <tr>
+          <td><strong>Subtotal :</strong></td>
+          <td><%= number_to_currency(@accpac_porcph1.EXTENDED, precision: 2, delimiter: ",") %></td>
+        </tr>
+        <tr>
+          <td><strong>Additional Cost :</strong></td>
+          <td><%= number_to_currency(@accpac_porcph1.porcps.sum(:AMOUNT), precision: 2, delimiter: ",") %></td>
+        </tr>
+        <tr>
+          <td><strong>TOTAL :</strong></td>
+          <td><%= number_to_currency((@accpac_porcph1.porcps.sum(:AMOUNT) + @accpac_porcph1.EXTENDED), precision: 2, delimiter: ",") %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<table class="table invoice-table">
+  <thead>
+    <tr>
+      <th>Item List</th>
+      <th>UOM</th>
+      <th>Qty Ordered</th>
+      <th>Qty Shipped</th>
+      <th>Unit Price</th>
+      <th>Ext Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accpac_oeinvh.oeinvd.each do |invoice| %>
+      <tr class="gradeX">
+        <% if Accpac::Icitmc.where(ITEMNO: invoice.ITEM.gsub("-", "")).first.try(:CITEMNO).present? %>
+          <td>
+            <div><strong><%= invoice.ITEM %></strong> | <small><%= Accpac::Icitmc.where(ITEMNO: invoice.ITEM.gsub("-", "")).first.try(:CITEMNO) %></small></div>
+            <small><%= invoice.DESC %></small>
+          </td>
+          <td>
+            <div><%= invoice.INVUNIT %></div>
+            <small>YD</small>
+          </td>
+          <td>
+            <div><%= number_with_precision(invoice.QTYORDERED, precision: 2, delimiter: ",") %></div>
+            <% Accpac::Icitemo.where(ITEMNO: invoice.ITEM.gsub("-", ""), OPTFIELD: "WIDTH").each do |optfield| %>
+              <small><%= number_with_precision(invoice.QTYORDERED/(optfield.VALUE.to_f/0.9144), precision: 2) %></small>
+            <% end %>
+          </td>
+          <td>
+            <div><%= number_with_precision(invoice.QTYSHIPPED, precision: 2, delimiter: ",") %></div>
+            <% Accpac::Icitemo.where(ITEMNO: invoice.ITEM.gsub("-", ""), OPTFIELD: "WIDTH").each do |optfield| %>
+              <small><%= number_with_precision(invoice.QTYSHIPPED/(optfield.VALUE.to_f/0.9144), precision: 2) %></small>
+            <% end %>
+          </td>
+          <td>
+            <div><%= number_to_currency(invoice.UNITPRICE, precision: 2, delimiter: ",") %></div>
+            <% Accpac::Icitemo.where(ITEMNO: invoice.ITEM.gsub("-", ""), OPTFIELD: "WIDTH").each do |optfield| %>
+              <small><%= number_to_currency(invoice.EXTINVMISC/(invoice.QTYSHIPPED/(optfield.VALUE.to_f/0.9144)), precision: 2, delimiter: ",") %></small>
+            <% end %>
+          </td>
+          <td><%= number_to_currency(invoice.EXTINVMISC, precision: 2, delimiter: ",") %></td>
+        <% else %>
+          <td>
+            <div><strong><%= invoice.ITEM %></strong></div>
+            <small><%= invoice.DESC %></small>
+          </td>
+          <td><%= invoice.INVUNIT %></td>
+          <td><%= number_with_precision(invoice.QTYORDERED, precision: 4, delimiter: ",") %></td>
+          <td><%= number_with_precision(invoice.QTYSHIPPED, precision: 4, delimiter: ",") %></td>
+          <td><%= number_to_currency(invoice.UNITPRICE, presicion: 2, delimiter: ",") %></td>
+          <td><%= number_to_currency(invoice.EXTINVMISC, precision: 2, delimiter: ",") %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

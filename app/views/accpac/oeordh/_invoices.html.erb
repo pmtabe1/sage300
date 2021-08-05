@@ -1,0 +1,6 @@
+<h5>Invoice(s):</h5>
+<ul class="list-inline">
+  <% Accpac::Oeinvh.where(ORDNUMBER: params[:order]).each do |invoice| %>
+    <li><%= link_to invoice.INVNUMBER, accpac_oeinvh_path(id: invoice.INVUNIQ.to_i) %></li>
+  <% end %>
+</ul>

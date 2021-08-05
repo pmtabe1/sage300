@@ -1,0 +1,15 @@
+<fieldset>
+  <div class="row">
+    <div class="col-md-5">
+      <%= f.select(:property_id, Property.order(name: :asc).collect {|i| [i.presentation, i.id]}, {:prompt => "Select property"}, {class: "form-control input-sm full-width", required: true}) %>
+    </div>
+    <div class="col-md-5">
+      <%= f.text_field :value, placeholder: 'Name', class: "form-control input-sm full-width" %>
+    </div>
+    <div class="col-md-2">
+      <%= f.hidden_field :_destroy %>
+      <%= link_to '[Remove]', '#', class: 'remove_fields' %>
+    </div>
+  </div>
+  <hr>
+</fieldset>
